@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">smth</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="name">Ваше Имя</string>
+    <string name="advertisementDescription">Заполните поля снизу</string>
+    <string name="age">Ваш возраст</string>
+    <string name="nationality">Национальность</string>
+    <string name="divorced">Разведен(а)</string>
+    <string name="never_married">Не был(а) женат(замужем)</string>
+    <string name="have_children">У меня есть ребенок</string>
+    <string name="no_children">У меня нет детей</string>
+    <string name="ageRestriction">Возростное ограничение</string>
+    <string name="fromAge">От</string>
+    <string name="tillAge">До</string>
+    <string name="telegram">Телеграмм</string>
+    <string name="telegramUserName">\@</string>
+    <string name="uzbekistan">Узбекистан</string>
+    <string name="tashkent">Ташкент</string>
+    <string name="tashkent_region">Ташкентская область</string>
+    <string name="karakalpak_region">Республика Каракалпакстан</string>
+    <string name="andijan_region">Андижанская область</string>
+    <string name="bukhara_region">Бухарская область</string>
+    <string name="djizzak_region">Джизакская область</string>
+    <string name="fergana_region">Ферганская область</string>
+    <string name="kashkadarya_region">Кашкадарьинская область</string>
+    <string name="horezm_region">Хорезмская область</string>
+    <string name="namangan_region">Наманганская область</string>
+    <string name="novoi_region">Навоинская область</string>
+    <string name="samarkand_region">Самаркандская область</string>
+    <string name="surxandarya_region">Сурхандарьинская область</string>
+    <string name="sirdarya_region">Сырдарьинская область</string>
+    <string name="more_info">Дополнительная информация (не обязательно)</string>
+    <string name="submit">Опубликовать</string>
+    <string name="yourGender">Ваш пол</string>
+    <string name="woman">Женщина</string>
+    <string name="man">Мужчина</string>
+    <string name="my_advertisements">Мои объявления</string>
+    <string name="addAdvertisement">Разместить объявление</string>
+</resources>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/advertisementFragment"
+        android:icon="@drawable/icon_home_24"
+        android:title=""
+        />
+    <item
+        android:id="@+id/addFragment"
+        android:icon="@drawable/ic_baseline_add_box_24"
+        android:title=""
+        />
+</menu>
