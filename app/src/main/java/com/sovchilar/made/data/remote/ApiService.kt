@@ -1,6 +1,7 @@
 package com.sovchilar.made.data.remote
 
 import com.sovchilar.made.domain.models.AdvertisementsModel
+import com.sovchilar.made.domain.models.PostResponse
 import com.sovchilar.made.domain.models.UserModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -15,7 +16,7 @@ import retrofit2.http.POST
 interface ApiService {
     @POST("api/user")
     fun postAdvertisement(@Body postAdvertisement: AdvertisementsModel)
-            : Call<String>
+            : Call<PostResponse>
     @GET("api/user")
     fun getAdvertisements()
             : Call<UserModel>

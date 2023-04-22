@@ -29,7 +29,7 @@ class AdvertisementViewModel : ViewModel() {
                         send(it.users)
                         close()
                     }
-                }
+                }?:viewModelScope.launch { send(null) }
             }
 
             override fun onFailure(call: Call<UserModel>, t: Throwable) {

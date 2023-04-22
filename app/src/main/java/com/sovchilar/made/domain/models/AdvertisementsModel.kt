@@ -5,7 +5,7 @@ data class AdvertisementsModel(
     val name:String,
     val age:Int,
     val nationality:String,
-    val marriageStatus:String,
+    val marriagestatus:String,
     val children:Boolean,
     val fromAge:Int,
     val tillAge:Int,

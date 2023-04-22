@@ -37,4 +37,8 @@
     <string name="man">Мужчина</string>
     <string name="my_advertisements">Мои объявления</string>
     <string name="addAdvertisement">Разместить объявление</string>
+    <string name="nameProvided">Имя:</string>
+    <string name="ageProvided">Возраст:</string>
+    <string name="nationalityProvided">Национальность:</string>
+    <string name="marriageStatusProvided">Семейное положение:</string>
 </resources>

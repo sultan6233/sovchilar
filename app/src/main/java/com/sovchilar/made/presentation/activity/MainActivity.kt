@@ -5,6 +5,7 @@ import android.app.Activity
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
@@ -18,8 +19,15 @@ import androidx.core.view.doOnLayout
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.sovchilar.made.R
+import com.sovchilar.made.data.remote.ApiService
 import com.sovchilar.made.databinding.ActivityMainBinding
+import com.sovchilar.made.domain.models.AdvertisementsModel
+import com.sovchilar.made.domain.models.PostResponse
+import com.sovchilar.made.domain.models.UserModel
 import dagger.hilt.android.AndroidEntryPoint
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
