@@ -15,4 +15,5 @@
     <color name="pomegranate_selected">#A13647 </color>
     <color name="gainsboro_not_selected">#E6E6E6 </color>
     <color name="main_text_color">#FF000000</color>
+    <color name="secondary_text_color">#A13647</color>
 </resources>

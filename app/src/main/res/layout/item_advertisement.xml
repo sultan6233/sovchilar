@@ -1,103 +1,292 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/margin_15"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/tvName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginStart="@dimen/margin_10"
-                android:layout_marginTop="@dimen/margin_10"
-                android:text="@string/nameProvided"
-                android:textSize="@dimen/textsize_20"
-                android:textColor="@color/main_text_color"
-                />
-            <TextView
-                android:id="@+id/tvProvidedName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tvName"
-                android:layout_marginStart="@dimen/margin_10"
-                android:layout_marginTop="@dimen/margin_10"
-                android:textSize="@dimen/textsize_20"
-                android:textColor="@color/main_text_color"
-                />
-            <TextView
-                android:id="@+id/tvAge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvName"
-                android:layout_marginStart="@dimen/margin_10"
-                android:layout_marginTop="@dimen/margin_10"
-                android:text="@string/ageProvided"
-                android:textSize="@dimen/textsize_20"
-                android:textColor="@color/main_text_color"
-                />
-            <TextView
-                android:id="@+id/tvProvidedAge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/tvName"
-                app:layout_constraintStart_toEndOf="@+id/tvAge"
-                android:layout_marginStart="@dimen/margin_10"
-                android:layout_marginTop="@dimen/margin_10"
-                android:textSize="@dimen/textsize_20"
-                android:textColor="@color/main_text_color"
-                />
-            <TextView
-                android:id="@+id/tvNationality"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvAge"
-                android:layout_marginStart="@dimen/margin_10"
-                android:layout_marginTop="@dimen/margin_10"
-                android:text="@string/nationalityProvided"
-                android:textSize="@dimen/textsize_20"
-                android:textColor="@color/main_text_color"
-                />
-            <TextView
-                android:id="@+id/tvProvidedNationality"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/tvAge"
-                app:layout_constraintStart_toEndOf="@+id/tvNationality"
-                android:layout_marginStart="@dimen/margin_10"
-                android:layout_marginTop="@dimen/margin_10"
-                android:textSize="@dimen/textsize_20"
-                android:textColor="@color/main_text_color"
-                />
-            <TextView
-                android:id="@+id/tvMarriageStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvNationality"
-                android:layout_marginStart="@dimen/margin_10"
-                android:layout_marginTop="@dimen/margin_10"
-                android:text="@string/marriageStatusProvided"
-                android:textSize="@dimen/textsize_20"
-                android:textColor="@color/main_text_color"
-                />
-            <TextView
-                android:id="@+id/tvProvidedMarriageStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/tvNationality"
-                app:layout_constraintStart_toEndOf="@+id/tvMarriageStatus"
-                android:layout_marginStart="@dimen/margin_10"
-                android:layout_marginTop="@dimen/margin_10"
-                android:textSize="@dimen/textsize_20"
-                android:textColor="@color/main_text_color"
-                />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+    app:cardCornerRadius="@dimen/main_card_radius_10">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_10"
+            android:text="@string/nameProvided"
+            android:textColor="@color/main_text_color"
+            android:textSize="@dimen/textsize_20"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvProvidedName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_10"
+            android:textColor="@color/secondary_text_color"
+            android:textSize="@dimen/textsize_20"
+            app:layout_constraintStart_toEndOf="@+id/tvName"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvAge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_10"
+            android:text="@string/ageProvided"
+            android:textColor="@color/main_text_color"
+            android:textSize="@dimen/textsize_20"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvName" />
+
+        <TextView
+            android:id="@+id/tvProvidedAge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_10"
+            android:textColor="@color/secondary_text_color"
+            android:textSize="@dimen/textsize_20"
+            app:layout_constraintStart_toEndOf="@+id/tvAge"
+            app:layout_constraintTop_toBottomOf="@+id/tvName" />
+
+        <TextView
+            android:id="@+id/tvGender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_10"
+            android:text="@string/gender"
+            android:textColor="@color/main_text_color"
+            android:textSize="@dimen/textsize_20"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvAge" />
+
+        <TextView
+            android:id="@+id/tvProvidedGender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_10"
+            android:textColor="@color/secondary_text_color"
+            android:textSize="@dimen/textsize_20"
+            app:layout_constraintStart_toEndOf="@+id/tvGender"
+            app:layout_constraintTop_toBottomOf="@+id/tvAge" />
+
+        <TextView
+            android:id="@+id/tvNationality"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_10"
+            android:text="@string/nationalityProvided"
+            android:textColor="@color/main_text_color"
+            android:textSize="@dimen/textsize_20"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvGender" />
+
+        <TextView
+            android:id="@+id/tvProvidedNationality"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_10"
+            android:textColor="@color/secondary_text_color"
+            android:textSize="@dimen/textsize_20"
+            app:layout_constraintStart_toEndOf="@+id/tvNationality"
+            app:layout_constraintTop_toBottomOf="@+id/tvGender" />
+
+        <TextView
+            android:id="@+id/tvMarriageStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_10"
+            android:text="@string/marriageStatusProvided"
+            android:textColor="@color/main_text_color"
+            android:textSize="@dimen/textsize_20"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvNationality" />
+
+        <TextView
+            android:id="@+id/tvProvidedMarriageStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_10"
+            android:textColor="@color/secondary_text_color"
+            android:textSize="@dimen/textsize_20"
+            app:layout_constraintStart_toEndOf="@+id/tvMarriageStatus"
+            app:layout_constraintTop_toBottomOf="@+id/tvNationality" />
+
+        <TextView
+            android:id="@+id/tvChildren"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_10"
+            android:text="@string/children"
+            android:textColor="@color/main_text_color"
+            android:textSize="@dimen/textsize_20"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvMarriageStatus" />
+
+        <TextView
+            android:id="@+id/tvProvidedChildren"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_10"
+            android:textColor="@color/secondary_text_color"
+            android:textSize="@dimen/textsize_20"
+            app:layout_constraintStart_toEndOf="@+id/tvChildren"
+            app:layout_constraintTop_toBottomOf="@+id/tvMarriageStatus" />
+
+        <TextView
+            android:id="@+id/tvAgeRestriction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_10"
+            android:text="@string/ageRestriction"
+            android:textColor="@color/main_text_color"
+            android:textSize="@dimen/textsize_20"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvChildren" />
+
+        <TextView
+            android:id="@+id/tvProvidedAgeRestrictionFrom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_10"
+            android:textColor="@color/secondary_text_color"
+            android:textSize="@dimen/textsize_20"
+            app:layout_constraintStart_toEndOf="@+id/tvAgeRestriction"
+            app:layout_constraintTop_toBottomOf="@+id/tvChildren" />
+
+        <TextView
+            android:id="@+id/tvProvidedAgeRestrictionDivider"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_10"
+            android:text="-"
+            android:textColor="@color/secondary_text_color"
+            android:textSize="@dimen/textsize_20"
+            app:layout_constraintStart_toEndOf="@+id/tvProvidedAgeRestrictionFrom"
+            app:layout_constraintTop_toBottomOf="@+id/tvChildren" />
+
+        <TextView
+            android:id="@+id/tvProvidedAgeRestrictionTo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_10"
+            android:textColor="@color/secondary_text_color"
+            android:textSize="@dimen/textsize_20"
+            app:layout_constraintStart_toEndOf="@+id/tvProvidedAgeRestrictionDivider"
+            app:layout_constraintTop_toBottomOf="@+id/tvChildren" />
+
+        <TextView
+            android:id="@+id/tvTelegram"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_10"
+            android:text="@string/telegramm"
+            android:textColor="@color/main_text_color"
+            android:textSize="@dimen/textsize_20"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvAgeRestriction" />
+
+        <TextView
+            android:id="@+id/tvProvidedTelegram"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_10"
+            android:textColor="@color/blue"
+            android:textSize="@dimen/textsize_20"
+            app:layout_constraintStart_toEndOf="@+id/tvTelegram"
+            app:layout_constraintTop_toBottomOf="@+id/tvAgeRestriction" />
+
+        <TextView
+            android:id="@+id/tvCity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_10"
+            android:text="@string/city"
+            android:textColor="@color/main_text_color"
+            android:textSize="@dimen/textsize_20"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTelegram" />
+
+        <TextView
+            android:id="@+id/tvProvidedCity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_10"
+            android:textColor="@color/secondary_text_color"
+            android:textSize="@dimen/textsize_20"
+            app:layout_constraintStart_toEndOf="@+id/tvCity"
+            app:layout_constraintTop_toBottomOf="@+id/tvTelegram" />
+
+        <TextView
+            android:id="@+id/tvCountry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_10"
+            android:text="@string/country"
+            android:textColor="@color/main_text_color"
+            android:textSize="@dimen/textsize_20"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvCity" />
+
+        <TextView
+            android:id="@+id/tvProvidedCountry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_10"
+            android:textColor="@color/secondary_text_color"
+            android:textSize="@dimen/textsize_20"
+            app:layout_constraintStart_toEndOf="@+id/tvCountry"
+            app:layout_constraintTop_toBottomOf="@+id/tvCity" />
+
+        <TextView
+            android:id="@+id/tvMoreInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_10"
+            android:text="@string/more_info_provided"
+            android:textColor="@color/main_text_color"
+            android:textSize="@dimen/textsize_20"
+            android:paddingBottom="@dimen/margin_10"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvCountry" />
+
+        <TextView
+            android:id="@+id/tvProvidedMoreInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_10"
+            android:textColor="@color/secondary_text_color"
+            android:textSize="@dimen/textsize_20"
+            android:paddingBottom="@dimen/margin_10"
+            app:layout_constraintStart_toEndOf="@+id/tvMoreInfo"
+            app:layout_constraintTop_toBottomOf="@+id/tvCountry" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </com.google.android.material.card.MaterialCardView>

@@ -6,10 +6,8 @@ import android.util.Log
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class MainApplication:Application() {
-    private val dexLoadTime = SystemClock.currentThreadTimeMillis()
+class MainApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-        Log.d("suka",dexLoadTime.toString())
     }
 }

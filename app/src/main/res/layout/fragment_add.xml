@@ -6,22 +6,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:clipToPadding="false"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".presentation.fragments.view.AddFragment">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clAdd"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <View
-            android:id="@+id/vTop"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintWidth_percent="0.15"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+        android:layout_height="wrap_content"
+        >
+
     <TextView
         android:id="@+id/tvDescription"
         android:layout_width="wrap_content"
@@ -42,7 +35,7 @@
         app:layout_constraintDimensionRatio="1:0.16"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/vTop"
+        app:layout_constraintTop_toBottomOf="@+id/tvDescription"
         android:layout_marginTop="@dimen/margin_10"
         app:hintTextColor="@color/pink"
         android:textColorHint="@color/medium_grey"
@@ -52,6 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="@string/name"
+            android:maxLength="30"
             android:inputType="textPersonName"
             />
     </com.google.android.material.textfield.TextInputLayout>
@@ -223,7 +217,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="@string/telegram"
-                android:inputType="text"
+                android:inputType="textPersonName"
+                android:digits="1234567890abcdefghijklmnopqrstuvwxyz"
                 android:text="@string/telegramUserName"
                 android:maxLength="50"
                 />

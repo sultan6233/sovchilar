@@ -14,16 +14,19 @@ import retrofit2.http.POST
 
 
 interface ApiService {
+
     @POST("api/user")
     fun postAdvertisement(@Body postAdvertisement: AdvertisementsModel)
             : Call<PostResponse>
+
     @GET("api/user")
     fun getAdvertisements()
             : Call<UserModel>
 
     companion object {
         var BASE_URL = "http://176.96.241.238/"
-        fun create() : ApiService {
+
+        fun create(): ApiService {
             val interceptor = HttpLoggingInterceptor()
             interceptor.level = HttpLoggingInterceptor.Level.BODY
             val client = OkHttpClient.Builder()
@@ -37,4 +40,5 @@ interface ApiService {
             return retrofit.create(ApiService::class.java)
         }
     }
+
 }

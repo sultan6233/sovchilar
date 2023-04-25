@@ -2,5 +2,6 @@
 <resources>
     <dimen name="margin_10">10dp</dimen>
     <dimen name="margin_15">15dp</dimen>
-    <dimen name="textsize_20">20sp</dimen>
+    <dimen name="textsize_20">18sp</dimen>
+    <dimen name="main_card_radius_10">10dp</dimen>
 </resources>

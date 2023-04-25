@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
 import android.view.WindowManager
 import android.view.animation.AnticipateInterpolator
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.animation.doOnEnd
 import androidx.core.view.ViewCompat
@@ -24,6 +25,7 @@ import com.sovchilar.made.databinding.ActivityMainBinding
 import com.sovchilar.made.domain.models.AdvertisementsModel
 import com.sovchilar.made.domain.models.PostResponse
 import com.sovchilar.made.domain.models.UserModel
+import com.sovchilar.made.presentation.fragments.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import retrofit2.Call
 import retrofit2.Callback
@@ -31,20 +33,21 @@ import retrofit2.Response
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    var bottomHeight = 0
-    lateinit var binding:ActivityMainBinding
+
+    private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater)  }
+    private val viewModel:MainViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initNavHostFragment()
         initStatusBar()
         initSplashAnimation()
         binding.bnvSovchilar.doOnLayout {
-            bottomHeight = it.height
+            viewModel.bottomHeight.value = it.height
         }
     }
-    private fun initSplashAnimation(){
+
+    private fun initSplashAnimation() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             splashScreen.setOnExitAnimationListener { splashScreenView ->
                 val slideUp = ObjectAnimator.ofFloat(
@@ -55,18 +58,22 @@ class MainActivity : AppCompatActivity() {
                 )
                 slideUp.interpolator = AnticipateInterpolator()
                 slideUp.duration = 500L
-                slideUp.doOnEnd { splashScreenView.remove()
+                slideUp.doOnEnd {
+                    splashScreenView.remove()
                 }
                 slideUp.start()
-            }}
+            }
         }
-    private fun initNavHostFragment(){
+    }
+
+    private fun initNavHostFragment() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
         binding.bnvSovchilar.setupWithNavController(navController)
     }
-    private fun initStatusBar(){
+
+    private fun initStatusBar() {
         makeStatusBarTransparent()
         ViewCompat.setOnApplyWindowInsetsListener(binding.clMain) { _, insets ->
             binding.vTop.setMarginTop(insets.getInsets(WindowInsetsCompat.Type.statusBars()).top)

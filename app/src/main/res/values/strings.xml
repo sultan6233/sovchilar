@@ -10,10 +10,10 @@
     <string name="never_married">Не был(а) женат(замужем)</string>
     <string name="have_children">У меня есть ребенок</string>
     <string name="no_children">У меня нет детей</string>
-    <string name="ageRestriction">Возростное ограничение</string>
+    <string name="ageRestriction">Возрастное ограничение:</string>
     <string name="fromAge">От</string>
     <string name="tillAge">До</string>
-    <string name="telegram">Телеграмм</string>
+    <string name="telegram">Телеграм</string>
     <string name="telegramUserName">\@</string>
     <string name="uzbekistan">Узбекистан</string>
     <string name="tashkent">Ташкент</string>
@@ -31,6 +31,7 @@
     <string name="surxandarya_region">Сурхандарьинская область</string>
     <string name="sirdarya_region">Сырдарьинская область</string>
     <string name="more_info">Дополнительная информация (не обязательно)</string>
+    <string name="more_info_provided">Доп. информация:</string>
     <string name="submit">Опубликовать</string>
     <string name="yourGender">Ваш пол</string>
     <string name="woman">Женщина</string>
@@ -41,4 +42,18 @@
     <string name="ageProvided">Возраст:</string>
     <string name="nationalityProvided">Национальность:</string>
     <string name="marriageStatusProvided">Семейное положение:</string>
+    <string name="children">Дети:</string>
+    <string name="city">Город:</string>
+    <string name="country">Страна:</string>
+    <string name="telegramm">Телеграм:</string>
+    <string name="gender">Пол:</string>
+    <string name="male">Мужчина</string>
+    <string name="female">Женщина</string>
+    <string name="marriage_status_male_divorced">Разведен</string>
+    <string name="marriage_status_female_divorced">Разведена</string>
+    <string name="marriage_status_male_no_marriage">Не был женат</string>
+    <string name="marriage_status_female_no_marriage">Не была замужем</string>
+    <string name="females">Женщины</string>
+    <string name="males">Мужчины</string>
+
 </resources>
