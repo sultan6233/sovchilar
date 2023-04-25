@@ -1,7 +1,5 @@
 package com.sovchilar.made.domain.models
 
-import com.google.gson.annotations.SerializedName
-
 data class AdvertisementsFixedModel(
     val id: Int?,
     val name: String,

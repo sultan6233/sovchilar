@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.sovchilar.made.databinding.ItemAdvertisementBinding
 import com.sovchilar.made.domain.models.AdvertisementsFixedModel
-import com.sovchilar.made.domain.models.AdvertisementsModel
 import com.sovchilar.made.domain.usecases.OpenTelegramUseCase
 
 class AdvertisementAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

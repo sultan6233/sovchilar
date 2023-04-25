@@ -2,7 +2,6 @@ package com.sovchilar.made.presentation.fragments.view
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.doOnLayout
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -10,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.sovchilar.made.databinding.FragmentAdvertisementBinding
 import com.sovchilar.made.domain.models.AdvertisementsModel
 import com.sovchilar.made.domain.usecases.AdvertisementsFixUseCase
-import com.sovchilar.made.presentation.activity.MainActivity
 import com.sovchilar.made.presentation.fragments.view.adapter.AdvertisementAdapter
 import com.sovchilar.made.presentation.fragments.viewmodel.AdvertisementViewModel
 import com.sovchilar.made.presentation.fragments.viewmodel.MainViewModel

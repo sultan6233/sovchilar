@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import com.sovchilar.made.data.remote.ApiService
 import com.sovchilar.made.domain.models.AdvertisementsModel
 import com.sovchilar.made.domain.models.UserModel
-import com.sovchilar.made.uitls.femaleGender
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.channelFlow

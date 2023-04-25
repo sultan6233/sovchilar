@@ -5,7 +5,6 @@ import android.app.Activity
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
@@ -20,22 +19,15 @@ import androidx.core.view.doOnLayout
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.sovchilar.made.R
-import com.sovchilar.made.data.remote.ApiService
 import com.sovchilar.made.databinding.ActivityMainBinding
-import com.sovchilar.made.domain.models.AdvertisementsModel
-import com.sovchilar.made.domain.models.PostResponse
-import com.sovchilar.made.domain.models.UserModel
 import com.sovchilar.made.presentation.fragments.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater)  }
-    private val viewModel:MainViewModel by viewModels()
+    private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+    private val viewModel: MainViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -51,10 +43,7 @@ class MainActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             splashScreen.setOnExitAnimationListener { splashScreenView ->
                 val slideUp = ObjectAnimator.ofFloat(
-                    splashScreenView,
-                    View.TRANSLATION_Y,
-                    0f,
-                    -splashScreenView.height.toFloat()
+                    splashScreenView, View.TRANSLATION_Y, 0f, -splashScreenView.height.toFloat()
                 )
                 slideUp.interpolator = AnticipateInterpolator()
                 slideUp.duration = 500L

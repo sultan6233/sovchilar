@@ -11,7 +11,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.sovchilar.made.R
 import com.sovchilar.made.databinding.FragmentAddBinding
-import com.sovchilar.made.presentation.activity.MainActivity
 import com.sovchilar.made.presentation.fragments.viewmodel.AddViewModel
 import com.sovchilar.made.presentation.fragments.viewmodel.MainViewModel
 import com.sovchilar.made.uitls.utils.BaseFragment
