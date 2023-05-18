@@ -5,84 +5,85 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".presentation.fragments.view.AdvertisementFragment">
+
     <RadioGroup
         android:id="@+id/rgGender"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.05"
-        app:layout_constraintWidth_percent="0.9"
-        app:layout_constraintHeight_percent="0.05"
         android:orientation="horizontal"
         android:weightSum="2"
-        android:checkedButton="@id/rbFemale"
-        >
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.05"
+        app:layout_constraintWidth_percent="0.9">
+
         <RadioButton
             android:id="@+id/rbFemale"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:background="@drawable/radio_button_checked_background"
             android:button="@android:color/transparent"
-            android:layout_weight="1"
             android:text="@string/females"
-            android:textColor="@color/white"
             android:textAlignment="center"
-            />
+            android:textColor="@color/white" />
+
         <RadioButton
+            android:id="@+id/rbMale"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:background="@drawable/radio_button_not_checked_background"
             android:button="@android:color/transparent"
-            android:layout_weight="1"
             android:text="@string/males"
-            android:textColor="@color/white"
             android:textAlignment="center"
-            />
+            android:textColor="@color/white" />
     </RadioGroup>
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnMale"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/males"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.05"
-        app:layout_constraintHorizontal_bias="0.9"
-        app:layout_constraintWidth_percent="0.4"
-        android:textSize="@dimen/mediumTextSize"
         android:textAllCaps="false"
-        app:backgroundTint="@null"
+        android:textSize="@dimen/mediumTextSize"
         android:visibility="gone"
-        />
+        app:backgroundTint="@null"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.05"
+        app:layout_constraintWidth_percent="0.4" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnFemale"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.1"
-        app:layout_constraintVertical_bias="0.05"
-        app:layout_constraintWidth_percent="0.4"
-        android:textSize="@dimen/mediumTextSize"
-        android:textAllCaps="false"
-        app:backgroundTint="@null"
         android:background="@drawable/radio_button_checked"
         android:text="@string/females"
-        />
+        android:textAllCaps="false"
+        android:textSize="@dimen/mediumTextSize"
+        android:visibility="gone"
+        app:backgroundTint="@null"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.05"
+        app:layout_constraintWidth_percent="0.4" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvAdvertisement"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:clipToPadding="false"
         android:layout_marginTop="@dimen/margin_10"
+        android:clipToPadding="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rgGender"

@@ -17,7 +17,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class AdvertisementViewModel : ViewModel() {
-    var gender = MutableLiveData<String>()
+    val gender = MutableLiveData<String>()
 
     val advertisements = MutableLiveData<List<AdvertisementsModel>>()
 

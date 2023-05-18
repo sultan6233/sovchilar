@@ -39,11 +39,20 @@ class AdvertisementFragment :
     }
 
     private fun initClicks() {
-        binding.btnMale.setOnClickListener {
-            viewModel.gender.value = maleGender
+        if (viewModel.gender.value == maleGender) {
+            binding.rbFemale.isChecked = false
+            binding.rbMale.isChecked = true
+        } else {
+            binding.rbFemale.isChecked = true
+            binding.rbMale.isChecked = false
         }
-        binding.btnFemale.setOnClickListener {
-            viewModel.gender.value = femaleGender
+
+        binding.rgGender.setOnCheckedChangeListener { _, checkedId ->
+            if (binding.rbMale.id == checkedId) {
+                viewModel.gender.value = maleGender
+            } else {
+                viewModel.gender.value = femaleGender
+            }
         }
     }
 
@@ -51,7 +60,9 @@ class AdvertisementFragment :
         lifecycleScope.launch {
             viewModel.advertisements.observe(viewLifecycleOwner) {
                 viewModel.advertisementsList = it as ArrayList<AdvertisementsModel>
-                viewModel.gender.value = femaleGender
+                if (viewModel.gender.value == null) {
+                    viewModel.gender.value = femaleGender
+                }
             }
         }
     }

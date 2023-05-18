@@ -77,10 +77,7 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
         lifecycleScope.launch {
             activityViewModel.bottomHeight.observe(viewLifecycleOwner) {
                 binding.svAdvertisement.setPadding(
-                    0,
-                    0,
-                    0,
-                    it * 2
+                    0, 0, 0, it * 2
                 )
             }
         }
