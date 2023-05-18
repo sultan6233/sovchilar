@@ -7,13 +7,18 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFF</color>
-    <color name="blue">#ff3385ff</color>
-    <color name="pink">#ffde1eff</color>
+    <color name="blue">#F0FFFF</color>
+    <color name="pink">#FFFFF0</color>
     <color name="light_grey">#DEDEDE</color>
     <color name="medium_grey">#808080 </color>
     <color name="carnation_pink_background">#A13647</color>
-    <color name="pomegranate_selected">#A13647 </color>
+    <color name="pomegranate_selected">#000000 </color>
     <color name="gainsboro_not_selected">#E6E6E6 </color>
-    <color name="main_text_color">#FF000000</color>
-    <color name="secondary_text_color">#A13647</color>
+
+    <color name="main_text_color">#5A5A65</color>
+    <color name="female_blue_gradient">#9747FF</color>
+    <color name="female_red_gradient">#F5576C</color>
+    <color name="man_blue_gradient">#30CFD0</color>
+    <color name="man_dark_blue_gradient">#330867</color>
+    <color name="pink_text_color">#A6F55B75</color>
 </resources>

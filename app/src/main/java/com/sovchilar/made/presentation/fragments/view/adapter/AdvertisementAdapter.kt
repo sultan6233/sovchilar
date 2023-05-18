@@ -2,9 +2,11 @@ package com.sovchilar.made.presentation.fragments.view.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.sovchilar.made.R
 import com.sovchilar.made.databinding.ItemAdvertisementBinding
 import com.sovchilar.made.domain.models.AdvertisementsFixedModel
 import com.sovchilar.made.domain.usecases.OpenTelegramUseCase
@@ -45,22 +47,30 @@ class AdvertisementAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         fun bind(advertisementsModel: AdvertisementsFixedModel) {
             binding.tvProvidedName.text = advertisementsModel.name
-            binding.tvProvidedAge.text = advertisementsModel.age.toString()
+            binding.tvProvidedAge.text = binding.tvProvidedAge.context.getString(
+                R.string.years, advertisementsModel.age.toString()
+            )
             binding.tvProvidedNationality.text = advertisementsModel.nationality
-            binding.tvProvidedMarriageStatus.text = advertisementsModel.marriageStatus
-            binding.tvProvidedChildren.text = advertisementsModel.children
-            binding.tvProvidedAgeRestrictionFrom.text = advertisementsModel.fromAge.toString()
-            binding.tvProvidedAgeRestrictionTo.text = advertisementsModel.tillAge.toString()
-            binding.tvProvidedTelegram.text = advertisementsModel.telegram
-            binding.tvProvidedCity.text = advertisementsModel.city
-            binding.tvProvidedCountry.text = advertisementsModel.country
+            binding.tvProvidedMarriageStatusAndChildren.text = String.format(
+                binding.tvProvidedMarriageStatusAndChildren.context.getString(R.string.provided_marriage_status_and_children),
+                advertisementsModel.marriageStatus,
+                advertisementsModel.children.lowercase()
+            )
+            binding.tvProvidedAgeRestriction.text = String.format(
+                binding.tvProvidedAgeRestriction.context.getString(R.string.provided_age_restriction),
+                advertisementsModel.fromAge.toString(),
+                advertisementsModel.tillAge.toString()
+            )
+            binding.tvProvidedTelegram.text = advertisementsModel.telegram?.lowercase()
+            binding.tvProvidedCountryAndCity.text = String.format(
+                binding.tvProvidedCountryAndCity.context.getString(R.string.provided_country_and_city),
+                advertisementsModel.city,
+                advertisementsModel.country
+            )
             binding.tvProvidedMoreInfo.text = advertisementsModel.moreInfo
-            binding.tvProvidedGender.text = advertisementsModel.gender
-
             binding.tvProvidedTelegram.setOnClickListener {
                 openTelegramUseCase.openUserPage(
-                    it.context,
-                    binding.tvProvidedTelegram.text.toString()
+                    it.context, binding.tvProvidedTelegram.text.toString()
                 )
             }
         }

@@ -10,7 +10,7 @@
     <string name="never_married">Не был(а) женат(замужем)</string>
     <string name="have_children">У меня есть ребенок</string>
     <string name="no_children">У меня нет детей</string>
-    <string name="ageRestriction">Возрастное ограничение:</string>
+    <string name="ageRestriction">Возрастное ограничение</string>
     <string name="fromAge">От</string>
     <string name="tillAge">До</string>
     <string name="telegram">Телеграм</string>
@@ -38,13 +38,11 @@
     <string name="man">Мужчина</string>
     <string name="my_advertisements">Мои объявления</string>
     <string name="addAdvertisement">Разместить объявление</string>
-    <string name="nameProvided">Имя:</string>
+    <string name="nameProvided">Имя/возраст</string>
     <string name="ageProvided">Возраст:</string>
-    <string name="nationalityProvided">Национальность:</string>
-    <string name="marriageStatusProvided">Семейное положение:</string>
+    <string name="nationalityProvided">Национальность</string>
+    <string name="marriageStatusAndChildren">Семейное положение/Дети</string>
     <string name="children">Дети:</string>
-    <string name="city">Город:</string>
-    <string name="country">Страна:</string>
     <string name="telegramm">Телеграм:</string>
     <string name="gender">Пол:</string>
     <string name="male">Мужчина</string>
@@ -55,5 +53,11 @@
     <string name="marriage_status_female_no_marriage">Не была замужем</string>
     <string name="females">Женщины</string>
     <string name="males">Мужчины</string>
+    <string name="years">, %1$s лет</string>
+    <string name="country_and_city">Место жительства</string>
+    <string name="provided_country_and_city">%1$s, %2$s</string>
+    <string name="provided_marriage_status_and_children">%1$s, %2$s</string>
+    <string name="provided_age_restriction">%1$s - %2$s</string>
+    <string name="open_telegram">Открыть телеграм</string>
 
 </resources>
