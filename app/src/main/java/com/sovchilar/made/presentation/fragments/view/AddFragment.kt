@@ -1,26 +1,32 @@
 package com.sovchilar.made.presentation.fragments.view
 
 import android.content.Context
+import android.graphics.LinearGradient
+import android.graphics.Shader
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.lifecycleScope
 import com.sovchilar.made.R
 import com.sovchilar.made.databinding.FragmentAddBinding
+import com.sovchilar.made.presentation.fragments.view.extentions.markRequiredInRed
 import com.sovchilar.made.presentation.fragments.viewmodel.AddViewModel
 import com.sovchilar.made.presentation.fragments.viewmodel.MainViewModel
 import com.sovchilar.made.uitls.utils.BaseFragment
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
 
 class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate) {
 
     private val viewModel: AddViewModel by viewModels()
     private val activityViewModel by activityViewModels<MainViewModel>()
-
     private val marriageStatusItems by lazy {
         arrayListOf(
             getString(R.string.divorced), getString(R.string.never_married)
@@ -54,6 +60,58 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
         )
     }
 
+    private fun TextView.setGradientTextColor(vararg colorRes: Int) {
+        val floatArray = ArrayList<Float>(colorRes.size)
+        for (i in colorRes.indices) {
+            floatArray.add(i, i.toFloat() / (colorRes.size - 1))
+        }
+        val textShader: Shader = LinearGradient(
+            0f,
+            0f,
+            this.width.toFloat(),
+            this.height.toFloat(),
+            colorRes.map { ContextCompat.getColor(requireContext(), it) }.toIntArray(),
+            floatArray.toFloatArray(),
+            Shader.TileMode.CLAMP
+        )
+        this.paint.shader = textShader
+    }
+
+    private suspend fun View.awaitLayoutChange() = suspendCancellableCoroutine<Unit> { cont ->
+        val listener = object : View.OnLayoutChangeListener {
+            override fun onLayoutChange(
+                view: View?,
+                left: Int,
+                top: Int,
+                right: Int,
+                bottom: Int,
+                oldLeft: Int,
+                oldTop: Int,
+                oldRight: Int,
+                oldBottom: Int
+            ) {
+                view?.removeOnLayoutChangeListener(this)
+                cont.resumeWith(Result.success(Unit))
+            }
+        }
+
+        addOnLayoutChangeListener(listener)
+        cont.invokeOnCancellation { removeOnLayoutChangeListener(listener) }
+    }
+
+    private fun initEditTextsHint() {
+        binding.tipName.markRequiredInRed()
+        binding.tipAge.markRequiredInRed()
+        binding.tipNationality.markRequiredInRed()
+        binding.tipFromAge.markRequiredInRed()
+        binding.tipTillAge.markRequiredInRed()
+        binding.tipTelegram.markRequiredInRed()
+        binding.tipMarriageStatus.markRequiredInRed()
+        binding.tipChildren.markRequiredInRed()
+        binding.tipCountry.markRequiredInRed()
+        binding.tipCity.markRequiredInRed()
+    }
+
     private fun hideKeyboard(view: View) {
         val imm =
             requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -69,43 +127,39 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
         initChildren()
         initCountry()
         initCity()
-        layoutPadding()
-        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
-    }
-
-    private fun layoutPadding() {
-        lifecycleScope.launch {
-            activityViewModel.bottomHeight.observe(viewLifecycleOwner) {
-                binding.svAdvertisement.setPadding(
-                    0, 0, 0, it * 2
-                )
-            }
+        initEditTextsHint()
+        lifecycle.coroutineScope.launch {
+            binding.tvDescription.awaitLayoutChange()
+            binding.tvDescription.setGradientTextColor(
+                R.color.light_pink, R.color.dark_pink
+            )
         }
+
     }
 
     private fun initMarriageStatus() {
         val adapter =
             ArrayAdapter(requireContext(), R.layout.spinner_item_layout, marriageStatusItems)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.spMarriageStatus.adapter = adapter
+        binding.spMarriageStatus.setAdapter(adapter)
     }
 
     private fun initChildren() {
         val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item_layout, childrenItems)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.spChildren.adapter = adapter
+        binding.spChildren.setAdapter(adapter)
     }
 
     private fun initCountry() {
         val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item_layout, countryItems)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.spCountry.adapter = adapter
+        binding.spCountry.setAdapter(adapter)
     }
 
     private fun initCity() {
         val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item_layout, cityItems)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.spCity.adapter = adapter
+        binding.spCity.setAdapter(adapter)
     }
 
 }

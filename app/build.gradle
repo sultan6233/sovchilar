@@ -38,6 +38,8 @@ android {
 
 def nav_version = "2.5.3"
 dependencies {
+    //edittext
+    implementation 'com.github.simformsolutions:SSCustomEditTextOutLineBorder:1.0.15'
     //navigation component
     implementation 'com.appsflyer:af-android-sdk:6.9.0'
     implementation "com.android.installreferrer:installreferrer:2.2"
@@ -53,11 +55,11 @@ dependencies {
     //logger
     implementation 'com.squareup.okhttp3:logging-interceptor:4.10.0'
     //splash
-    implementation "androidx.core:core-splashscreen:1.0.0"
+    implementation "androidx.core:core-splashscreen:1.0.1"
     //core
-    implementation 'androidx.core:core-ktx:1.10.0'
+    implementation 'androidx.core:core-ktx:1.10.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     //viewmodel&&livedata
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'

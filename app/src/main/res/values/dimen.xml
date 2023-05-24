@@ -2,11 +2,12 @@
 <resources>
     <dimen name="margin_10">10dp</dimen>
     <dimen name="margin_15">15dp</dimen>
+    <dimen name="margin_20">20dp</dimen>
     <dimen name="textsize_20">18sp</dimen>
     <dimen name="main_card_radius_10">10dp</dimen>
 
     <dimen name="minTextSize">14sp</dimen>
-    <dimen name="mediumTextSize">18sp</dimen>
+    <dimen name="mediumTextSize">16sp</dimen>
     <dimen name="extraMediumTextSize">18sp</dimen>
     <dimen name="largeTextSize">20sp</dimen>
 
@@ -14,4 +15,7 @@
     <dimen name="minRadiusSize">5dp</dimen>
     <dimen name="mediumRadiusSize">10dp</dimen>
     <dimen name="maxRadiusSize">15dp</dimen>
+    <dimen name="extraMaxRadiusSize">20dp</dimen>
+    <dimen name="LargeRadiusSize">25dp</dimen>
+    <dimen name="ExtraLargeRadiusSize">30dp</dimen>
 </resources>

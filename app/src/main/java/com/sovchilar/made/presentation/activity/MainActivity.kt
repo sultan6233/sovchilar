@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
 import android.view.WindowManager
 import android.view.animation.AnticipateInterpolator
@@ -32,10 +33,31 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         initNavHostFragment()
-        initStatusBar()
         initSplashAnimation()
         binding.bnvSovchilar.doOnLayout {
             viewModel.bottomHeight.value = it.height
+        }
+        setStatusBarLightText(window, false)
+    }
+
+    private fun setStatusBarLightText(window: Window, isLight: Boolean) {
+        setStatusBarLightTextOldApi(window, isLight)
+        setStatusBarLightTextNewApi(window, isLight)
+    }
+
+
+    private fun setStatusBarLightTextOldApi(window: Window, isLight: Boolean) {
+        val decorView = window.decorView
+        decorView.systemUiVisibility = if (isLight) {
+            decorView.systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
+        } else {
+            decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        }
+    }
+
+    private fun setStatusBarLightTextNewApi(window: Window, isLightText: Boolean) {
+        ViewCompat.getWindowInsetsController(window.decorView)?.apply {
+            isAppearanceLightStatusBars = !isLightText
         }
     }
 
@@ -60,34 +82,6 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
         binding.bnvSovchilar.setupWithNavController(navController)
-    }
-
-    private fun initStatusBar() {
-        makeStatusBarTransparent()
-        ViewCompat.setOnApplyWindowInsetsListener(binding.clMain) { _, insets ->
-            binding.vTop.setMarginTop(insets.getInsets(WindowInsetsCompat.Type.statusBars()).top)
-            binding.navHostFragment.setMarginTop(insets.getInsets(WindowInsetsCompat.Type.statusBars()).top)
-            insets.consumeSystemWindowInsets()
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            window.insetsController?.setSystemBarsAppearance(0, APPEARANCE_LIGHT_STATUS_BARS)
-        }
-    }
-
-    private fun Activity.makeStatusBarTransparent() {
-        window.apply {
-            clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-            addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-            decorView.systemUiVisibility =
-                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-            statusBarColor = Color.TRANSPARENT
-        }
-    }
-
-    private fun View.setMarginTop(marginTop: Int) {
-        val menuLayoutParams = this.layoutParams as ViewGroup.MarginLayoutParams
-        menuLayoutParams.setMargins(0, marginTop, 0, 0)
-        this.layoutParams = menuLayoutParams
     }
 
 }

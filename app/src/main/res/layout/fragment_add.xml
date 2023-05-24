@@ -1,297 +1,423 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
-    android:id="@+id/svAdvertisement"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/svAdvertisement"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:clipToPadding="false"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     tools:context=".presentation.fragments.view.AddFragment">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clAdd"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tvDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="@dimen/margin_10"
-        android:text="@string/advertisementDescription"
-        android:textColor="@color/white"
-        android:textSize="25sp"
-        />
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tipName"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintWidth_percent="0.9"
-        app:layout_constraintDimensionRatio="1:0.16"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvDescription"
-        android:layout_marginTop="@dimen/margin_10"
-        app:hintTextColor="@color/pink"
-        android:textColorHint="@color/medium_grey"
-        >
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tedName"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        <TextView
+            android:id="@+id/tvDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_10"
+            android:text="@string/advertisementDescription"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tipName"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/margin_20"
             android:hint="@string/name"
-            android:maxLength="30"
-            android:inputType="textPersonName"
-            />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:textColorHint="@color/border_color"
+            app:boxStrokeColor="@color/black"
+            app:boxStrokeErrorColor="@color/female_red_gradient"
+            app:expandedHintEnabled="false"
+            app:hintEnabled="true"
+            app:hintTextColor="@color/border_color"
+            app:layout_constraintDimensionRatio="1:0.17"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvDescription"
+            app:layout_constraintWidth_percent="0.9">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tipAge"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintWidth_percent="0.9"
-        app:layout_constraintDimensionRatio="1:0.16"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tipName"
-        android:layout_marginTop="@dimen/margin_15"
-        app:hintTextColor="@color/pink"
-        android:textColorHint="@color/medium_grey"
-        >
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tedAge"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tedName"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:includeFontPadding="false"
+                android:inputType="textPersonName"
+                android:maxLength="30"
+                android:textSize="@dimen/minTextSize" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tipAge"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/margin_15"
             android:hint="@string/age"
-            android:inputType="number"
-            android:maxLength="2"
-            />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:textColorHint="@color/border_color"
+            app:boxStrokeColor="@color/black"
+            app:boxStrokeErrorColor="@color/female_red_gradient"
+            app:expandedHintEnabled="false"
+            app:hintEnabled="true"
+            app:hintTextColor="@color/border_color"
+            app:layout_constraintDimensionRatio="1:0.17"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tipName"
+            app:layout_constraintWidth_percent="0.9">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tedAge"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:includeFontPadding="false"
+                android:inputType="number"
+                android:maxLength="2"
+                android:textSize="@dimen/minTextSize" />
+        </com.google.android.material.textfield.TextInputLayout>
+
         <TextView
             android:id="@+id/tvGender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/tipAge"
-            android:text="@string/yourGender"
             android:layout_marginTop="@dimen/margin_15"
+            android:text="@string/yourGender"
+            android:textColor="@color/border_color"
+            android:textSize="@dimen/mediumTextSize"
             app:layout_constraintStart_toStartOf="@+id/tipAge"
-            android:textSize="16sp"
-            android:textColor="@color/white"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/tipAge" />
+
         <RadioGroup
             android:id="@+id/rgGender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/tvGender"
-            app:layout_constraintStart_toStartOf="@+id/tvGender"
             android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="@+id/tvGender"
+            app:layout_constraintTop_toBottomOf="@+id/tvGender"
+            android:checkedButton="@id/rbFemale"
             >
+
             <RadioButton
+                android:id="@+id/rbFemale"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:button="@drawable/radio_button_gender"
                 android:text="@string/woman"
-                android:textColor="@color/black"
-                />
+                android:paddingStart="@dimen/margin_10"
+                style="@style/Widget.AppCompat.CompoundButton.RadioButton"
+                android:textSize="@dimen/minTextSize"
+                android:buttonTint="@drawable/radio_button_gender"
+                android:textColor="@color/border_color" />
+
             <RadioButton
+                android:id="@+id/rbMale"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:button="@drawable/radio_button_gender"
                 android:text="@string/man"
-                android:textColor="@color/black"
-                />
+                android:paddingStart="@dimen/margin_10"
+                android:layout_marginStart="@dimen/margin_15"
+                android:textSize="@dimen/minTextSize"
+                android:buttonTint="@drawable/radio_button_gender"
+                android:textColor="@color/border_color" />
         </RadioGroup>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tipNationality"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintWidth_percent="0.9"
-            app:layout_constraintDimensionRatio="1:0.16"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rgGender"
             android:layout_marginTop="@dimen/margin_15"
-            app:hintTextColor="@color/pink"
-            android:textColorHint="@color/medium_grey"
-            >
+            android:hint="@string/nationality"
+            android:textColorHint="@color/border_color"
+            app:boxStrokeColor="@color/black"
+            app:boxStrokeErrorColor="@color/female_red_gradient"
+            app:expandedHintEnabled="false"
+            app:hintEnabled="true"
+            app:hintTextColor="@color/border_color"
+            app:layout_constraintDimensionRatio="1:0.17"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rgGender"
+            app:layout_constraintWidth_percent="0.9">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/tedNationality"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="@string/nationality"
+                android:includeFontPadding="false"
                 android:inputType="text"
                 android:maxLength="15"
+                android:textSize="@dimen/minTextSize"
                 />
         </com.google.android.material.textfield.TextInputLayout>
-        <Spinner
-            android:id="@+id/spMarriageStatus"
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tipMarriageStatus"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@+id/tipNationality"
+            android:layout_marginTop="@dimen/margin_15"
+            android:hint="@string/marriage_status"
+            android:labelFor="@+id/spMarriageStatus"
+            android:textAlignment="center"
+            android:textColorHint="@color/border_color"
+            app:boxStrokeColor="@color/black"
+            app:boxStrokeErrorColor="@color/female_red_gradient"
+            app:expandedHintEnabled="false"
+            app:hintEnabled="true"
+            app:hintTextColor="@color/border_color"
+            app:layout_constraintDimensionRatio="1:0.17"
             app:layout_constraintStart_toStartOf="@+id/tipNationality"
-            android:layout_marginTop="@dimen/margin_15"
-            app:layout_constraintWidth_percent="0.9"
-            app:layout_constraintDimensionRatio="1:0.16"
-            android:background="@drawable/spinner_background"
-            />
-        <Spinner
-            android:id="@+id/spChildren"
+            app:layout_constraintTop_toBottomOf="@+id/tipNationality"
+            app:layout_constraintWidth_percent="0.9">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/spMarriageStatus"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="none"
+                android:textColor="@color/border_color"
+                android:textSize="@dimen/minTextSize" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tipChildren"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/margin_15"
-            app:layout_constraintWidth_percent="0.9"
-            app:layout_constraintDimensionRatio="1:0.16"
-            app:layout_constraintTop_toBottomOf="@+id/spMarriageStatus"
-            app:layout_constraintStart_toStartOf="parent"
+            android:hint="@string/children"
+            android:labelFor="@+id/spMarriageStatus"
+            android:textAlignment="center"
+            android:textColorHint="@color/border_color"
+            app:boxStrokeColor="@color/black"
+            app:boxStrokeErrorColor="@color/female_red_gradient"
+            app:expandedHintEnabled="false"
+            app:hintEnabled="true"
+            app:hintTextColor="@color/border_color"
+            app:layout_constraintDimensionRatio="1:0.17"
             app:layout_constraintEnd_toEndOf="parent"
-            android:background="@drawable/spinner_background"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tipMarriageStatus"
+            app:layout_constraintWidth_percent="0.9">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/spChildren"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="none"
+                android:textColor="@color/border_color"
+                android:textSize="@dimen/minTextSize" />
+        </com.google.android.material.textfield.TextInputLayout>
+
         <TextView
             android:id="@+id/tvAgeRestriction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/spChildren"
-            android:text="@string/ageRestriction"
             android:layout_marginTop="@dimen/margin_15"
-            app:layout_constraintStart_toStartOf="@+id/spChildren"
-            android:textSize="16sp"
-            android:textColor="@color/white"
-            />
+            android:text="@string/ageRestriction"
+            android:textColor="@color/border_color"
+            android:textSize="@dimen/mediumTextSize"
+            app:layout_constraintStart_toStartOf="@+id/tipChildren"
+            app:layout_constraintTop_toBottomOf="@+id/tipChildren" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tipFromAge"
-            android:layout_width="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@+id/tvAgeRestriction"
-            app:layout_constraintTop_toBottomOf="@+id/tvAgeRestriction"
             android:layout_marginTop="@dimen/margin_15"
-            app:hintTextColor="@color/pink"
-            android:textColorHint="@color/medium_grey"
-            >
+            android:hint="@string/fromAge"
+            android:textColorHint="@color/border_color"
+            app:boxStrokeColor="@color/black"
+            app:boxStrokeErrorColor="@color/female_red_gradient"
+            app:expandedHintEnabled="false"
+            app:hintEnabled="true"
+            app:hintTextColor="@color/border_color"
+            app:layout_constraintStart_toStartOf="@+id/tipChildren"
+            app:layout_constraintTop_toBottomOf="@+id/tvAgeRestriction"
+            app:layout_constraintWidth_percent="0.4">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/tedFromAge"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="@string/fromAge"
+                android:includeFontPadding="false"
                 android:inputType="number"
                 android:maxLength="2"
-                />
+                android:textSize="@dimen/minTextSize" />
         </com.google.android.material.textfield.TextInputLayout>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tipTillAge"
-            android:layout_width="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_15"
+            android:layout_marginTop="@dimen/margin_15"
+            android:hint="@string/tillAge"
+            android:textColorHint="@color/border_color"
+            app:boxStrokeColor="@color/black"
+            app:boxStrokeErrorColor="@color/female_red_gradient"
+            app:expandedHintEnabled="false"
+            app:hintEnabled="true"
+            app:hintTextColor="@color/border_color"
             app:layout_constraintStart_toEndOf="@+id/tipFromAge"
             app:layout_constraintTop_toBottomOf="@+id/tvAgeRestriction"
-            android:layout_marginTop="@dimen/margin_15"
-            android:layout_marginStart="@dimen/margin_15"
-            app:hintTextColor="@color/pink"
-            android:textColorHint="@color/medium_grey"
-            >
+            app:layout_constraintWidth_percent="0.4">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/tedTillAge"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="@string/tillAge"
+                android:includeFontPadding="false"
                 android:inputType="number"
                 android:maxLength="2"
-                />
+                android:textSize="@dimen/minTextSize" />
         </com.google.android.material.textfield.TextInputLayout>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tipTelegram"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintWidth_percent="0.9"
-            app:layout_constraintDimensionRatio="1:0.16"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tipFromAge"
             android:layout_marginTop="@dimen/margin_15"
-            app:hintTextColor="@color/pink"
-            android:textColorHint="@color/medium_grey"
-            >
+            android:hint="@string/telegram"
+            android:textColorHint="@color/border_color"
+            app:boxStrokeColor="@color/black"
+            app:boxStrokeErrorColor="@color/female_red_gradient"
+            app:expandedHintEnabled="false"
+            app:hintEnabled="true"
+            app:hintTextColor="@color/border_color"
+            app:layout_constraintDimensionRatio="1:0.17"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tipFromAge"
+            app:layout_constraintWidth_percent="0.9">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/tedTelegram"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="@string/telegram"
+                android:digits="1@234567890abcdefghijklmnopqrstuvwxyz"
+                android:includeFontPadding="false"
                 android:inputType="textPersonName"
-                android:digits="1234567890abcdefghijklmnopqrstuvwxyz"
-                android:text="@string/telegramUserName"
                 android:maxLength="50"
-                />
+                android:textSize="@dimen/minTextSize" />
         </com.google.android.material.textfield.TextInputLayout>
-        <Spinner
-            android:id="@+id/spCountry"
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tipCountry"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/margin_15"
-            app:layout_constraintWidth_percent="0.9"
-            app:layout_constraintDimensionRatio="1:0.16"
+            android:hint="@string/country"
+            android:labelFor="@+id/spMarriageStatus"
+            android:textAlignment="center"
+            android:textColorHint="@color/border_color"
+            app:boxStrokeColor="@color/black"
+            app:boxStrokeErrorColor="@color/female_red_gradient"
+            app:expandedHintEnabled="false"
+            app:hintEnabled="true"
+            app:hintTextColor="@color/border_color"
+            app:layout_constraintDimensionRatio="1:0.17"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tipTelegram"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:background="@drawable/spinner_background"
-            />
-        <Spinner
-            android:id="@+id/spCity"
+            app:layout_constraintWidth_percent="0.9">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/spCountry"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="none"
+                android:textColor="@color/border_color"
+                android:textSize="@dimen/minTextSize" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tipCity"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/margin_15"
-            app:layout_constraintWidth_percent="0.9"
-            app:layout_constraintDimensionRatio="1:0.16"
-            app:layout_constraintTop_toBottomOf="@+id/spCountry"
-            app:layout_constraintStart_toStartOf="parent"
+            android:hint="@string/city"
+            android:labelFor="@+id/spMarriageStatus"
+            android:textAlignment="center"
+            android:textColorHint="@color/border_color"
+            app:boxStrokeColor="@color/black"
+            app:boxStrokeErrorColor="@color/female_red_gradient"
+            app:expandedHintEnabled="false"
+            app:hintEnabled="true"
+            app:hintTextColor="@color/border_color"
+            app:layout_constraintDimensionRatio="1:0.17"
             app:layout_constraintEnd_toEndOf="parent"
-            android:background="@drawable/spinner_background"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tipCountry"
+            app:layout_constraintWidth_percent="0.9">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/spCity"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="none"
+                android:textColor="@color/border_color"
+                android:textSize="@dimen/minTextSize" />
+        </com.google.android.material.textfield.TextInputLayout>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tipMoreInfo"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintWidth_percent="0.9"
-            app:layout_constraintDimensionRatio="1:0.4"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spCity"
             android:layout_marginTop="@dimen/margin_15"
-            app:hintTextColor="@color/pink"
-            android:textColorHint="@color/medium_grey"
             android:gravity="top"
+            android:hint="@string/more_info"
+            android:textColorHint="@color/border_color"
+            app:boxStrokeColor="@color/black"
+            app:boxStrokeErrorColor="@color/female_red_gradient"
             app:counterEnabled="true"
             app:counterMaxLength="1000"
-            >
+            app:expandedHintEnabled="false"
+            app:hintEnabled="true"
+            app:hintTextColor="@color/border_color"
+            app:layout_constraintDimensionRatio="1:0.4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tipCity"
+            app:layout_constraintWidth_percent="0.9">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/tedMoreInfo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="@string/more_info"
+                android:gravity="top"
                 android:inputType="textMultiLine"
                 android:lines="5"
-                android:maxLength="1000"
-                android:gravity="top"
-                />
+                android:maxLength="1000" />
         </com.google.android.material.textfield.TextInputLayout>
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/mbtnSubmit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/tipMoreInfo"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="@dimen/margin_15"
+            android:background="@drawable/gradient_purple"
             android:text="@string/submit"
-            app:backgroundTint="@color/carnation_pink_background"
-            />
-        <com.sovchilar.made.presentation.fragments.view.AddAdvertisementCustomEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/mbtnSubmit"
-            android:padding="8dp"
-            android:textSize="16sp"
-            android:hint="Enter text..."
-            />
+            app:backgroundTint="@null"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tipMoreInfo" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

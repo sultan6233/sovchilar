@@ -31,7 +31,6 @@ class AdvertisementFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        layoutPadding()
         getList()
         initRecyclerView()
         initClicks()
@@ -74,16 +73,6 @@ class AdvertisementFragment :
                     advertisementsFixUseCase.getFixGenderDividedAdvertisements(
                         viewModel.advertisementsList, it
                     )
-                )
-            }
-        }
-    }
-
-    private fun layoutPadding() {
-        lifecycleScope.launch {
-            activityViewModel.bottomHeight.observe(viewLifecycleOwner) {
-                binding.rvAdvertisement.setPadding(
-                    0, 0, 0, it * 4
                 )
             }
         }

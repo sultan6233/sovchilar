@@ -13,7 +13,7 @@
     <string name="ageRestriction">Возрастное ограничение</string>
     <string name="fromAge">От</string>
     <string name="tillAge">До</string>
-    <string name="telegram">Телеграм</string>
+    <string name="telegram">Ваш telegram</string>
     <string name="telegramUserName">\@</string>
     <string name="uzbekistan">Узбекистан</string>
     <string name="tashkent">Ташкент</string>
@@ -30,7 +30,7 @@
     <string name="samarkand_region">Самаркандская область</string>
     <string name="surxandarya_region">Сурхандарьинская область</string>
     <string name="sirdarya_region">Сырдарьинская область</string>
-    <string name="more_info">Дополнительная информация (не обязательно)</string>
+    <string name="more_info">Дополнительная информация</string>
     <string name="more_info_provided">Доп. информация:</string>
     <string name="submit">Опубликовать</string>
     <string name="yourGender">Ваш пол</string>
@@ -42,7 +42,7 @@
     <string name="ageProvided">Возраст:</string>
     <string name="nationalityProvided">Национальность</string>
     <string name="marriageStatusAndChildren">Семейное положение/Дети</string>
-    <string name="children">Дети:</string>
+    <string name="children">Есть дети?</string>
     <string name="telegramm">Телеграм:</string>
     <string name="gender">Пол:</string>
     <string name="male">Мужчина</string>
@@ -59,5 +59,8 @@
     <string name="provided_marriage_status_and_children">%1$s, %2$s</string>
     <string name="provided_age_restriction">%1$s - %2$s</string>
     <string name="open_telegram">Открыть телеграм</string>
+    <string name="marriage_status">Семейное положение</string>
+    <string name="country">Страна</string>
+    <string name="city">Город</string>
 
 </resources>
