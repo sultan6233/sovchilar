@@ -11,13 +11,36 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/background</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
         <!-- Customize your theme here. -->
     </style>
+
     <style name="ShapeAppearanceOverlay.MaterialCardView.Cut" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSizeBottomLeft">0dp</item>
         <item name="cornerSizeBottomRight">0dp</item>
         <item name="cornerSizeTopLeft">5dp</item>
         <item name="cornerSizeTopRight">5dp</item>
+    </style>
+
+    <style name="Widget.Material3.BottomNavigationView.ActiveIndicator" parent="">
+        <item name="android:width" tools:ignore="PrivateResource">
+            @dimen/m3_bottom_nav_item_active_indicator_width
+        </item>
+        <item name="android:height" tools:ignore="PrivateResource">
+            @dimen/m3_bottom_nav_item_active_indicator_height
+        </item>
+        <item name="marginHorizontal" tools:ignore="PrivateResource">
+            @dimen/m3_bottom_nav_item_active_indicator_margin_horizontal
+        </item>
+        <item name="shapeAppearance">
+            @style/ShapeAppearance.Material3.NavigationBarView.ActiveIndicator
+        </item>
+        <item name="android:color">?attr/colorSecondaryContainer</item>
+
+    </style>
+
+    <style name="App.Custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/pink_text_color</item>
     </style>
 </resources>

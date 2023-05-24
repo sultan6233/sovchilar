@@ -4,6 +4,5 @@
         android:endColor="@color/dark_pink"
         android:gradientRadius="0"
         android:startColor="@color/light_pink"
-        android:type="linear"
-        />
+        android:type="linear" />
 </shape>

@@ -22,6 +22,7 @@
     <color name="man_blue_gradient">#30CFD0</color>
     <color name="man_dark_blue_gradient">#330867</color>
     <color name="pink_text_color">#A6F55B75</color>
+    <color name="menu_black">#45484F</color>
 
     <color name="border_color">#5B5E64</color>
 
@@ -29,4 +30,5 @@
 
     <color name="light_pink">#F093FB </color>
     <color name="dark_pink">#F5576C </color>
+    <color name="real_pink">#FFC0CB </color>
 </resources>
