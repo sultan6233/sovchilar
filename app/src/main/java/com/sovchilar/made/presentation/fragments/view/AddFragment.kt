@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.coroutineScope
+import com.google.android.material.snackbar.Snackbar
 import com.sovchilar.made.R
 import com.sovchilar.made.databinding.FragmentAddBinding
 import com.sovchilar.made.presentation.fragments.view.extentions.markRequiredInRed
@@ -75,7 +76,7 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
         this.paint.shader = textShader
     }
 
-    private suspend fun View.awaitLayoutChange() = suspendCancellableCoroutine<Unit> { cont ->
+    private suspend fun View.awaitLayoutChange() = suspendCancellableCoroutine { cont ->
         val listener = object : View.OnLayoutChangeListener {
             override fun onLayoutChange(
                 view: View?,
@@ -131,6 +132,30 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
             binding.tvDescription.setGradientTextColor(
                 R.color.light_pink, R.color.dark_pink
             )
+        }
+        submitAdvertisement()
+    }
+
+    private fun submitAdvertisement() {
+        binding.mbtnSubmit.setOnClickListener {
+            checkAllFields()
+        }
+    }
+
+    private fun checkAllFields() {
+        var countErrors = 0
+        if (binding.tedName.text.isNullOrEmpty()) {
+            binding.tedName.error = getString(R.string.required_field)
+            countErrors++
+        }
+        if (binding.tedAge.text.isNullOrEmpty()) {
+            binding.tedAge.error = getString(R.string.required_field)
+            countErrors++
+        } else if (binding.tedAge.text.toString().toInt() < 18) {
+            Snackbar.make(requireView(), getString(R.string.adult), Snackbar.LENGTH_LONG).show()
+        }
+        if (countErrors>0){
+            Snackbar.make(requireView(), getString(R.string.errors), Snackbar.LENGTH_LONG).show()
         }
 
     }

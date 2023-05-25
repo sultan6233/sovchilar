@@ -62,5 +62,8 @@
     <string name="marriage_status">Семейное положение</string>
     <string name="country">Страна</string>
     <string name="city">Город</string>
+    <string name="required_field">Обязательное поле</string>
+    <string name="adult">Минимальный возраст 18 лет</string>
+    <string name="errors">Исправьте все ошибки</string>
 
 </resources>

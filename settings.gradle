@@ -16,4 +16,3 @@ dependencyResolutionManagement {
 }
 rootProject.name = "sovchilar"
 include ':app'
-include ':customedittextoutlinedborder'

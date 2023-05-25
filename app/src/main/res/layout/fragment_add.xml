@@ -12,7 +12,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clAdd"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/margin_20">
 
         <TextView
             android:id="@+id/tvDescription"
@@ -21,8 +22,8 @@
             android:layout_marginTop="@dimen/margin_10"
             android:text="@string/advertisementDescription"
             android:textColor="@color/white"
-            android:textStyle="bold"
             android:textSize="25sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -100,35 +101,34 @@
             android:id="@+id/rgGender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:checkedButton="@id/rbFemale"
             android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="@+id/tvGender"
-            app:layout_constraintTop_toBottomOf="@+id/tvGender"
-            android:checkedButton="@id/rbFemale"
-            >
+            app:layout_constraintTop_toBottomOf="@+id/tvGender">
 
             <RadioButton
                 android:id="@+id/rbFemale"
+                style="@style/Widget.AppCompat.CompoundButton.RadioButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:button="@drawable/radio_button_gender"
-                android:text="@string/woman"
-                android:paddingStart="@dimen/margin_10"
-                style="@style/Widget.AppCompat.CompoundButton.RadioButton"
-                android:textSize="@dimen/minTextSize"
                 android:buttonTint="@drawable/radio_button_gender"
-                android:textColor="@color/border_color" />
+                android:paddingStart="@dimen/margin_10"
+                android:text="@string/woman"
+                android:textColor="@color/border_color"
+                android:textSize="@dimen/minTextSize" />
 
             <RadioButton
                 android:id="@+id/rbMale"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:button="@drawable/radio_button_gender"
-                android:text="@string/man"
-                android:paddingStart="@dimen/margin_10"
                 android:layout_marginStart="@dimen/margin_15"
-                android:textSize="@dimen/minTextSize"
+                android:button="@drawable/radio_button_gender"
                 android:buttonTint="@drawable/radio_button_gender"
-                android:textColor="@color/border_color" />
+                android:paddingStart="@dimen/margin_10"
+                android:text="@string/man"
+                android:textColor="@color/border_color"
+                android:textSize="@dimen/minTextSize" />
         </RadioGroup>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -157,8 +157,7 @@
                 android:includeFontPadding="false"
                 android:inputType="text"
                 android:maxLength="15"
-                android:textSize="@dimen/minTextSize"
-                />
+                android:textSize="@dimen/minTextSize" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
