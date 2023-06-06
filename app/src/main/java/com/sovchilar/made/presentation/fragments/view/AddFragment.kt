@@ -9,9 +9,11 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.coroutineScope
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.sovchilar.made.R
 import com.sovchilar.made.databinding.FragmentAddBinding
@@ -19,9 +21,10 @@ import com.sovchilar.made.presentation.fragments.view.extentions.markRequiredInR
 import com.sovchilar.made.presentation.fragments.viewmodel.AddViewModel
 import com.sovchilar.made.presentation.fragments.viewmodel.MainViewModel
 import com.sovchilar.made.uitls.utils.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
-
+@AndroidEntryPoint
 class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate) {
 
     private val viewModel: AddViewModel by viewModels()
@@ -57,6 +60,31 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
             getString(R.string.surxandarya_region),
             getString(R.string.sirdarya_region)
         )
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        lifecycleScope.launch {
+            initMarriageStatus()
+            initChildren()
+            initCountry()
+            initCity()
+            initEditTextsHint()
+            initClicks()
+        }
+
+        lifecycleScope.launch {
+            binding.tvDescription.awaitLayoutChange()
+            binding.tvDescription.setGradientTextColor(
+                R.color.light_pink, R.color.dark_pink
+            )
+        }
+        lifecycleScope.launch {
+
+            fixAutoCompleteTextViewsError()
+        }
+
     }
 
     private fun TextView.setGradientTextColor(vararg colorRes: Int) {
@@ -117,28 +145,27 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    private fun initClicks() {
+        binding.mbtnSubmit.setOnClickListener {
+            checkAllFields()
+        }
         binding.clAdd.setOnClickListener {
             hideKeyboard(it)
         }
-        initMarriageStatus()
-        initChildren()
-        initCountry()
-        initCity()
-        initEditTextsHint()
-        lifecycle.coroutineScope.launch {
-            binding.tvDescription.awaitLayoutChange()
-            binding.tvDescription.setGradientTextColor(
-                R.color.light_pink, R.color.dark_pink
-            )
-        }
-        submitAdvertisement()
     }
 
-    private fun submitAdvertisement() {
-        binding.mbtnSubmit.setOnClickListener {
-            checkAllFields()
+    private fun fixAutoCompleteTextViewsError() {
+        binding.spMarriageStatus.addTextChangedListener {
+            binding.tipMarriageStatus.error = null
+        }
+        binding.spChildren.addTextChangedListener {
+            binding.tipChildren.error = null
+        }
+        binding.spCountry.addTextChangedListener {
+            binding.tipCountry.error = null
+        }
+        binding.spCity.addTextChangedListener {
+            binding.tipCity.error = null
         }
     }
 
@@ -154,7 +181,39 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
         } else if (binding.tedAge.text.toString().toInt() < 18) {
             Snackbar.make(requireView(), getString(R.string.adult), Snackbar.LENGTH_LONG).show()
         }
-        if (countErrors>0){
+        if (binding.tedNationality.text.isNullOrEmpty()) {
+            binding.tedNationality.error = getString(R.string.required_field)
+            countErrors++
+        }
+        if (binding.spMarriageStatus.text.isNullOrEmpty()) {
+            binding.tipMarriageStatus.error = getString(R.string.required_field)
+            countErrors++
+        }
+        if (binding.spChildren.text.isNullOrEmpty()) {
+            binding.tipChildren.error = getString(R.string.required_field)
+            countErrors++
+        }
+        if (binding.tedFromAge.text.isNullOrEmpty()) {
+            binding.tedFromAge.error = getString(R.string.required_field)
+            countErrors++
+        }
+        if (binding.tedTillAge.text.isNullOrEmpty()) {
+            binding.tedTillAge.error = getString(R.string.required_field)
+            countErrors++
+        }
+        if (binding.tedTelegram.text.isNullOrEmpty()) {
+            binding.tedTelegram.error = getString(R.string.required_field)
+            countErrors++
+        }
+        if (binding.spCountry.text.isNullOrEmpty()) {
+            binding.tipCountry.error = getString(R.string.required_field)
+            countErrors++
+        }
+        if (binding.spCity.text.isNullOrEmpty()) {
+            binding.tipCity.error = getString(R.string.required_field)
+            countErrors++
+        }
+        if (countErrors > 0) {
             Snackbar.make(requireView(), getString(R.string.errors), Snackbar.LENGTH_LONG).show()
         }
 

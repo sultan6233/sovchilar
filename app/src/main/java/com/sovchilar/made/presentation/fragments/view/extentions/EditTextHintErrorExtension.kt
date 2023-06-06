@@ -11,3 +11,4 @@ fun TextInputLayout.markRequiredInRed() {
         color(Color.RED) { append(" *") }
     }
 }
+

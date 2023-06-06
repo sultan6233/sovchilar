@@ -58,6 +58,7 @@ class AdvertisementFragment :
     private fun getList() {
         lifecycleScope.launch {
             viewModel.advertisements.observe(viewLifecycleOwner) {
+                activityViewModel.dataReady.postValue(true)
                 viewModel.advertisementsList = it as ArrayList<AdvertisementsModel>
                 if (viewModel.gender.value == null) {
                     viewModel.gender.value = femaleGender

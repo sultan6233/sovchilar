@@ -17,6 +17,7 @@ import com.sovchilar.made.R
 import com.sovchilar.made.databinding.ActivityMainBinding
 import com.sovchilar.made.presentation.fragments.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.net.URL
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -28,9 +29,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         initNavHostFragment()
         initSplashAnimation()
-        binding.bnvSovchilar.doOnLayout {
-            viewModel.bottomHeight.value = it.height
-        }
         setStatusBarLightText(window, false)
     }
 
@@ -58,15 +56,23 @@ class MainActivity : AppCompatActivity() {
     private fun initSplashAnimation() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             splashScreen.setOnExitAnimationListener { splashScreenView ->
-                val slideUp = ObjectAnimator.ofFloat(
-                    splashScreenView, View.TRANSLATION_Y, 0f, -splashScreenView.height.toFloat()
-                )
-                slideUp.interpolator = AnticipateInterpolator()
-                slideUp.duration = 500L
-                slideUp.doOnEnd {
-                    splashScreenView.remove()
+                viewModel.dataReady.observe(this) { dataReady ->
+                    if (dataReady) {
+                        val slideUp = ObjectAnimator.ofFloat(
+                            splashScreenView,
+                            View.TRANSLATION_Y,
+                            0f,
+                            -splashScreenView.height.toFloat()
+                        )
+                        slideUp.interpolator = AnticipateInterpolator()
+                        slideUp.duration = 500L
+                        slideUp.doOnEnd {
+                            splashScreenView.remove()
+                        }
+                        slideUp.start()
+                    }
                 }
-                slideUp.start()
+
             }
         }
     }
