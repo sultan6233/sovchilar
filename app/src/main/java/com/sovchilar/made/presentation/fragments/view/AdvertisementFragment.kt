@@ -10,8 +10,8 @@ import com.sovchilar.made.databinding.FragmentAdvertisementBinding
 import com.sovchilar.made.domain.models.AdvertisementsModel
 import com.sovchilar.made.domain.usecases.AdvertisementsFixUseCase
 import com.sovchilar.made.presentation.fragments.view.adapter.AdvertisementAdapter
-import com.sovchilar.made.presentation.fragments.viewmodel.AdvertisementViewModel
-import com.sovchilar.made.presentation.fragments.viewmodel.MainViewModel
+import com.sovchilar.made.presentation.viewmodel.AdvertisementViewModel
+import com.sovchilar.made.presentation.viewmodel.MainViewModel
 import com.sovchilar.made.uitls.femaleGender
 import com.sovchilar.made.uitls.maleGender
 import com.sovchilar.made.uitls.utils.BaseFragment
@@ -59,7 +59,7 @@ class AdvertisementFragment :
         lifecycleScope.launch {
             viewModel.advertisements.observe(viewLifecycleOwner) {
                 activityViewModel.dataReady.postValue(true)
-                viewModel.advertisementsList = it as ArrayList<AdvertisementsModel>
+                viewModel.advertisementsList = it as ArrayList<AdvertisementsModel>?
                 if (viewModel.gender.value == null) {
                     viewModel.gender.value = femaleGender
                 }
@@ -69,12 +69,15 @@ class AdvertisementFragment :
 
     private fun submitAdapterList() {
         lifecycleScope.launch {
-            viewModel.gender.observe(viewLifecycleOwner) {
-                advertisementAdapter.differ.submitList(
-                    advertisementsFixUseCase.getFixGenderDividedAdvertisements(
-                        viewModel.advertisementsList, it
+            viewModel.gender.observe(viewLifecycleOwner) { gender ->
+                viewModel.advertisementsList?.let {
+                    advertisementAdapter.differ.submitList(
+                        advertisementsFixUseCase.getFixGenderDividedAdvertisements(
+                            it, gender
+                        )
                     )
-                )
+                }
+
             }
         }
     }

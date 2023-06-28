@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="@dimen/ExtraLargeRadiusSize">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background"
+        android:paddingBottom="@dimen/margin_20">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tipCardNumber"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_20"
+            android:hint="@string/card_number"
+            android:textColorHint="@color/border_color"
+            app:boxStrokeColor="@color/black"
+            app:boxStrokeErrorColor="@color/female_red_gradient"
+            app:expandedHintEnabled="false"
+            app:hintEnabled="true"
+            app:startIconDrawable="@drawable/card_icon_placeholder"
+            app:startIconTintMode="multiply"
+            app:hintTextColor="@color/border_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tedCardNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:digits="1234567890-"
+                android:hint="@string/card_number_hint"
+                android:includeFontPadding="false"
+                android:inputType="number"
+                android:maxLength="20"
+                android:maxLines="1"
+                android:textColor="@color/border_color"
+                android:textColorHint="@android:color/transparent"
+                android:textSize="@dimen/extraMediumTextSize" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tipExpireDate"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_20"
+            android:hint="@string/expiry_date"
+            android:textColorHint="@color/border_color"
+            app:boxStrokeColor="@color/black"
+            app:boxStrokeErrorColor="@color/female_red_gradient"
+            app:expandedHintEnabled="false"
+            app:hintEnabled="true"
+            app:hintTextColor="@color/border_color"
+            app:layout_constraintEnd_toEndOf="@+id/tipCardNumber"
+            app:layout_constraintStart_toStartOf="@+id/tipCardNumber"
+            app:layout_constraintTop_toBottomOf="@+id/tipCardNumber">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tedExpireDate"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:digits="1234567890"
+                android:hint="@string/expiry_date_hint"
+                android:includeFontPadding="false"
+                android:inputType="number"
+                android:maxLength="5"
+                android:maxLines="1"
+                android:textColor="@color/border_color"
+                android:textColorHint="@android:color/transparent"
+                android:textSize="@dimen/extraMediumTextSize" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_20"
+            android:layout_marginBottom="@dimen/margin_20"
+            android:background="@drawable/gradient_purple"
+            android:text="@string/pay"
+            app:backgroundTint="@null"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tipExpireDate" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

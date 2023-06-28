@@ -15,7 +15,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.sovchilar.made.R
 import com.sovchilar.made.databinding.ActivityMainBinding
-import com.sovchilar.made.presentation.fragments.viewmodel.MainViewModel
+import com.sovchilar.made.presentation.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.net.URL
 

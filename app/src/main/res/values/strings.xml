@@ -65,5 +65,10 @@
     <string name="required_field">Обязательное поле</string>
     <string name="adult">Минимальный возраст 18 лет</string>
     <string name="errors">Исправьте все ошибки</string>
+    <string name="pay">Оплатить</string>
+    <string name="card_number">Номер карты (uzcard/humo)</string>
+    <string name="card_number_hint">8600 0000 0000 0000</string>
+    <string name="expiry_date">Срок действия</string>
+    <string name="expiry_date_hint">01/28</string>
 
 </resources>

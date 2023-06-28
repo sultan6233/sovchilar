@@ -6,7 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.sovchilar.made.R
 import com.sovchilar.made.databinding.FragmentAccountBinding
-import com.sovchilar.made.presentation.fragments.viewmodel.AccountViewModel
+import com.sovchilar.made.presentation.viewmodel.AccountViewModel
 import com.sovchilar.made.uitls.utils.BaseFragment
 
 class AccountFragment : BaseFragment<FragmentAccountBinding>(FragmentAccountBinding::inflate) {

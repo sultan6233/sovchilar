@@ -12,18 +12,20 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.sovchilar.made.R
 import com.sovchilar.made.databinding.FragmentAddBinding
+import com.sovchilar.made.presentation.fragments.dialogs.PayDialog
 import com.sovchilar.made.presentation.fragments.view.extentions.markRequiredInRed
-import com.sovchilar.made.presentation.fragments.viewmodel.AddViewModel
-import com.sovchilar.made.presentation.fragments.viewmodel.MainViewModel
+import com.sovchilar.made.presentation.viewmodel.AddViewModel
+import com.sovchilar.made.presentation.viewmodel.MainViewModel
 import com.sovchilar.made.uitls.utils.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
+
 @AndroidEntryPoint
 class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate) {
 
@@ -81,7 +83,6 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
             )
         }
         lifecycleScope.launch {
-
             fixAutoCompleteTextViewsError()
         }
 
@@ -146,12 +147,16 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
     }
 
     private fun initClicks() {
-        binding.mbtnSubmit.setOnClickListener {
+        binding.btnSubmit.setOnClickListener {
             checkAllFields()
         }
         binding.clAdd.setOnClickListener {
             hideKeyboard(it)
         }
+        binding.btnPay.setOnClickListener {
+            view?.findNavController()?.navigate(R.id.action_addFragment_to_payDialog)
+        }
+
     }
 
     private fun fixAutoCompleteTextViewsError() {

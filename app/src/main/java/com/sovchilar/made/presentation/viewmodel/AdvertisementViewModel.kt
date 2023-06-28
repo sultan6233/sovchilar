@@ -1,4 +1,4 @@
-package com.sovchilar.made.presentation.fragments.viewmodel
+package com.sovchilar.made.presentation.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -21,7 +21,7 @@ class AdvertisementViewModel : ViewModel() {
 
     val advertisements = MutableLiveData<List<AdvertisementsModel>>()
 
-    var advertisementsList = ArrayList<AdvertisementsModel>()
+    var advertisementsList:ArrayList<AdvertisementsModel>? = ArrayList()
 
     init {
         getAdvertisements()

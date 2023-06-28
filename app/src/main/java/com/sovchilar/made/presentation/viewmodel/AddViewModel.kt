@@ -1,4 +1,4 @@
-package com.sovchilar.made.presentation.fragments.viewmodel
+package com.sovchilar.made.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
