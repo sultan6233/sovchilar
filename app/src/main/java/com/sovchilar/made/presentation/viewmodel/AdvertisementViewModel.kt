@@ -1,5 +1,6 @@
 package com.sovchilar.made.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -32,7 +33,7 @@ class AdvertisementViewModel : ViewModel() {
             override fun onResponse(call: Call<UserModel>, response: Response<UserModel>) {
                 response.body()?.let {
                     viewModelScope.launch {
-                        send(it.users)
+                        send(it.personals)
                         close()
                     }
                 } ?: viewModelScope.launch { send(null) }
@@ -40,6 +41,7 @@ class AdvertisementViewModel : ViewModel() {
 
             override fun onFailure(call: Call<UserModel>, t: Throwable) {
                 viewModelScope.launch {
+                    Log.d("suka",t.localizedMessage.toString())
                     send(null)
                     close()
                 }

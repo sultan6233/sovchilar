@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.fragments.view.RegisterFragment">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tipName"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/margin_20"
+        android:layout_marginBottom="@dimen/margin_10"
+        android:hint="@string/telegram"
+        android:textColorHint="@color/border_color"
+        app:boxStrokeColor="@color/black"
+        app:boxStrokeErrorColor="@color/female_red_gradient"
+        app:expandedHintEnabled="false"
+        app:hintEnabled="true"
+        app:hintTextColor="@color/border_color"
+        app:layout_constraintBottom_toTopOf="@+id/tipPassword"
+        app:layout_constraintDimensionRatio="1:0.17"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_percent="0.9">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tedName"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:includeFontPadding="false"
+            android:maxLength="30"
+            android:textSize="@dimen/minTextSize" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tipPassword"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/margin_20"
+        android:hint="@string/password"
+        android:textColorHint="@color/border_color"
+        app:boxStrokeColor="@color/black"
+        app:boxStrokeErrorColor="@color/female_red_gradient"
+        app:expandedHintEnabled="false"
+        app:hintEnabled="true"
+        app:hintTextColor="@color/border_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:0.17"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.9"
+        app:passwordToggleEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tedPassword"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:includeFontPadding="false"
+            android:inputType="textPassword"
+            android:maxLength="30"
+            android:textSize="@dimen/minTextSize" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnLoginOrRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_20"
+        android:background="@drawable/gradient_purple"
+        android:text="@string/loginOrRegister"
+        android:textAllCaps="false"
+        app:backgroundTint="@null"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tipPassword" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

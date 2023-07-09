@@ -1,3 +1,3 @@
 package com.sovchilar.made.domain.models
 
-data class UserModel(val users: List<AdvertisementsModel>)
+data class UserModel(val personals: List<AdvertisementsModel>)

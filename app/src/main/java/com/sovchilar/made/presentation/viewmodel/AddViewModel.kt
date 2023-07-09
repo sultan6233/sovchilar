@@ -10,4 +10,8 @@ class AddViewModel @Inject constructor() : ViewModel() {
 
     }
 
+    fun provideSum(): Int {
+        return 13000
+    }
+
 }

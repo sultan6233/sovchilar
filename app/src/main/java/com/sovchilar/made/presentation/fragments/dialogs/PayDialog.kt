@@ -15,10 +15,14 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.sovchilar.made.R
 import com.sovchilar.made.databinding.FragmentDialogPayBinding
 import com.sovchilar.made.presentation.viewmodel.PayViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class PayDialog : DialogFragment() {
@@ -49,14 +53,14 @@ class PayDialog : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setWidthPercent(90)
+
         binding.tedCardNumber.doAfterTextChanged { text ->
             binding.tipCardNumber.startIconDrawable = ContextCompat.getDrawable(
                 requireContext(), viewModel.provideCard(text.toString(), text?.length ?: 0).drawable
             )
             binding.tipCardNumber.setStartIconTintMode(
                 viewModel.provideCard(
-                    text.toString(),
-                    text?.length ?: 0
+                    text.toString(), text?.length ?: 0
                 ).tintMode
             )
             val formattedText = text.toString().replace(" ", "").chunked(4).joinToString(" ")
@@ -70,6 +74,18 @@ class PayDialog : DialogFragment() {
             if (formattedText != text.toString()) {
                 binding.tedExpireDate.setText(formattedText)
                 binding.tedExpireDate.setSelection(binding.tedExpireDate.length())
+            }
+        }
+        binding.btnPay.setOnClickListener {
+            lifecycleScope.launch {
+                withContext(Dispatchers.IO) {
+                    viewModel.payRequest(
+                        1000.00,
+                        binding.tedCardNumber.text.toString().replace(" ", ""),
+                        "2403"
+//                        binding.tedExpireDate.text.toString().replace("/", "")
+                    )
+                }
             }
         }
     }

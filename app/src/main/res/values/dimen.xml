@@ -11,6 +11,10 @@
     <dimen name="extraMediumTextSize">18sp</dimen>
     <dimen name="largeTextSize">20sp</dimen>
 
+    <dimen name="minPadding">5dp</dimen>
+    <dimen name="mediumPadding">10dp</dimen>
+    <dimen name="maxPadding">15dp</dimen>
+    <dimen name="extraMaxPadding">20dp</dimen>
 
     <dimen name="minRadiusSize">5dp</dimen>
     <dimen name="mediumRadiusSize">10dp</dimen>
@@ -19,4 +23,5 @@
     <dimen name="LargeRadiusSize">25dp</dimen>
     <dimen name="ExtraLargeRadiusSize">30dp</dimen>
 
+    <dimen name="bottomNavigationHeight">56dp</dimen>
 </resources>

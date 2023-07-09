@@ -23,12 +23,12 @@
             app:boxStrokeErrorColor="@color/female_red_gradient"
             app:expandedHintEnabled="false"
             app:hintEnabled="true"
-            app:startIconDrawable="@drawable/card_icon_placeholder"
-            app:startIconTintMode="multiply"
             app:hintTextColor="@color/border_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:startIconDrawable="@drawable/card_icon_placeholder"
+            app:startIconTintMode="multiply">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/tedCardNumber"

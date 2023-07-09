@@ -1,8 +1,12 @@
 package com.sovchilar.made.presentation.activity
 
 import android.animation.ObjectAnimator
+import android.content.Context
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
+import android.util.Base64
+import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.animation.AnticipateInterpolator
@@ -18,6 +22,7 @@ import com.sovchilar.made.databinding.ActivityMainBinding
 import com.sovchilar.made.presentation.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.net.URL
+import java.util.Locale
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -31,6 +36,26 @@ class MainActivity : AppCompatActivity() {
         initSplashAnimation()
         setStatusBarLightText(window, false)
     }
+
+//    fun setLocale(context: Context, language: String): Context {
+//        return updateResources(context, language)
+//    }
+//
+//    private fun updateResources(context: Context, language: String): Context {
+//        val locale = Locale(language)
+//        Locale.setDefault(locale)
+//        val configuration = Configuration(context.resources.configuration)
+//        configuration.setLocale(locale)
+//        return context.createConfigurationContext(configuration)
+//    }
+//
+//    override fun attachBaseContext(newBase: Context?) {
+//        val newConfiguration = Configuration(newBase?.resources?.configuration).apply {
+//            setLocale(Locale("kk"))
+//        }
+//
+//        super.attachBaseContext(newBase?.createConfigurationContext(newConfiguration))
+//    }
 
     private fun setStatusBarLightText(window: Window, isLight: Boolean) {
         setStatusBarLightTextOldApi(window, isLight)

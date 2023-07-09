@@ -19,6 +19,7 @@ import com.sovchilar.made.R
 import com.sovchilar.made.databinding.FragmentAddBinding
 import com.sovchilar.made.presentation.fragments.dialogs.PayDialog
 import com.sovchilar.made.presentation.fragments.view.extentions.markRequiredInRed
+import com.sovchilar.made.presentation.usecases.navigateSafe
 import com.sovchilar.made.presentation.viewmodel.AddViewModel
 import com.sovchilar.made.presentation.viewmodel.MainViewModel
 import com.sovchilar.made.uitls.utils.BaseFragment
@@ -74,6 +75,7 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
             initCity()
             initEditTextsHint()
             initClicks()
+            initPayButton()
         }
 
         lifecycleScope.launch {
@@ -154,7 +156,7 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
             hideKeyboard(it)
         }
         binding.btnPay.setOnClickListener {
-            view?.findNavController()?.navigate(R.id.action_addFragment_to_payDialog)
+            view?.findNavController()?.navigateSafe(R.id.action_addFragment_to_payDialog)
         }
 
     }
@@ -222,6 +224,12 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
             Snackbar.make(requireView(), getString(R.string.errors), Snackbar.LENGTH_LONG).show()
         }
 
+    }
+
+    private fun initPayButton() {
+        binding.btnPay.text = getString(
+            R.string.pay_and_amount, viewModel.provideSum().toString() + getString(R.string.sum)
+        )
     }
 
     private fun initMarriageStatus() {

@@ -36,8 +36,8 @@ android {
     }
 }
 
-def nav_version = "2.5.3"
-def appsflyer_version = "6.9.0"
+def nav_version = "2.6.0"
+def appsflyer_version = "6.11.1"
 def install_referrer_version = "2.2"
 def hilt_version = "2.44"
 def retrofit_version = "2.9.0"
@@ -52,7 +52,7 @@ dependencies {
     implementation "com.android.installreferrer:installreferrer:$install_referrer_version"
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
-    implementation "com.squareup.okhttp3:okhttp:4.10.0"
+    implementation "com.squareup.okhttp3:okhttp:5.0.0-alpha.1"
     //push onesignal
     implementation 'com.onesignal:OneSignal:[4.0.0, 4.99.99]'
     //di hilt
@@ -62,7 +62,7 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     //logger
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.10.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2'
     //splash
     implementation "androidx.core:core-splashscreen:$splash_screen_version"
     //core
@@ -70,6 +70,8 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$app_compat_version"
     implementation "com.google.android.material:material:$material_version"
     implementation "androidx.constraintlayout:constraintlayout:$constraint_layout_version"
+    //crypto credentials
+    implementation "androidx.security:security-crypto:1.0.0"
     //viewmodel&&livedata
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'

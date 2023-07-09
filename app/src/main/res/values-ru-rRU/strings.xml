@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Sovchilar</string>
     <string name="name">Ваше Имя</string>
@@ -35,8 +36,8 @@
     <string name="woman">Женщина</string>
     <string name="man">Мужчина</string>
     <string name="my_advertisements">Мои объявления</string>
-    <string name="addAdvertisement">E\'lon berish</string>
-    <string name="nameProvided">Ismi/Yoshi</string>
+    <string name="addAdvertisement">Разместить объявление</string>
+    <string name="nameProvided">Имя/возраст</string>
     <string name="ageProvided">Возраст:</string>
     <string name="nationalityProvided">Национальность</string>
     <string name="marriageStatusAndChildren">Семейное положение/Дети</string>
@@ -70,12 +71,4 @@
     <string name="expiry_date">Срок действия</string>
     <string name="expiry_date_hint">01/28</string>
     <string name="sum"> Сум</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="help">Написать в поддержку</string>
-    <string name="language_ru">Русский</string>
-    <string name="language_uz">O\'zbek tili</string>
-    <string name="loginOrRegister">Войти или Зарегистрироваться</string>
-    <string name="password">Пароль</string>
-
 </resources>

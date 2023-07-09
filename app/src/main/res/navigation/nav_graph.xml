@@ -9,19 +9,23 @@
         android:name="com.sovchilar.made.presentation.fragments.view.AdvertisementFragment"
         tools:layout="@layout/fragment_advertisement" />
     <fragment
-        android:id="@+id/accountFragment"
-        android:name="com.sovchilar.made.presentation.fragments.view.AccountFragment"
-        tools:layout="@layout/fragment_account">
-        <action
-            android:id="@+id/action_accountFragment_to_addFragment"
-            app:destination="@id/addFragment"
-            app:popUpTo="@id/accountFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
+        android:id="@+id/accountContainerFragment"
+        android:name="com.sovchilar.made.presentation.fragments.view.AccountContainerFragment"
+        tools:layout="@layout/fragment_account_container" />
+    <!--    <fragment-->
+    <!--        android:id="@+id/accountFragment"-->
+    <!--        android:name="com.sovchilar.made.presentation.fragments.view.AccountFragment"-->
+    <!--        tools:layout="@layout/fragment_account">-->
+    <!--        <action-->
+    <!--            android:id="@+id/action_accountFragment_to_addFragment"-->
+    <!--            app:destination="@id/addFragment"-->
+    <!--            app:popUpTo="@id/accountFragment"-->
+    <!--            app:popUpToInclusive="true" />-->
+    <!--    </fragment>-->
     <fragment
         android:id="@+id/addFragment"
         android:name="com.sovchilar.made.presentation.fragments.view.AddFragment"
-        tools:layout="@layout/fragment_add" >
+        tools:layout="@layout/fragment_add">
         <action
             android:id="@+id/action_addFragment_to_payDialog"
             app:destination="@id/payDialog" />

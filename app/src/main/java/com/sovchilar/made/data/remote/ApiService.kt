@@ -3,6 +3,8 @@ package com.sovchilar.made.data.remote
 import com.sovchilar.made.domain.models.AdvertisementsModel
 import com.sovchilar.made.domain.models.PostResponse
 import com.sovchilar.made.domain.models.UserModel
+import com.sovchilar.made.domain.models.remote.auth.AuthModel
+import com.sovchilar.made.domain.models.remote.auth.AuthResponseModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -18,8 +20,11 @@ interface ApiService {
     @POST("api/user")
     fun postAdvertisement(@Body postAdvertisement: AdvertisementsModel): Call<PostResponse>
 
-    @GET("api/user")
+    @GET("api/personals/all")
     fun getAdvertisements(): Call<UserModel>
+
+    @POST("api/auth")
+    fun loginOrRegister(@Body authModel: AuthModel): Call<AuthResponseModel>
 
     companion object {
         var BASE_URL = "http://176.96.241.238/"

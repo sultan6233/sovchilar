@@ -15,6 +15,7 @@
     <color name="carnation_pink_background">#A13647</color>
     <color name="pomegranate_selected">#000000 </color>
     <color name="gainsboro_not_selected">#E6E6E6 </color>
+    <color name="green_lime">#00FF00</color>
 
     <color name="main_text_color">#5A5A65</color>
     <color name="female_blue_gradient">#9747FF</color>
