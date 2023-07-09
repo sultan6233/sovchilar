@@ -3,8 +3,12 @@ package com.sovchilar.made.presentation.fragments.view
 import android.os.Bundle
 import android.view.View
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.sovchilar.made.R
 import com.sovchilar.made.data.local.usecases.EncryptedSharedPrefsUseCase
 import com.sovchilar.made.databinding.FragmentRegisterBinding
@@ -19,8 +23,8 @@ import kotlinx.coroutines.withContext
 
 class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterBinding::inflate) {
 
-    private val viewModel: RegisterViewModel by viewModels()
-    private val encryptedSharedPrefsUseCase = EncryptedSharedPrefsUseCase()
+    private val viewModel: RegisterViewModel by activityViewModels()
+    private val encryptedSharedPrefsUseCase by lazy { EncryptedSharedPrefsUseCase(requireContext()) }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.btnLoginOrRegister.setOnClickListener {
@@ -31,6 +35,10 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
         }
         binding.tedPassword.addTextChangedListener {
             binding.tipPassword.error = null
+        }
+        viewModel.loginErrorLiveData.observe(viewLifecycleOwner) {
+            Snackbar.make(requireView(), it, Snackbar.LENGTH_SHORT).show()
+            binding.tipPassword.error = it
         }
         authenticate()
     }
@@ -61,14 +69,12 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
                     val loginText = binding.tedName.text.toString()
                     val passwordText = binding.tedPassword.text.toString()
                     withContext(Dispatchers.IO) {
-                        encryptedSharedPrefsUseCase.writeIntoFile(
-                            requireContext(),
-                            login, loginText
+                        viewModel.saveCredentials(
+                            encryptedSharedPrefsUseCase,
+                            loginText,
+                            passwordText,
+                            it.token.toString()
                         )
-                        encryptedSharedPrefsUseCase.writeIntoFile(
-                            requireContext(), password, passwordText
-                        )
-                        encryptedSharedPrefsUseCase.writeIntoFile(requireContext(), token, it)
                     }
                 }
             }

@@ -3,6 +3,8 @@ package com.sovchilar.made.presentation.activity
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.res.Configuration
+import android.graphics.RenderEffect
+import android.graphics.Shader
 import android.os.Build
 import android.os.Bundle
 import android.util.Base64
@@ -35,6 +37,14 @@ class MainActivity : AppCompatActivity() {
         initNavHostFragment()
         initSplashAnimation()
         setStatusBarLightText(window, false)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            binding.blurBg.setRenderEffect(
+                RenderEffect.createBlurEffect(
+                    50.0f, 50.0f, Shader.TileMode.REPEAT
+                )
+            )
+        }
+
     }
 
 //    fun setLocale(context: Context, language: String): Context {

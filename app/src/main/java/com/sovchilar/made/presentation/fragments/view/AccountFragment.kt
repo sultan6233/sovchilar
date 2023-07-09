@@ -19,7 +19,7 @@ class AccountFragment : BaseFragment<FragmentAccountBinding>(FragmentAccountBind
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.btnAddAdvertisement.setOnClickListener {
-            //findNavController().navigate(R.id.action_accountFragment_to_addFragment)
+            findNavController().navigate(R.id.action_accountFragment_to_addFragment)
         }
         binding.btnHelp.setOnClickListener {
             openTelegramUseCase.openTelegramHelp(requireContext())

@@ -27,7 +27,7 @@ interface ApiService {
     fun loginOrRegister(@Body authModel: AuthModel): Call<AuthResponseModel>
 
     companion object {
-        var BASE_URL = "http://176.96.241.238/"
+        var BASE_URL = "http://176.96.241.238:3333/"
 
         fun create(): ApiService {
             val interceptor = HttpLoggingInterceptor()

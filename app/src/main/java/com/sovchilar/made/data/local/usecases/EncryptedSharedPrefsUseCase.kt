@@ -9,9 +9,9 @@ import java.io.File
 import java.nio.charset.StandardCharsets
 
 
-class EncryptedSharedPrefsUseCase {
+class EncryptedSharedPrefsUseCase(val context: Context) {
 
-    fun writeIntoFile(context: Context, data: String, value: String) {
+    fun writeIntoFile(data: String, value: String) {
         val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
         val sharedPreferences = EncryptedSharedPreferences.create(
             data,
@@ -23,7 +23,7 @@ class EncryptedSharedPrefsUseCase {
         sharedPreferences.edit().putString(data, value).apply()
     }
 
-    fun readFromFile(context: Context, data: String): String {
+    fun readFromFile(data: String): String {
         val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
         val sharedPreferences = EncryptedSharedPreferences.create(
             data,
