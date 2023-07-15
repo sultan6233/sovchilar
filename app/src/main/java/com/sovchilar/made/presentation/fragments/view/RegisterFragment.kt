@@ -12,6 +12,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.sovchilar.made.R
 import com.sovchilar.made.data.local.usecases.EncryptedSharedPrefsUseCase
 import com.sovchilar.made.databinding.FragmentRegisterBinding
+import com.sovchilar.made.domain.models.remote.auth.AuthState
 import com.sovchilar.made.presentation.viewmodel.RegisterViewModel
 import com.sovchilar.made.uitls.login
 import com.sovchilar.made.uitls.password
@@ -36,10 +37,6 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
         binding.tedPassword.addTextChangedListener {
             binding.tipPassword.error = null
         }
-        viewModel.loginErrorLiveData.observe(viewLifecycleOwner) {
-            Snackbar.make(requireView(), it, Snackbar.LENGTH_SHORT).show()
-            binding.tipPassword.error = it
-        }
         authenticate()
     }
 
@@ -54,7 +51,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
                 binding.tipPassword.error = getString(R.string.required_field)
             } else {
                 withContext(Dispatchers.IO) {
-                    viewModel.loginOrRegister(
+                    viewModel.loginOrRegisterRequest(
                         binding.tedName.text.toString(), binding.tedPassword.text.toString()
                     )
                 }
@@ -64,7 +61,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
 
     private fun authenticate() {
         viewModel.loginLiveData.observe(viewLifecycleOwner) {
-            it?.let {
+            if (it.state == AuthState.AUTHENTICATED) {
                 lifecycleScope.launch {
                     val loginText = binding.tedName.text.toString()
                     val passwordText = binding.tedPassword.text.toString()
@@ -76,8 +73,22 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
                             it.token.toString()
                         )
                     }
+                    withContext(Dispatchers.Main) {
+                        requireView().findNavController().navigateUp()
+                    }
                 }
+
             }
+            if (it.state == AuthState.INVALID_AUTHENTICATION) {
+                binding.tipPassword.error = it.message.toString()
+                Snackbar.make(
+                    requireView(),
+                    it.message.toString(),
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            }
+
+
         }
     }
 }

@@ -6,63 +6,78 @@
     android:layout_height="match_parent"
     tools:context=".presentation.fragments.view.AccountFragment">
 
-    <ImageButton
-        android:id="@+id/ibLanguage"
+    <ProgressBar
+        android:id="@+id/pbAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@null"
-        android:padding="@dimen/mediumPadding"
-        android:src="@drawable/language_icon"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.96"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.01" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" />
 
-<!--        <com.google.android.material.button.MaterialButton-->
-<!--            android:id="@+id/BtnMyAdvertisements"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:background="@drawable/gradient_purple"-->
-<!--            android:text="@string/my_advertisements"-->
-<!--            android:textAllCaps="false"-->
-<!--            app:backgroundTint="@null" />-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clAccount"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnAddAdvertisement"
+        <ImageButton
+            android:id="@+id/ibLanguage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@drawable/gradient_purple"
-            android:text="@string/addAdvertisement"
+            android:background="@null"
+            android:padding="@dimen/mediumPadding"
+            android:src="@drawable/language_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.96"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.01" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <!--        <com.google.android.material.button.MaterialButton-->
+            <!--            android:id="@+id/BtnMyAdvertisements"-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:layout_gravity="center"-->
+            <!--            android:background="@drawable/gradient_purple"-->
+            <!--            android:text="@string/my_advertisements"-->
+            <!--            android:textAllCaps="false"-->
+            <!--            app:backgroundTint="@null" />-->
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAddAdvertisement"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/gradient_purple"
+                android:text="@string/addAdvertisement"
+                android:textAllCaps="false"
+                app:backgroundTint="@null" />
+
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnHelp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/help"
             android:textAllCaps="false"
-            app:backgroundTint="@null" />
-
-    </LinearLayout>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnHelp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/help"
-        android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.95"
-        app:backgroundTint="@color/green_lime"
-        />
+            app:backgroundTint="@color/green_lime"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.95"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.95" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

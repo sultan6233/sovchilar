@@ -77,5 +77,13 @@
     <string name="language_uz">O\'zbek tili</string>
     <string name="loginOrRegister">Войти или Зарегистрироваться</string>
     <string name="password">Пароль</string>
+    <string name="empty_card_number">Kartani kiriting</string>
+    <string name="empty_expire_date">Введите срок действия карты</string>
+    <string name="invalid_card_number">Не правильный формат карты</string>
+    <string name="invalid_expire_date">Не правильный формат срока действия</string>
+    <string name="cancel">Отмена</string>
+    <string name="codeFromSms">Код из смс</string>
+    <string name="confirmAndPay">Подтвердить</string>
+    <string name="smsSentText">Для подтверждения оплаты вам отправлен смс с кодом на номер %1$s</string>
 
 </resources>

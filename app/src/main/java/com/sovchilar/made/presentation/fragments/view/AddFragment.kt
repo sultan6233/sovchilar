@@ -16,22 +16,29 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.sovchilar.made.R
+import com.sovchilar.made.data.local.usecases.EncryptedSharedPrefsUseCase
 import com.sovchilar.made.databinding.FragmentAddBinding
 import com.sovchilar.made.presentation.fragments.dialogs.PayDialog
 import com.sovchilar.made.presentation.fragments.view.extentions.markRequiredInRed
 import com.sovchilar.made.presentation.usecases.navigateSafe
 import com.sovchilar.made.presentation.viewmodel.AddViewModel
 import com.sovchilar.made.presentation.viewmodel.MainViewModel
+import com.sovchilar.made.uitls.token
 import com.sovchilar.made.uitls.utils.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate) {
 
     private val viewModel: AddViewModel by viewModels()
     private val activityViewModel by activityViewModels<MainViewModel>()
+    private val encryptedSharedPrefsUseCase by lazy {
+        EncryptedSharedPrefsUseCase(requireContext())
+    }
     private val marriageStatusItems by lazy {
         arrayListOf(
             getString(R.string.divorced), getString(R.string.never_married)
@@ -69,6 +76,14 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+                viewModel.getPriceRequest(
+                    encryptedSharedPrefsUseCase.readFromFile(
+                        token
+                    )
+
+                )
+            }
             initMarriageStatus()
             initChildren()
             initCountry()
@@ -124,7 +139,6 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
                 cont.resumeWith(Result.success(Unit))
             }
         }
-
         addOnLayoutChangeListener(listener)
         cont.invokeOnCancellation { removeOnLayoutChangeListener(listener) }
     }
@@ -227,9 +241,14 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
     }
 
     private fun initPayButton() {
-        binding.btnPay.text = getString(
-            R.string.pay_and_amount, viewModel.provideSum().toString() + getString(R.string.sum)
-        )
+        lifecycleScope.launch {
+            viewModel.priceLiveData.observe(viewLifecycleOwner) { price ->
+                binding.btnPay.text = getString(
+                    R.string.pay_and_amount, price + " " + getString(R.string.sum)
+                )
+            }
+        }
+
     }
 
     private fun initMarriageStatus() {

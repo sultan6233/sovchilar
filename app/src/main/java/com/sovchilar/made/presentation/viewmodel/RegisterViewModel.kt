@@ -12,6 +12,7 @@ import com.sovchilar.made.domain.models.remote.auth.AuthModel
 import com.sovchilar.made.domain.models.remote.auth.AuthResponseModel
 import com.sovchilar.made.domain.models.remote.auth.AuthState
 import com.sovchilar.made.domain.models.remote.auth.AuthStateModel
+import com.sovchilar.made.uitls.authenticated
 import com.sovchilar.made.uitls.login
 import com.sovchilar.made.uitls.password
 import com.sovchilar.made.uitls.token
@@ -27,11 +28,7 @@ import retrofit2.Response
 
 class RegisterViewModel : ViewModel() {
     val loginLiveData = MutableLiveData<AuthStateModel>()
-    val loginErrorLiveData = MutableLiveData<String>()
-    init {
-
-    }
-    private suspend fun loginOrRegisterRequest(login: String, password: String) = channelFlow {
+    suspend fun loginOrRegisterRequest(login: String, password: String) {
         ApiService.create().loginOrRegister(AuthModel(login, password))
             .enqueue(object : Callback<AuthResponseModel> {
                 override fun onResponse(
@@ -39,49 +36,61 @@ class RegisterViewModel : ViewModel() {
                 ) {
                     if (response.isSuccessful) {
                         response.body()?.let {
-                            viewModelScope.launch {
-                                send(it)
-                                close()
-                            }
-                        }
-                    } else {
-                        Log.d("Login", "onResponse: ${response.errorBody()}")
-                        val gson = Gson()
-                        val errorResponse = gson.fromJson(
-                            response.errorBody()?.charStream(),
-                            AuthErrorModel::class.java
+                            loginLiveData.postValue(
+                                AuthStateModel(
+                                    AuthState.AUTHENTICATED,
+                                    it.token
+                                )
+                            )
+                        } ?: loginLiveData.postValue(
+                            AuthStateModel(
+                                AuthState.INVALID_AUTHENTICATION,
+                                null
+                            )
                         )
-                        viewModelScope.launch {
-                            loginErrorLiveData.postValue(errorResponse.message)
-                            send(null)
-                            close()
+                    } else {
+                        if (response.code() == 400) {
+                            val gson = Gson()
+                            val errorResponse = gson.fromJson(
+                                response.errorBody()?.charStream(),
+                                AuthErrorModel::class.java
+                            )
+                            loginLiveData.postValue(
+                                AuthStateModel(
+                                    AuthState.INVALID_AUTHENTICATION,
+                                    null,
+                                    errorResponse.message
+                                )
+                            )
                         }
+
                     }
                 }
 
                 override fun onFailure(call: Call<AuthResponseModel>, t: Throwable) {
-                    viewModelScope.launch {
-                        send(null)
-                        close()
-                    }
+
                 }
             })
-        awaitClose()
-    }.flowOn(Dispatchers.IO)
-
-    fun loginOrRegister(login: String, password: String) {
-        viewModelScope.launch {
-            loginOrRegisterRequest(login, password).collect {
-                withContext(Dispatchers.IO) {
-                    it?.let {
-                        loginLiveData.postValue(AuthStateModel(AuthState.AUTHENTICATED, it.token))
-                    } ?: loginLiveData.postValue(AuthStateModel(AuthState.INVALID_AUTHENTICATION,null))
-                }
-            }
-        }
     }
 
-    fun saveCredentials(
+//    fun loginOrRegister(login: String, password: String) {
+//        viewModelScope.launch {
+//            loginOrRegisterRequest(login, password).collect {
+//                withContext(Dispatchers.IO) {
+//                    it?.let {
+//                        loginLiveData.postValue(AuthStateModel(AuthState.AUTHENTICATED, it.token))
+//                    } ?: loginLiveData.postValue(
+//                        AuthStateModel(
+//                            AuthState.INVALID_AUTHENTICATION,
+//                            null
+//                        )
+//                    )
+//                }
+//            }
+//        }
+//    }
+
+    suspend fun saveCredentials(
         encryptedSharedPrefsUseCase: EncryptedSharedPrefsUseCase,
         loginText: String,
         passwordText: String,
@@ -94,6 +103,7 @@ class RegisterViewModel : ViewModel() {
             password, passwordText
         )
         encryptedSharedPrefsUseCase.writeIntoFile(token, tokenText)
+        encryptedSharedPrefsUseCase.saveAuthState(authenticated)
     }
 
     override fun onCleared() {

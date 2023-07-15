@@ -1,81 +1,77 @@
 package com.sovchilar.made.presentation.viewmodel
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.sovchilar.made.data.remote.PaymentApiService
+import androidx.lifecycle.viewModelScope
+import com.sovchilar.made.data.remote.ApiService
 import com.sovchilar.made.domain.models.CardModel
-import com.sovchilar.made.domain.models.remote.payment.PaymentWithoutRegistrationModel
-import com.sovchilar.made.domain.models.remote.payment.PaymentWithoutRegistrationResponseModel
+import com.sovchilar.made.domain.models.remote.payment.PaymentConfirmModel
+import com.sovchilar.made.domain.models.remote.payment.PaymentConfirmResponseModel
+import com.sovchilar.made.domain.models.remote.payment.PaymentModel
+import com.sovchilar.made.domain.models.remote.payment.PaymentResponseModel
+import com.sovchilar.made.domain.models.remote.payment.PaymentResultModel
+import com.sovchilar.made.domain.usecases.DateUseCase
 import com.sovchilar.made.presentation.usecases.Card
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
 
 @HiltViewModel
-class PayViewModel @Inject constructor(private val card: Card) : ViewModel() {
+class PayViewModel @Inject constructor(private val card: Card, val dateUseCase: DateUseCase) :
+    ViewModel() {
+    val paymentLiveData = MutableLiveData<PaymentResultModel?>()
+    var paymentResult: PaymentResultModel? = null
+    var paymentConfirmResult = MutableLiveData<PaymentConfirmResponseModel?>()
     fun provideCard(input: String, size: Int): CardModel {
         return card.validateCard(input, size)
     }
 
-    private val headers = HashMap<String, String>()
+    fun payRequest(cardNumber: String, expireDate: String, authToken: String) {
+        ApiService.create().pay("Bearer $authToken", PaymentModel(cardNumber, expireDate))
+            .enqueue(object : Callback<PaymentResultModel> {
 
-    init {
-        initPaymentHeaders()
-    }
-
-    fun testRequest() {
-        PaymentApiService.create().getInfo().enqueue(object : Callback<Any> {
-            override fun onResponse(call: Call<Any>, response: Response<Any>) {
-                if (response.isSuccessful) {
-                    response.body()?.let {
-                        Log.d("suka", it.toString())
+                override fun onResponse(
+                    call: Call<PaymentResultModel>, response: Response<PaymentResultModel>
+                ) {
+                    if (response.isSuccessful) {
+                        response.body()?.let { paymentResultModel ->
+                            paymentLiveData.value = paymentResultModel
+                        } ?: paymentLiveData.postValue(null)
+                    } else {
+                        paymentLiveData.postValue(null)
                     }
                 }
-            }
 
-            override fun onFailure(call: Call<Any>, t: Throwable) {
-                Log.d("suka", t.localizedMessage)
-            }
-
-        })
+                override fun onFailure(call: Call<PaymentResultModel>, t: Throwable) {
+                    paymentLiveData.postValue(null)
+                }
+            })
     }
 
-    suspend fun payRequest(amount: Double, cardNumber: String, expireDate: String) {
-        PaymentApiService.create().paymentWithoutRegistration(
-            PaymentWithoutRegistrationModel(
-                amount,
-                cardNumber,
-                expireDate,
-                System.currentTimeMillis().toString()
-            )
-        ).enqueue(object : Callback<PaymentWithoutRegistrationResponseModel> {
-            override fun onResponse(
-                call: Call<PaymentWithoutRegistrationResponseModel>,
-                response: Response<PaymentWithoutRegistrationResponseModel>
-            ) {
-                if (response.isSuccessful) {
-                    response.body()?.let {
-                        Log.d("suka", it.toString())
+    fun confirmPaymentRequest(code: String, session: Int, authToken: String) {
+        ApiService.create().confirmPayment(authToken, PaymentConfirmModel(session, code))
+            .enqueue(object : Callback<PaymentConfirmResponseModel> {
+                override fun onResponse(
+                    call: Call<PaymentConfirmResponseModel>,
+                    response: Response<PaymentConfirmResponseModel>
+                ) {
+                    if (response.isSuccessful) {
+                        response.body()?.let { paymentConfirmResponseModel ->
+                            paymentConfirmResult.postValue(paymentConfirmResponseModel)
+                        } ?: paymentConfirmResult.postValue(null)
+                    } else {
+                        paymentConfirmResult.postValue(null)
                     }
                 }
-            }
 
-            override fun onFailure(
-                call: Call<PaymentWithoutRegistrationResponseModel>,
-                t: Throwable
-            ) {
-                Log.d("suka", t.localizedMessage)
-            }
+                override fun onFailure(call: Call<PaymentConfirmResponseModel>, t: Throwable) {
+                    paymentConfirmResult.postValue(null)
+                }
 
-        })
-    }
-
-    fun initPaymentHeaders() {
-        headers["Content-Type"] = "application/json; charset=utf-8"
-        headers["Accept"] = "application/json"
-        headers["Authorization"] = "Basic Y3VwZXJ0aW5vc2hhaGdyb3VwOmVZeEFAdjE1OCYwQDZiMWU="
-        headers["Language"] = "ru"
+            })
     }
 }

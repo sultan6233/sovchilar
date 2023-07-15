@@ -37,31 +37,13 @@ class AccountContainerFragment :
         lifecycleScope.launch {
             registerViewModel.loginLiveData.observe(viewLifecycleOwner) {
                 binding.pbAccountContainer.isVisible = false
-                if (it.state == AuthState.AUTHENTICATED) {
-                    lifecycleScope.launch {
-                        withContext(Dispatchers.IO) {
-                            registerViewModel.loginLiveData.postValue(
-                                AuthStateModel(
-                                    AuthState.LOADED,
-                                    it.token
-                                )
-                            )
-                        }
-                    }
-                    navController.graph =
-                        navController.navInflater.inflate(R.navigation.account_nav_graph)
-                }
-                if (it.state == AuthState.INVALID_AUTHENTICATION) {
-                    navController.graph =
-                        navController.navInflater.inflate(R.navigation.register_nav_graph)
-                }
+
             }
 
             withContext(Dispatchers.IO) {
                 val login = encryptedSharedPrefsUseCase.readFromFile(login)
                 val password = encryptedSharedPrefsUseCase.readFromFile(password)
                 val token = encryptedSharedPrefsUseCase.readFromFile(token)
-                registerViewModel.loginOrRegister(login, password)
             }
         }
     }
