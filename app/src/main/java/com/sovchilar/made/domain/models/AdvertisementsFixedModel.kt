@@ -10,7 +10,7 @@ data class AdvertisementsFixedModel(
     val fromAge: Int,
     val tillAge: Int,
     val telegram: String?,
-    val phoneNumber: String?,
+    val phoneNumber: String? = null,
     val city: String,
     val gender: String,
     val country: String,

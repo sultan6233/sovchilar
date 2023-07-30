@@ -24,6 +24,7 @@
         <action
             android:id="@+id/action_accountFragment_to_registerFragment"
             app:destination="@id/registerFragment"
+            app:popUpToInclusive="true"
             app:popUpTo="@id/accountFragment" />
     </fragment>
     <fragment
@@ -37,6 +38,9 @@
         <action
             android:id="@+id/action_addFragment_to_payDialog"
             app:destination="@id/payDialog" />
+        <action
+            android:id="@+id/action_addFragment_to_accountContainerFragment"
+            app:destination="@id/accountContainerFragment" />
     </fragment>
     <dialog
         android:id="@+id/payDialog"

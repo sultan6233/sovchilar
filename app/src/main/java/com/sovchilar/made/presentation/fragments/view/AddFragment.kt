@@ -7,20 +7,23 @@ import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
+import android.widget.RadioButton
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.sovchilar.made.R
 import com.sovchilar.made.data.local.usecases.EncryptedSharedPrefsUseCase
 import com.sovchilar.made.databinding.FragmentAddBinding
+import com.sovchilar.made.domain.PostI
+import com.sovchilar.made.domain.models.AdvertisementsFixedModel
+import com.sovchilar.made.domain.models.AdvertisementsModel
+import com.sovchilar.made.domain.usecases.AdvertisementsFixUseCase
 import com.sovchilar.made.presentation.fragments.dialogs.PayDialog
 import com.sovchilar.made.presentation.fragments.view.extentions.markRequiredInRed
-import com.sovchilar.made.presentation.usecases.navigateSafe
 import com.sovchilar.made.presentation.viewmodel.AddViewModel
 import com.sovchilar.made.presentation.viewmodel.MainViewModel
 import com.sovchilar.made.uitls.token
@@ -32,10 +35,9 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
-class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate) {
-
+class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate), PostI {
     private val viewModel: AddViewModel by viewModels()
-    private val activityViewModel by activityViewModels<MainViewModel>()
+    private val payDialog by lazy { PayDialog(this) }
     private val encryptedSharedPrefsUseCase by lazy {
         EncryptedSharedPrefsUseCase(requireContext())
     }
@@ -47,7 +49,7 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
 
     private val childrenItems by lazy {
         arrayListOf(
-            getString(R.string.no_children), getString(R.string.have_children)
+            getString(R.string.add_no_children), getString(R.string.add_have_children)
         )
     }
 
@@ -81,7 +83,6 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
                     encryptedSharedPrefsUseCase.readFromFile(
                         token
                     )
-
                 )
             }
             initMarriageStatus()
@@ -163,16 +164,68 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
     }
 
     private fun initClicks() {
-        binding.btnSubmit.setOnClickListener {
-            checkAllFields()
-        }
         binding.clAdd.setOnClickListener {
             hideKeyboard(it)
         }
         binding.btnPay.setOnClickListener {
-            view?.findNavController()?.navigateSafe(R.id.action_addFragment_to_payDialog)
+            if (checkAllFields()) {
+                if (isAdded) {
+
+                    payDialog.show(parentFragmentManager, "payDialog")
+                }
+
+            }
+
+
         }
 
+    }
+
+    private fun childrenToBoolean(): Boolean {
+        return binding.spChildren.text.toString() != getString(R.string.add_no_children)
+    }
+
+    private fun submit() {
+        lifecycleScope.launch {
+            val name = binding.tedName.text.toString()
+            val age = binding.tedAge.text.toString().toInt()
+            val nationality = binding.tedNationality.text.toString()
+            val fromAge = binding.tedFromAge.text.toString().toInt()
+            val tillAge = binding.tedTillAge.text.toString().toInt()
+            val telegram = binding.tedTelegram.text.toString()
+            val marriageStatus = binding.spMarriageStatus.text.toString()
+            val children =
+                binding.spChildren.text.toString()
+            val country = binding.spCountry.text.toString()
+            val city = binding.spCity.text.toString()
+            val description = binding.tvDescription.text.toString()
+            val checkedId = binding.rgGender.checkedRadioButtonId
+            val gender = requireView().findViewById<RadioButton>(checkedId).text.toString()
+            withContext(Dispatchers.IO) {
+                viewModel.postAdvertisement(
+                    encryptedSharedPrefsUseCase.readFromFile(
+                        token
+                    ),
+                    AdvertisementsFixUseCase(requireContext()).getAdvertisementsToServer(
+                        AdvertisementsFixedModel(
+                            null,
+                            name = name,
+                            age = age,
+                            nationality = nationality,
+                            fromAge = fromAge,
+                            tillAge = tillAge,
+                            telegram = telegram,
+                            marriageStatus = marriageStatus,
+                            children = children,
+                            country = country,
+                            city = city,
+                            gender = gender,
+                            moreInfo = description
+                        )
+                    )
+                )
+            }
+        }
     }
 
     private fun fixAutoCompleteTextViewsError() {
@@ -190,7 +243,7 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
         }
     }
 
-    private fun checkAllFields() {
+    private fun checkAllFields(): Boolean {
         var countErrors = 0
         if (binding.tedName.text.isNullOrEmpty()) {
             binding.tedName.error = getString(R.string.required_field)
@@ -200,7 +253,8 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
             binding.tedAge.error = getString(R.string.required_field)
             countErrors++
         } else if (binding.tedAge.text.toString().toInt() < 18) {
-            Snackbar.make(requireView(), getString(R.string.adult), Snackbar.LENGTH_LONG).show()
+            binding.tedAge.error = getString(R.string.adult)
+            countErrors++
         }
         if (binding.tedNationality.text.isNullOrEmpty()) {
             binding.tedNationality.error = getString(R.string.required_field)
@@ -237,6 +291,7 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
         if (countErrors > 0) {
             Snackbar.make(requireView(), getString(R.string.errors), Snackbar.LENGTH_LONG).show()
         }
+        return countErrors <= 0
 
     }
 
@@ -274,6 +329,15 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
         val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item_layout, cityItems)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spCity.setAdapter(adapter)
+    }
+
+    override fun successFullPayment() {
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+                submit()
+            }
+        }
+
     }
 
 }

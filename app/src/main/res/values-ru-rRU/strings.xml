@@ -8,7 +8,9 @@
     <string name="divorced">Разведен(а)</string>
     <string name="never_married">Не был(а) женат(замужем)</string>
     <string name="have_children">У меня есть ребенок</string>
+    <string name="add_have_children">У меня есть ребенок</string>
     <string name="no_children">У меня нет детей</string>
+    <string name="add_no_children">У меня нет детей</string>
     <string name="ageRestriction">Возрастное ограничение</string>
     <string name="fromAge">От</string>
     <string name="tillAge">До</string>
@@ -71,4 +73,20 @@
     <string name="expiry_date">Срок действия</string>
     <string name="expiry_date_hint">01/28</string>
     <string name="sum"> Сум</string>
+    <string name="help">Написать в поддержку</string>
+    <string name="language_ru">Русский</string>
+    <string name="language_uz">O\'zbek tili</string>
+    <string name="loginOrRegister">Войти или Зарегистрироваться</string>
+    <string name="password">Пароль</string>
+    <string name="empty_card_number">Kartani kiriting</string>
+    <string name="empty_expire_date">Введите срок действия карты</string>
+    <string name="invalid_card_number">Не правильный формат карты</string>
+    <string name="invalid_expire_date">Не правильный формат срока действия</string>
+    <string name="cancel">Отмена</string>
+    <string name="codeFromSms">Код из смс</string>
+    <string name="confirmAndPay">Подтвердить</string>
+    <string name="smsSentText">Для подтверждения оплаты вам отправлен смс с кодом на номер %1$s</string>
+    <string name="submittedToReview">Ваше объявление отправлено на проверку</string>
+    <string name="submitError">Ошибка при отправке объявления, пожалуйста обратитесь в</string>
+    <string name="support">поддержку</string>
 </resources>

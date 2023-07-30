@@ -39,7 +39,7 @@
         android:id="@+id/tipPassword"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_20"
         android:hint="@string/password"
         android:textColorHint="@color/border_color"
@@ -49,7 +49,6 @@
         app:hintEnabled="true"
         app:hintTextColor="@color/border_color"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="1:0.17"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -66,17 +65,19 @@
             android:textSize="@dimen/minTextSize" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnLoginOrRegister"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <com.sovchilar.made.presentation.usecases.customviews.ProgressButton
+        android:id="@+id/button_black"
+        style="@style/Widget.ProgressButton.Black"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerInParent="true"
+        app:enabled="true"
         android:layout_marginTop="@dimen/margin_20"
-        android:background="@drawable/gradient_purple"
-        android:text="@string/loginOrRegister"
-        android:textAllCaps="false"
-        app:backgroundTint="@null"
+        app:layout_constraintDimensionRatio="1:0.16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tipPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/tipPassword"
+        app:layout_constraintWidth_percent="0.9"
+        app:text="@string/loginOrRegister" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,23 +1,178 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/account_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".presentation.fragments.view.AccountContainerFragment">
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="@dimen/ExtraLargeRadiusSize">
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/nav_host_fragment"
-        android:name="androidx.navigation.fragment.NavHostFragment"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clPaymentConfirmation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background"
+        android:visibility="gone"
+        android:paddingBottom="@dimen/margin_20">
+        <TextView
+            android:id="@+id/tvSendSms"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/smsSentText"
+            android:textColor="@color/black"
+            app:layout_constraintWidth_percent="0.8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="@dimen/margin_20"
+            />
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tipConfirmSmsCode"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_20"
+            android:hint="@string/codeFromSms"
+            android:textColorHint="@color/border_color"
+            app:boxStrokeColor="@color/black"
+            app:boxStrokeErrorColor="@color/female_red_gradient"
+            app:expandedHintEnabled="false"
+            app:hintEnabled="true"
+            app:hintTextColor="@color/border_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvSendSms"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tedConfirmSmsCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:digits="1234567890"
+                android:hint="@string/card_number_hint"
+                android:includeFontPadding="false"
+                android:inputType="number"
+                android:maxLength="6"
+                android:maxLines="1"
+                android:textColor="@color/border_color"
+                android:textColorHint="@android:color/transparent"
+                android:textSize="@dimen/extraMediumTextSize" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnConfirmPay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_20"
+            android:layout_marginBottom="@dimen/margin_20"
+            android:background="@drawable/gradient_purple"
+            android:text="@string/confirmAndPay"
+            app:backgroundTint="@null"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tipConfirmSmsCode" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clPayment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:defaultNavHost="true" />
-    <ProgressBar
-        android:id="@+id/pbAccountContainer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        />
+        android:background="@drawable/background"
+        android:paddingBottom="@dimen/margin_20">
 
-</FrameLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tipCardNumber"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_20"
+            android:hint="@string/card_number"
+            android:textColorHint="@color/border_color"
+            app:boxStrokeColor="@color/black"
+            app:boxStrokeErrorColor="@color/female_red_gradient"
+            app:expandedHintEnabled="false"
+            app:hintEnabled="true"
+            app:hintTextColor="@color/border_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:startIconDrawable="@drawable/card_icon_placeholder"
+            app:startIconTintMode="multiply"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tedCardNumber"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:digits="1234567890-"
+                android:hint="@string/card_number_hint"
+                android:includeFontPadding="false"
+                android:inputType="number"
+                android:maxLength="20"
+                android:maxLines="1"
+                android:textColor="@color/border_color"
+                android:textColorHint="@android:color/transparent"
+                android:textSize="@dimen/extraMediumTextSize" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tipExpireDate"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_20"
+            android:hint="@string/expiry_date"
+            android:textColorHint="@color/border_color"
+            app:boxStrokeColor="@color/black"
+            app:boxStrokeErrorColor="@color/female_red_gradient"
+            app:expandedHintEnabled="false"
+            app:hintEnabled="true"
+            app:hintTextColor="@color/border_color"
+            app:layout_constraintEnd_toEndOf="@+id/tipCardNumber"
+            app:layout_constraintStart_toStartOf="@+id/tipCardNumber"
+            app:layout_constraintTop_toBottomOf="@+id/tipCardNumber">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tedExpireDate"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:digits="1234567890"
+                android:hint="@string/expiry_date_hint"
+                android:includeFontPadding="false"
+                android:inputType="number"
+                android:maxLength="5"
+                android:maxLines="1"
+                android:textColor="@color/border_color"
+                android:textColorHint="@android:color/transparent"
+                android:textSize="@dimen/extraMediumTextSize" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_20"
+            android:layout_marginBottom="@dimen/margin_20"
+            android:background="@drawable/gradient_purple"
+            android:text="@string/pay"
+            app:backgroundTint="@null"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tipExpireDate" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_20"
+            android:layout_marginBottom="@dimen/margin_20"
+            android:background="@drawable/gradient_purple"
+            android:text="@string/cancel"
+            app:backgroundTint="@null"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnPay" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

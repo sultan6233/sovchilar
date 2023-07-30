@@ -27,24 +27,9 @@ class AccountContainerFragment :
     BaseFragment<FragmentAccountContainerBinding>(FragmentAccountContainerBinding::inflate) {
 
     private val viewModel: AccountContainerViewModel by viewModels()
-    private val registerViewModel: RegisterViewModel by activityViewModels()
     private val encryptedSharedPrefsUseCase by lazy { EncryptedSharedPrefsUseCase(requireContext()) }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val navHostFragment =
-            childFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        val navController = navHostFragment.navController
-        lifecycleScope.launch {
-            registerViewModel.loginLiveData.observe(viewLifecycleOwner) {
-                binding.pbAccountContainer.isVisible = false
 
-            }
-
-            withContext(Dispatchers.IO) {
-                val login = encryptedSharedPrefsUseCase.readFromFile(login)
-                val password = encryptedSharedPrefsUseCase.readFromFile(password)
-                val token = encryptedSharedPrefsUseCase.readFromFile(token)
-            }
-        }
     }
 }

@@ -53,7 +53,7 @@ class PayViewModel @Inject constructor(private val card: Card, val dateUseCase: 
     }
 
     fun confirmPaymentRequest(code: String, session: Int, authToken: String) {
-        ApiService.create().confirmPayment(authToken, PaymentConfirmModel(session, code))
+        ApiService.create().confirmPayment("Bearer $authToken", PaymentConfirmModel(session, code))
             .enqueue(object : Callback<PaymentConfirmResponseModel> {
                 override fun onResponse(
                     call: Call<PaymentConfirmResponseModel>,

@@ -73,23 +73,6 @@ class RegisterViewModel : ViewModel() {
             })
     }
 
-//    fun loginOrRegister(login: String, password: String) {
-//        viewModelScope.launch {
-//            loginOrRegisterRequest(login, password).collect {
-//                withContext(Dispatchers.IO) {
-//                    it?.let {
-//                        loginLiveData.postValue(AuthStateModel(AuthState.AUTHENTICATED, it.token))
-//                    } ?: loginLiveData.postValue(
-//                        AuthStateModel(
-//                            AuthState.INVALID_AUTHENTICATION,
-//                            null
-//                        )
-//                    )
-//                }
-//            }
-//        }
-//    }
-
     suspend fun saveCredentials(
         encryptedSharedPrefsUseCase: EncryptedSharedPrefsUseCase,
         loginText: String,
@@ -104,10 +87,5 @@ class RegisterViewModel : ViewModel() {
         )
         encryptedSharedPrefsUseCase.writeIntoFile(token, tokenText)
         encryptedSharedPrefsUseCase.saveAuthState(authenticated)
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-
     }
 }

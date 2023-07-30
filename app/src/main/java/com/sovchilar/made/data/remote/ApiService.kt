@@ -11,7 +11,9 @@ import com.sovchilar.made.domain.models.remote.payment.PaymentModel
 import com.sovchilar.made.domain.models.remote.payment.PaymentPriceResponseModel
 import com.sovchilar.made.domain.models.remote.payment.PaymentResponseModel
 import com.sovchilar.made.domain.models.remote.payment.PaymentResultModel
+import okhttp3.JavaNetCookieJar
 import okhttp3.OkHttpClient
+import okhttp3.Protocol
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -21,12 +23,18 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Headers
 import retrofit2.http.POST
+import java.net.CookieManager
+import java.net.CookiePolicy
+import java.util.Arrays
 
 
 interface ApiService {
 
-    @POST("api/user")
-    fun postAdvertisement(@Body postAdvertisement: AdvertisementsModel): Call<PostResponse>
+    @POST("api/personals")
+    fun postAdvertisement(
+        @Header("Authorization") authToken: String,
+        @Body postAdvertisement: AdvertisementsModel
+    ): Call<PostResponse>
 
     @GET("api/personals/all")
     fun getAdvertisements(): Call<UserModel>
@@ -52,9 +60,12 @@ interface ApiService {
         var BASE_URL = "http://176.96.241.238:3333/"
 
         fun create(): ApiService {
+
+
             val interceptor = HttpLoggingInterceptor()
             interceptor.level = HttpLoggingInterceptor.Level.BODY
-            val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
+            val client = OkHttpClient.Builder().addInterceptor(interceptor)
+                .protocols(listOf(Protocol.HTTP_1_1)).build()
             val retrofit =
                 Retrofit.Builder().addConverterFactory(GsonConverterFactory.create()).client(client)
                     .baseUrl(BASE_URL).build()

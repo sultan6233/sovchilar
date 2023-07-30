@@ -15,6 +15,7 @@ import com.sovchilar.made.uitls.kashkadarya_region
 import com.sovchilar.made.uitls.maleGender
 import com.sovchilar.made.uitls.marriageDivorced
 import com.sovchilar.made.uitls.namangan_region
+import com.sovchilar.made.uitls.noMarriage
 import com.sovchilar.made.uitls.novoi_region
 import com.sovchilar.made.uitls.samarkand_region
 import com.sovchilar.made.uitls.sirdarya_region
@@ -63,11 +64,41 @@ class AdvertisementsFixUseCase(val context: Context) {
         return fixedAdvertisementsModel
     }
 
+    fun getAdvertisementsToServer(advertisementsFixedModel: AdvertisementsFixedModel): AdvertisementsModel {
+        return AdvertisementsModel(
+            null,
+            advertisementsFixedModel.name,
+            advertisementsFixedModel.age,
+            advertisementsFixedModel.nationality,
+            getFixMarriageStatusToServer(
+                advertisementsFixedModel.marriageStatus,
+                advertisementsFixedModel.gender
+            ),
+            fixChildrenToServer(advertisementsFixedModel.children),
+            advertisementsFixedModel.fromAge,
+            advertisementsFixedModel.tillAge,
+            advertisementsFixedModel.telegram,
+            advertisementsFixedModel.phoneNumber,
+            getFixCityToServer(advertisementsFixedModel.city),
+            getFixGenderToServer(advertisementsFixedModel.gender),
+            getFixCountryToServer(advertisementsFixedModel.country),
+            advertisementsFixedModel.moreInfo
+        )
+    }
+
     private fun getFixGender(gender: String): String {
         return if (gender == maleGender) {
             context.getString(R.string.male)
         } else {
             context.getString(R.string.female)
+        }
+    }
+
+    private fun getFixGenderToServer(gender: String): String {
+        return if (gender == maleGender) {
+            maleGender
+        } else {
+            femaleGender
         }
     }
 
@@ -87,11 +118,35 @@ class AdvertisementsFixUseCase(val context: Context) {
         }
     }
 
+    private fun getFixMarriageStatusToServer(marriageStatus: String, gender: String): String {
+        return if (marriageDivorced == marriageStatus) {
+            if (maleGender == gender) {
+                marriageDivorced
+            } else {
+                marriageDivorced
+            }
+        } else {
+            if (maleGender == gender) {
+                noMarriage
+            } else {
+                noMarriage
+            }
+        }
+    }
+
     private fun fixChildren(children: Boolean): String {
         return if (children) {
             context.getString(R.string.have_children)
         } else {
             context.getString(R.string.no_children)
+        }
+    }
+
+    private fun fixChildrenToServer(children: String): Boolean {
+        return when (children) {
+            context.getString(R.string.add_have_children) -> true
+            context.getString(R.string.add_no_children) -> false
+            else -> false
         }
     }
 
@@ -115,10 +170,38 @@ class AdvertisementsFixUseCase(val context: Context) {
         }
     }
 
+    private fun getFixCityToServer(city: String): String {
+        return when (city) {
+            context.getString(R.string.tashkent) -> tashkent
+            context.getString(R.string.tashkent_region) -> tashkent_region
+            context.getString(R.string.karakalpak_region) -> karakalpak_region
+            context.getString(R.string.andijan_region) -> andijan_region
+            context.getString(R.string.bukhara_region) -> bukhara_region
+            context.getString(R.string.djizzak_region) -> djizzak_region
+            context.getString(R.string.fergana_region) -> fergana_region
+            context.getString(R.string.kashkadarya_region) -> kashkadarya_region
+            context.getString(R.string.horezm_region) -> horezm_region
+            context.getString(R.string.namangan_region) -> namangan_region
+            context.getString(R.string.novoi_region) -> novoi_region
+            context.getString(R.string.samarkand_region) -> samarkand_region
+            context.getString(R.string.surxandarya_region) -> surxandarya_region
+            context.getString(R.string.sirdarya_region) -> sirdarya_region
+            else -> ""
+
+        }
+    }
+
     private fun getFixCountry(country: String): String {
         return when (country) {
             uzbekistan -> context.getString(R.string.uzbekistan)
             else -> context.getString(R.string.uzbekistan)
+        }
+    }
+
+    private fun getFixCountryToServer(country: String): String {
+        return when (country) {
+            context.getString(R.string.uzbekistan) -> uzbekistan
+            else -> uzbekistan
         }
     }
 
@@ -129,4 +212,10 @@ class AdvertisementsFixUseCase(val context: Context) {
             else -> ""
         }
     }
+
+//    private fun setGenderToServer(gender: String):String {
+//        return when(gender){
+//
+//        }
+//    }
 }

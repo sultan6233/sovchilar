@@ -415,24 +415,10 @@
             android:background="@drawable/button_state_background"
             android:foreground="?android:attr/selectableItemBackground"
             android:text="@string/pay_and_amount"
+            android:textAllCaps="false"
             app:backgroundTint="@null"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tipMoreInfo" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnSubmit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_15"
-            android:background="@drawable/button_state_background"
-            android:enabled="false"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:text="@string/submit"
-            android:textColor="@color/white"
-            app:backgroundTint="@null"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnPay" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

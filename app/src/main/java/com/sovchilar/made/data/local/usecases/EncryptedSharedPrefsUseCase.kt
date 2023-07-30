@@ -1,12 +1,8 @@
 package com.sovchilar.made.data.local.usecases
 
 import android.content.Context
-import androidx.security.crypto.EncryptedFile
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
-import java.io.ByteArrayOutputStream
-import java.io.File
-import java.nio.charset.StandardCharsets
 
 
 class EncryptedSharedPrefsUseCase(val context: Context) {

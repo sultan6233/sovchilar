@@ -20,6 +20,7 @@ import androidx.lifecycle.lifecycleScope
 import com.sovchilar.made.R
 import com.sovchilar.made.data.local.usecases.EncryptedSharedPrefsUseCase
 import com.sovchilar.made.databinding.FragmentDialogPayBinding
+import com.sovchilar.made.domain.PostI
 import com.sovchilar.made.presentation.viewmodel.PayViewModel
 import com.sovchilar.made.uitls.humo
 import com.sovchilar.made.uitls.token
@@ -30,7 +31,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
-class PayDialog : DialogFragment() {
+class PayDialog(val postI: PostI) : DialogFragment() {
     private var _binding: FragmentDialogPayBinding? = null
     private val binding get() = _binding!!
     private val viewModel: PayViewModel by viewModels()
@@ -58,7 +59,6 @@ class PayDialog : DialogFragment() {
         val percentWidth = rect.width() * percent
         dialog?.window?.setLayout(percentWidth.toInt(), ViewGroup.LayoutParams.WRAP_CONTENT)
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setWidthPercent(90)
@@ -66,20 +66,28 @@ class PayDialog : DialogFragment() {
         controlPaymentFields()
         initPaymentObserver()
         initConfirmObserver()
+        confirmPaymentClick()
+    }
+
+    private suspend fun confirmPayment(smsCode: String) {
+        withContext(Dispatchers.IO) {
+            viewModel.confirmPaymentRequest(
+                smsCode,
+                viewModel.paymentResult!!.result.session,
+                encryptedSharedPrefsUseCase.readFromFile(token)
+            )
+        }
+    }
+
+    private fun confirmPaymentClick() {
         binding.btnConfirmPay.setOnClickListener {
             lifecycleScope.launch {
+                val smsCode = binding.tedConfirmSmsCode.text.toString()
+
                 if (binding.tedConfirmSmsCode.toString()
                         .isNotEmpty() && binding.tedConfirmSmsCode.text.toString().length == 6
                 ) {
-                    val smsCode = binding.tedConfirmSmsCode.text.toString()
-                    withContext(Dispatchers.IO) {
-                        viewModel.confirmPaymentRequest(
-                            smsCode,
-                            viewModel.paymentResult!!.result.session,
-                            encryptedSharedPrefsUseCase.readFromFile(token)
-                        )
-                    }
-
+                    confirmPayment(smsCode)
                 } else {
                     binding.tipConfirmSmsCode.error = getString(R.string.required_field)
                 }
@@ -87,10 +95,16 @@ class PayDialog : DialogFragment() {
             }
 
         }
+
     }
 
     private fun initConfirmObserver() {
-
+        viewModel.paymentConfirmResult.observe(viewLifecycleOwner) { paymentConfirmResult ->
+            paymentConfirmResult?.let {
+                postI.successFullPayment()
+                dismiss()
+            }
+        }
     }
 
     private fun initClicks() {

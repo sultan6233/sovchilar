@@ -45,7 +45,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/tedConfirmSmsCode"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:digits="1234567890"
                 android:hint="@string/card_number_hint"
@@ -75,7 +75,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clPayment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@drawable/background"
         android:paddingBottom="@dimen/margin_20">
 
@@ -96,11 +96,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:startIconDrawable="@drawable/card_icon_placeholder"
-            app:startIconTintMode="multiply">
+            app:startIconTintMode="multiply"
+            >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/tedCardNumber"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:digits="1234567890-"
