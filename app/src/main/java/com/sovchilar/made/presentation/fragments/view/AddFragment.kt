@@ -10,22 +10,21 @@ import android.widget.ArrayAdapter
 import android.widget.RadioButton
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.sovchilar.made.R
 import com.sovchilar.made.data.local.usecases.EncryptedSharedPrefsUseCase
 import com.sovchilar.made.databinding.FragmentAddBinding
 import com.sovchilar.made.domain.PostI
 import com.sovchilar.made.domain.models.AdvertisementsFixedModel
-import com.sovchilar.made.domain.models.AdvertisementsModel
 import com.sovchilar.made.domain.usecases.AdvertisementsFixUseCase
 import com.sovchilar.made.presentation.fragments.dialogs.PayDialog
 import com.sovchilar.made.presentation.fragments.view.extentions.markRequiredInRed
 import com.sovchilar.made.presentation.viewmodel.AddViewModel
-import com.sovchilar.made.presentation.viewmodel.MainViewModel
 import com.sovchilar.made.uitls.token
 import com.sovchilar.made.uitls.utils.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -331,13 +330,17 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
         binding.spCity.setAdapter(adapter)
     }
 
-    override fun successFullPayment() {
-        lifecycleScope.launch {
-            withContext(Dispatchers.IO) {
-                submit()
-            }
+    private fun observerSubmit() {
+        viewModel.advertisementAddedLiveData.observe(viewLifecycleOwner) {
+            val bundle = bundleOf("postStatus" to it?.status)
+            requireView().findNavController()
+                .navigate(R.id.action_addFragment_to_postedInfoFragment, bundle)
         }
+    }
 
+    override fun successFullPayment() {
+        observerSubmit()
+        submit()
     }
 
 }

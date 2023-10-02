@@ -16,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AddViewModel @Inject constructor() : ViewModel() {
     val priceLiveData = MutableLiveData<String>()
-    lateinit var advertisementsModel: AdvertisementsModel
+    val advertisementAddedLiveData = MutableLiveData<PostResponse?>()
     suspend fun postAdvertisement(authToken: String, advertisementModel: AdvertisementsModel) {
         ApiService.create().postAdvertisement("Bearer $authToken", advertisementModel)
             .enqueue(object : Callback<PostResponse> {
@@ -24,11 +24,18 @@ class AddViewModel @Inject constructor() : ViewModel() {
                     call: Call<PostResponse>,
                     response: Response<PostResponse>
                 ) {
-
+                    if (response.isSuccessful){
+                        response.body()?.let {
+                            advertisementAddedLiveData.postValue(it)
+                        }?:advertisementAddedLiveData.postValue(null)
+                    }
+                    else{
+                        advertisementAddedLiveData.postValue(null)
+                    }
                 }
 
                 override fun onFailure(call: Call<PostResponse>, t: Throwable) {
-
+                    advertisementAddedLiveData.postValue(null)
                 }
 
             })

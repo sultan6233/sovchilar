@@ -7,12 +7,12 @@ plugins {
 
 android {
     namespace 'com.sovchilar.made'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.sovchilar.made"
         minSdk 24
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
@@ -36,7 +36,7 @@ android {
     }
 }
 
-def nav_version = "2.6.0"
+def nav_version = "2.7.3"
 def appsflyer_version = "6.11.1"
 def install_referrer_version = "2.2"
 def hilt_version = "2.44"
@@ -47,6 +47,7 @@ def app_compat_version = "1.6.1"
 def material_version = "1.9.0"
 def constraint_layout_version = "2.1.4"
 dependencies {
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     def lottieVersion = "6.1.0"
     implementation "com.airbnb.android:lottie:$lottieVersion"
 
@@ -77,8 +78,8 @@ dependencies {
     //crypto credentials
     implementation "androidx.security:security-crypto:1.0.0"
     //viewmodel&&livedata
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.2'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2'
     implementation 'androidx.test.ext:junit-ktx:1.1.5'
     //leakcanary
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'

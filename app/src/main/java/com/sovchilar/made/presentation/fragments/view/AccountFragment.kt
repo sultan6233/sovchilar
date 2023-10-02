@@ -14,6 +14,7 @@ import com.sovchilar.made.databinding.FragmentAccountBinding
 import com.sovchilar.made.domain.models.remote.auth.AuthState
 import com.sovchilar.made.domain.usecases.OpenTelegramUseCase
 import com.sovchilar.made.presentation.fragments.dialogs.ChangeLanguageDialog
+import com.sovchilar.made.presentation.usecases.navigateSafe
 import com.sovchilar.made.presentation.viewmodel.AccountViewModel
 import com.sovchilar.made.presentation.viewmodel.RegisterViewModel
 import com.sovchilar.made.uitls.authenticated
@@ -43,7 +44,7 @@ class AccountFragment : BaseFragment<FragmentAccountBinding>(FragmentAccountBind
             withContext(Dispatchers.Main) {
                 if (!authenticatedValue) {
                     view.findNavController()
-                        .navigate(R.id.action_accountFragment_to_registerFragment)
+                        .navigateSafe(R.id.action_accountFragment_to_registerFragment)
                 } else {
                     binding.pbAccount.isVisible = false
                     binding.clAccount.isVisible = true

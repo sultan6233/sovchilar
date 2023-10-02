@@ -6,11 +6,47 @@
     android:layout_height="match_parent"
     tools:context=".presentation.fragments.view.AdvertisementFragment">
 
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/tgGender"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="0dp"
+        android:paddingStart="@dimen/margin_8"
+        android:paddingEnd="@dimen/margin_8"
+        app:checkedButton="@+id/btnFemale"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:selectionRequired="true"
+        app:singleSelection="true">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnFemale"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:insetBottom="0dp"
+            android:text="@string/females"
+            android:textSize="@dimen/extraMediumTextSize" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnMale"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:insetBottom="0dp"
+            android:text="@string/males"
+            android:textSize="@dimen/extraMediumTextSize" />
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
     <RadioGroup
         android:id="@+id/rgGender"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="horizontal"
+        android:visibility="gone"
         android:weightSum="2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -43,53 +79,16 @@
             android:textColor="@color/white" />
     </RadioGroup>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnMale"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/males"
-        android:textAllCaps="false"
-        android:textSize="@dimen/mediumTextSize"
-        android:visibility="gone"
-        app:backgroundTint="@null"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.9"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.05"
-        app:layout_constraintWidth_percent="0.4" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnFemale"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/radio_button_checked"
-        android:text="@string/females"
-        android:textAllCaps="false"
-        android:textSize="@dimen/mediumTextSize"
-        android:visibility="gone"
-        app:backgroundTint="@null"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.05"
-        app:layout_constraintWidth_percent="0.4" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvAdvertisement"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_10"
         android:clipToPadding="false"
-        tools:listitem="@layout/item_advertisement"
+        android:paddingTop="@dimen/margin_10"
+        android:paddingBottom="@dimen/bottomNavigationHeight"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rgGender"
+        app:layout_constraintTop_toBottomOf="@+id/tgGender"
         app:layout_constraintWidth_percent="0.9"
-        android:layout_marginBottom="56dp"
-        android:paddingBottom="@dimen/bottomNavigationHeight"
-        />
+        tools:listitem="@layout/item_advertisement" />
 </androidx.constraintlayout.widget.ConstraintLayout>

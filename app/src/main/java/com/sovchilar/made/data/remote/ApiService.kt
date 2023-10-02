@@ -58,10 +58,7 @@ interface ApiService {
 
     companion object {
         var BASE_URL = "http://176.96.241.238:3333/"
-
         fun create(): ApiService {
-
-
             val interceptor = HttpLoggingInterceptor()
             interceptor.level = HttpLoggingInterceptor.Level.BODY
             val client = OkHttpClient.Builder().addInterceptor(interceptor)

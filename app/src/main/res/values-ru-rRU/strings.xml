@@ -69,9 +69,7 @@
     <string name="pay_and_amount">Оплатить %1$s</string>
     <string name="pay">Оплатить</string>
     <string name="card_number">Номер карты (Uzcard/Humo)</string>
-    <string name="card_number_hint">8600 0000 0000 0000</string>
     <string name="expiry_date">Срок действия</string>
-    <string name="expiry_date_hint">01/28</string>
     <string name="sum"> Сум</string>
     <string name="help">Написать в поддержку</string>
     <string name="language_ru">Русский</string>
@@ -86,7 +84,7 @@
     <string name="codeFromSms">Код из смс</string>
     <string name="confirmAndPay">Подтвердить</string>
     <string name="smsSentText">Для подтверждения оплаты вам отправлен смс с кодом на номер %1$s</string>
-    <string name="submittedToReview">Ваше объявление отправлено на проверку</string>
+    <string name="submittedToReview">Ваше объявление отправлено на проверку и в ближайщее время будет опубликован</string>
     <string name="submitError">Ошибка при отправке объявления, пожалуйста обратитесь в</string>
     <string name="support">поддержку</string>
 </resources>

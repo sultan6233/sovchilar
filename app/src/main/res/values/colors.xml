@@ -23,6 +23,7 @@
     <color name="man_blue_gradient">#30CFD0</color>
     <color name="man_dark_blue_gradient">#330867</color>
     <color name="pink_text_color">#A6F55B75</color>
+    <color name="toggle_normal_off">#a9a9a9</color>
     <color name="menu_black">#45484F</color>
 
     <color name="border_color">#5B5E64</color>

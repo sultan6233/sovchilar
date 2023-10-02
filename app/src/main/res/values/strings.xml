@@ -68,9 +68,9 @@
     <string name="pay_and_amount">To\`lov qilish %1$s\nva E\`lon berish</string>
     <string name="pay">To\`lash</string>
     <string name="card_number">Karta raqami (Uzcard/Humo)</string>
-    <string name="card_number_hint">8600 0000 0000 0000</string>
+    <string name="card_number_hint" translatable="false">8600 0000 0000 0000</string>
     <string name="expiry_date">Amal qilish muddati</string>
-    <string name="expiry_date_hint">01/28</string>
+    <string name="expiry_date_hint" translatable="false">01/30</string>
     <string name="sum"> Sum</string>
     <string name="help">Qayta aloqa</string>
     <string name="language_ru">Russ tili</string>
@@ -85,8 +85,9 @@
     <string name="codeFromSms">Smsdagi kodni kiriting</string>
     <string name="confirmAndPay">Tasdiqlash</string>
     <string name="smsSentText">To\`lovni tasdiqlash uchun ushbu raqamga sms yuborildi %1$s</string>
-    <string name="submittedToReview">Sizning e\`loningiz tekshirishga yuborildi</string>
-    <string name="submitError">E\`lonni jo\`natishda xatolik bo\`ldi iltimos murojat qiling</string>
+    <string name="submittedToReview">Sizning e\`loningiz tekshirishga yuborildi va yaqin orada yuklanadi</string>
+    <string name="submitError">E\`lonni jo\`natishda xatolik bo\`ldi iltimos %1$s murojat qiling</string>
     <string name="support">Qayta aloqaga</string>
+    <string name="ok" translatable="false">Ok</string>
 
 </resources>
