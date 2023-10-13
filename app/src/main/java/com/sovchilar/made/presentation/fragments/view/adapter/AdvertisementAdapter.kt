@@ -69,7 +69,7 @@ class AdvertisementAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             binding.tvProvidedMoreInfo.text = advertisementsModel.moreInfo
             binding.tvProvidedTelegram.setOnClickListener {
                 openTelegramUseCase.openUserPage(
-                    it.context, binding.tvProvidedTelegram.text.toString()
+                    it.context, binding.tvProvidedTelegram.text.toString(), binding.root
                 )
             }
         }

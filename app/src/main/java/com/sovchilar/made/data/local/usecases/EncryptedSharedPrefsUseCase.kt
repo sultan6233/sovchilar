@@ -1,6 +1,7 @@
 package com.sovchilar.made.data.local.usecases
 
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 
@@ -8,50 +9,22 @@ import androidx.security.crypto.MasterKeys
 class EncryptedSharedPrefsUseCase(val context: Context) {
 
     fun writeIntoFile(data: String, value: String) {
-        val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
-        val sharedPreferences = EncryptedSharedPreferences.create(
-            data,
-            masterKeyAlias,
-            context,
-            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-        )
+        val sharedPreferences = context.getSharedPreferences(data, MODE_PRIVATE)
         sharedPreferences.edit().putString(data, value).apply()
     }
 
     fun readFromFile(data: String): String {
-        val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
-        val sharedPreferences = EncryptedSharedPreferences.create(
-            data,
-            masterKeyAlias,
-            context,
-            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-        )
+        val sharedPreferences = context.getSharedPreferences(data, MODE_PRIVATE)
         return sharedPreferences.getString(data, null).toString()
     }
 
     fun authenticated(data: String): Boolean {
-        val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
-        val sharedPreferences = EncryptedSharedPreferences.create(
-            data,
-            masterKeyAlias,
-            context,
-            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-        )
+        val sharedPreferences = context.getSharedPreferences(data, MODE_PRIVATE)
         return sharedPreferences.getBoolean(data, false)
     }
 
     fun saveAuthState(data: String) {
-        val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
-        val sharedPreferences = EncryptedSharedPreferences.create(
-            data,
-            masterKeyAlias,
-            context,
-            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-        )
+        val sharedPreferences = context.getSharedPreferences(data, MODE_PRIVATE)
         sharedPreferences.edit().putBoolean(data, true).apply()
     }
 }

@@ -57,7 +57,7 @@ class AccountFragment : BaseFragment<FragmentAccountBinding>(FragmentAccountBind
             findNavController().navigate(R.id.action_accountFragment_to_addFragment)
         }
         binding.btnHelp.setOnClickListener {
-            openTelegramUseCase.openTelegramHelp(requireContext())
+            openTelegramUseCase.openTelegramHelp(requireContext(), binding.root)
         }
         binding.ibLanguage.setOnClickListener {
             languageDialog.show(childFragmentManager, "languageDialog")

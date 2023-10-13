@@ -1,5 +1,7 @@
 package com.sovchilar.made.presentation.fragments.view
 
+import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
 import android.graphics.LinearGradient
 import android.graphics.Shader
@@ -12,9 +14,11 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.sovchilar.made.R
 import com.sovchilar.made.data.local.usecases.EncryptedSharedPrefsUseCase
@@ -22,6 +26,7 @@ import com.sovchilar.made.databinding.FragmentAddBinding
 import com.sovchilar.made.domain.PostI
 import com.sovchilar.made.domain.models.AdvertisementsFixedModel
 import com.sovchilar.made.domain.usecases.AdvertisementsFixUseCase
+import com.sovchilar.made.presentation.activity.MainActivity
 import com.sovchilar.made.presentation.fragments.dialogs.PayDialog
 import com.sovchilar.made.presentation.fragments.view.extentions.markRequiredInRed
 import com.sovchilar.made.presentation.viewmodel.AddViewModel
@@ -167,15 +172,20 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
             hideKeyboard(it)
         }
         binding.btnPay.setOnClickListener {
-            if (checkAllFields()) {
-                if (isAdded) {
-
-                    payDialog.show(parentFragmentManager, "payDialog")
+            when (checkAllFields()) {
+                true -> {
+                    if (isAdded) {
+                        payDialog.show(parentFragmentManager, "payDialog")
+                    }
                 }
 
+                false -> Snackbar.make(
+                    requireView(),
+                    getString(R.string.errors),
+                    Snackbar.LENGTH_LONG
+                )
+                    .show()
             }
-
-
         }
 
     }
@@ -244,10 +254,12 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
 
     private fun checkAllFields(): Boolean {
         var countErrors = 0
+
         if (binding.tedName.text.isNullOrEmpty()) {
             binding.tedName.error = getString(R.string.required_field)
             countErrors++
         }
+
         if (binding.tedAge.text.isNullOrEmpty()) {
             binding.tedAge.error = getString(R.string.required_field)
             countErrors++
@@ -255,44 +267,63 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
             binding.tedAge.error = getString(R.string.adult)
             countErrors++
         }
+
         if (binding.tedNationality.text.isNullOrEmpty()) {
             binding.tedNationality.error = getString(R.string.required_field)
             countErrors++
         }
+
         if (binding.spMarriageStatus.text.isNullOrEmpty()) {
             binding.tipMarriageStatus.error = getString(R.string.required_field)
             countErrors++
         }
+
         if (binding.spChildren.text.isNullOrEmpty()) {
             binding.tipChildren.error = getString(R.string.required_field)
             countErrors++
         }
+
         if (binding.tedFromAge.text.isNullOrEmpty()) {
             binding.tedFromAge.error = getString(R.string.required_field)
             countErrors++
+        } else if (binding.tedFromAge.text.toString().toInt() < 18) {
+            binding.tedFromAge.error = getString(R.string.adult)
+            countErrors++
         }
+
         if (binding.tedTillAge.text.isNullOrEmpty()) {
             binding.tedTillAge.error = getString(R.string.required_field)
             countErrors++
+        } else if (binding.tedTillAge.text.toString().toInt() < 18) {
+            binding.tedTillAge.error = getString(R.string.adult)
+            countErrors++
+        } else if (!binding.tedFromAge.text.isNullOrEmpty()) {
+            if (binding.tedTillAge.text.toString().toInt() < binding.tedFromAge.text.toString()
+                    .toInt()
+            ) {
+                binding.tedTillAge.text = binding.tedFromAge.text
+            }
+
         }
+
         if (binding.tedTelegram.text.isNullOrEmpty()) {
             binding.tedTelegram.error = getString(R.string.required_field)
             countErrors++
         }
+
         if (binding.spCountry.text.isNullOrEmpty()) {
             binding.tipCountry.error = getString(R.string.required_field)
             countErrors++
         }
+
         if (binding.spCity.text.isNullOrEmpty()) {
             binding.tipCity.error = getString(R.string.required_field)
             countErrors++
         }
-        if (countErrors > 0) {
-            Snackbar.make(requireView(), getString(R.string.errors), Snackbar.LENGTH_LONG).show()
-        }
-        return countErrors <= 0
 
+        return countErrors <= 0
     }
+
 
     private fun initPayButton() {
         lifecycleScope.launch {
@@ -332,9 +363,21 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
 
     private fun observerSubmit() {
         viewModel.advertisementAddedLiveData.observe(viewLifecycleOwner) {
-            val bundle = bundleOf("postStatus" to it?.status)
-            requireView().findNavController()
-                .navigate(R.id.action_addFragment_to_postedInfoFragment, bundle)
+            it?.let {
+                showPurchaseConfirmationDialog(getString(R.string.submittedToReview))
+            } ?: showPurchaseConfirmationDialog(
+                String.format(
+                    getString(R.string.submitError), getString(R.string.support)
+                )
+            )
+
+        }
+    }
+
+    private fun showPurchaseConfirmationDialog(text: String) {
+        val confirmationDialogFragment = PurchaseConfirmationDialogFragment(text)
+        if (isAdded) {
+            confirmationDialogFragment.show(childFragmentManager, "")
         }
     }
 
@@ -343,4 +386,13 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
         submit()
     }
 
+}
+
+class PurchaseConfirmationDialogFragment(val text: String) : DialogFragment() {
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
+        AlertDialog.Builder(requireContext())
+            .setMessage(text)
+            .setCancelable(false)
+            .setPositiveButton(getString(R.string.ok)) { _, _ -> findNavController().popBackStack() }
+            .create()
 }

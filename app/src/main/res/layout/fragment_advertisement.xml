@@ -28,6 +28,8 @@
             android:layout_weight="1"
             android:insetBottom="0dp"
             android:text="@string/females"
+            android:textAllCaps="false"
+            android:textColor="@color/toggle_button_color"
             android:textSize="@dimen/extraMediumTextSize" />
 
         <com.google.android.material.button.MaterialButton
@@ -38,46 +40,10 @@
             android:layout_weight="1"
             android:insetBottom="0dp"
             android:text="@string/males"
+            android:textAllCaps="false"
+            android:textColor="@color/toggle_button_color"
             android:textSize="@dimen/extraMediumTextSize" />
     </com.google.android.material.button.MaterialButtonToggleGroup>
-
-    <RadioGroup
-        android:id="@+id/rgGender"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:orientation="horizontal"
-        android:visibility="gone"
-        android:weightSum="2"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.05"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.05"
-        app:layout_constraintWidth_percent="0.9">
-
-        <RadioButton
-            android:id="@+id/rbFemale"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/radio_button_checked_background"
-            android:button="@android:color/transparent"
-            android:text="@string/females"
-            android:textAlignment="center"
-            android:textColor="@color/white" />
-
-        <RadioButton
-            android:id="@+id/rbMale"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/radio_button_not_checked_background"
-            android:button="@android:color/transparent"
-            android:text="@string/males"
-            android:textAlignment="center"
-            android:textColor="@color/white" />
-    </RadioGroup>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvAdvertisement"
