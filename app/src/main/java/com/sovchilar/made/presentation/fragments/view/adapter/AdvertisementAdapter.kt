@@ -12,7 +12,7 @@ import com.sovchilar.made.domain.usecases.OpenTelegramUseCase
 
 class AdvertisementAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private val openTelegramUseCase = OpenTelegramUseCase()
+    private val openTelegramUseCase by lazy { OpenTelegramUseCase() }
 
     private val differCallback = object : DiffUtil.ItemCallback<AdvertisementsFixedModel>() {
 

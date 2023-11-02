@@ -36,7 +36,7 @@ interface ApiService {
         @Body postAdvertisement: AdvertisementsModel
     ): Call<PostResponse>
 
-    @GET("api/personals/all")
+    @GET("api/personals/all?page=1&limit=100&order=desc")
     fun getAdvertisements(): Call<UserModel>
 
     @POST("api/auth")

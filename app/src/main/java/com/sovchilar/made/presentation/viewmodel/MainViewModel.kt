@@ -19,10 +19,9 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MainViewModel : ViewModel() {
-    val bottomHeight = MutableLiveData<Int>()
     val dataReady = MutableLiveData<Boolean>()
     var loginLiveData = MutableLiveData<AuthStateModel>()
-    suspend fun loginOrRegisterRequest(login: String, password: String) {
+    fun loginOrRegisterRequest(login: String, password: String) {
         ApiService.create().loginOrRegister(AuthModel(login, password))
             .enqueue(object : Callback<AuthResponseModel> {
                 override fun onResponse(

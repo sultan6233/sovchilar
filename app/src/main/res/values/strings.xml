@@ -89,5 +89,11 @@
     <string name="submitError">E\`lonni jo\`natishda xatolik bo\`ldi iltimos %1$s murojat qiling</string>
     <string name="support">Qayta aloqaga</string>
     <string name="ok" translatable="false">Ok</string>
+    <string name="next">Oldinga</string>
+    <string name="language_pick">Tilni tanlang</string>
+    <string-array name="languages" translatable="false">
+        <item>O\'zbek tili</item>
+        <item>Русский язык</item>
+    </string-array>
 
 </resources>

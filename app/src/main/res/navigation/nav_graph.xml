@@ -9,10 +9,6 @@
         android:name="com.sovchilar.made.presentation.fragments.view.AdvertisementFragment"
         tools:layout="@layout/fragment_advertisement" />
     <fragment
-        android:id="@+id/accountContainerFragment"
-        android:name="com.sovchilar.made.presentation.fragments.view.AccountContainerFragment"
-        tools:layout="@layout/fragment_account_container" />
-    <fragment
         android:id="@+id/accountFragment"
         android:name="com.sovchilar.made.presentation.fragments.view.AccountFragment"
         tools:layout="@layout/fragment_account">
@@ -26,6 +22,11 @@
             app:destination="@id/registerFragment"
             app:popUpTo="@id/accountFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_accountFragment_to_changeLanguageFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/accountFragment"
+            app:destination="@id/changeLanguageFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -39,16 +40,8 @@
             android:id="@+id/action_addFragment_to_payDialog"
             app:destination="@id/payDialog" />
         <action
-            android:id="@+id/action_addFragment_to_accountContainerFragment"
-            app:destination="@id/accountContainerFragment" />
-        <action
             android:id="@+id/action_addFragment_to_postedInfoFragment"
-            app:destination="@id/postedInfoFragment" >
-            <argument
-                android:name="postStatus"
-                app:argType="integer"
-                android:defaultValue="0" />
-        </action>
+            app:destination="@id/postedInfoFragment"/>
     </fragment>
     <dialog
         android:id="@+id/payDialog"
@@ -57,7 +50,8 @@
     <fragment
         android:id="@+id/postedInfoFragment"
         android:name="com.sovchilar.made.presentation.fragments.view.PostedInfoFragment"
-        tools:layout="@layout/fragment_posted_info">
-
-    </fragment>
+        tools:layout="@layout/fragment_posted_info"/>
+    <fragment android:id="@+id/changeLanguageFragment"
+        android:name="com.sovchilar.made.presentation.fragments.view.ChangeLanguageFragment"
+        tools:layout="@layout/fragment_change_language"/>
 </navigation>

@@ -24,6 +24,7 @@ import com.sovchilar.made.presentation.viewmodel.MainViewModel
 import com.sovchilar.made.uitls.authenticated
 import com.sovchilar.made.uitls.login
 import com.sovchilar.made.uitls.password
+import com.sovchilar.made.uitls.token
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -80,6 +81,7 @@ class MainActivity : AppCompatActivity() {
                         AuthState.AUTHENTICATED -> {
                             withContext(Dispatchers.IO) {
                                 encryptedSharedPrefsUseCase.saveAuthState(authenticated)
+                                encryptedSharedPrefsUseCase.writeIntoFile(token, it.token.toString())
                                 viewModel.dataReady.postValue(true)
                             }
                         }
@@ -142,7 +144,6 @@ class MainActivity : AppCompatActivity() {
                         slideUp.start()
                     }
                 }
-
             }
         }
     }

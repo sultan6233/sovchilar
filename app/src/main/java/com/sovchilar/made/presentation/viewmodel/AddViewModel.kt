@@ -1,6 +1,5 @@
 package com.sovchilar.made.presentation.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.sovchilar.made.data.remote.ApiService
