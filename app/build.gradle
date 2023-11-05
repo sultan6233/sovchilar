@@ -23,7 +23,7 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -36,17 +36,18 @@ android {
     }
 }
 
-def nav_version = "2.7.3"
+def nav_version = "2.7.4"
 def install_referrer_version = "2.2"
-def hilt_version = "2.44"
+def hilt_version = "2.48"
 def retrofit_version = "2.9.0"
 def splash_screen_version = "1.0.1"
 def kotlin_version = "1.10.1"
 def app_compat_version = "1.6.1"
-def material_version = "1.9.0"
+def material_version = "1.10.0"
 def constraint_layout_version = "2.1.4"
+def okhttp_version = "5.0.0-alpha.1"
+def lifecycle_version = "2.6.2"
 dependencies {
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     def lottieVersion = "6.1.0"
     implementation "com.airbnb.android:lottie:$lottieVersion"
 
@@ -54,8 +55,8 @@ dependencies {
     implementation "com.android.installreferrer:installreferrer:$install_referrer_version"
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
-    implementation "com.squareup.okhttp3:okhttp:5.0.0-alpha.1"
-    implementation "com.squareup.okhttp3:okhttp-urlconnection:5.0.0-alpha.1"
+    implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
+    implementation "com.squareup.okhttp3:okhttp-urlconnection:$okhttp_version"
     //push onesignal
     implementation 'com.onesignal:OneSignal:[4.0.0, 4.99.99]'
     //di hilt
@@ -65,7 +66,7 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     //logger
-    implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2'
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
     //splash
     implementation "androidx.core:core-splashscreen:$splash_screen_version"
     //core
@@ -73,16 +74,14 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$app_compat_version"
     implementation "com.google.android.material:material:$material_version"
     implementation "androidx.constraintlayout:constraintlayout:$constraint_layout_version"
-    //crypto credentials
-    implementation "androidx.security:security-crypto:1.0.0"
     //viewmodel&&livedata
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.2'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2'
-    implementation 'androidx.test.ext:junit-ktx:1.1.5'
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     //leakcanary
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.12'
     //tests
     testImplementation 'junit:junit:4.13.2'
+    implementation 'androidx.test.ext:junit-ktx:1.1.5'
     androidTestImplementation 'androidx.test:rules:1.5.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'

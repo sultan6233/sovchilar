@@ -136,9 +136,9 @@ class AdvertisementsFixUseCase(val context: Context) {
 
     private fun fixChildren(children: Boolean): String {
         return if (children) {
-            context.getString(R.string.have_children)
+            context.getString(R.string.add_have_children)
         } else {
-            context.getString(R.string.no_children)
+            context.getString(R.string.add_no_children)
         }
     }
 

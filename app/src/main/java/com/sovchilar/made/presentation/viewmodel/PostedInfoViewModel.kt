@@ -1,4 +1,4 @@
-package com.sovchilar.made.presentation.fragments.view
+package com.sovchilar.made.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 

@@ -32,6 +32,7 @@
             android:layout_height="match_parent"
             android:includeFontPadding="false"
             android:maxLength="30"
+            android:digits="1@234567890abcdefghijklmnopqrstuvwxyz_"
             android:textSize="@dimen/minTextSize" />
     </com.google.android.material.textfield.TextInputLayout>
 

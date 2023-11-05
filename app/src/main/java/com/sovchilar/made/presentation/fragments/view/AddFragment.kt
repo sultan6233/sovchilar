@@ -25,6 +25,7 @@ import com.sovchilar.made.presentation.fragments.view.extentions.markRequiredInR
 import com.sovchilar.made.presentation.usecases.GradientTextViewUseCase
 import com.sovchilar.made.presentation.usecases.GradientTextViewUseCase.awaitLayoutChange
 import com.sovchilar.made.presentation.usecases.GradientTextViewUseCase.setGradientTextColor
+import com.sovchilar.made.presentation.usecases.TelegramSymbolInputFilter
 import com.sovchilar.made.presentation.viewmodel.AddViewModel
 import com.sovchilar.made.uitls.token
 import com.sovchilar.made.uitls.utils.BaseFragment
@@ -47,6 +48,7 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
             getString(R.string.divorced), getString(R.string.never_married)
         )
     }
+    private val telegramSymbolInputFilter by lazy { TelegramSymbolInputFilter("@") }
     private val childrenItems by lazy {
         arrayListOf(
             getString(R.string.add_no_children), getString(R.string.add_have_children)
@@ -91,6 +93,7 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
             initClicks()
             initPayButton()
         }
+        binding.tedTelegram.filters = arrayOf(telegramSymbolInputFilter)
 
         lifecycleScope.launch {
             binding.tvDescription.awaitLayoutChange()
@@ -105,7 +108,6 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
         }
 
     }
-
 
     private fun initEditTextsHint() {
         binding.tipName.markRequiredInRed()

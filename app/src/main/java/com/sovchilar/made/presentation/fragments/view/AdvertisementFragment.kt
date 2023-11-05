@@ -37,30 +37,6 @@ class AdvertisementFragment :
         submitAdapterList()
     }
 
-    private fun initClicks() {
-//        if (viewModel.gender.value == maleGender) {
-//            binding.rbFemale.isChecked = false
-//            binding.rbMale.isChecked = true
-//        } else {
-//            binding.rbFemale.isChecked = true
-//            binding.rbMale.isChecked = false
-//        }
-        binding.btnMale.setOnClickListener {
-            viewModel.gender.value = maleGender
-        }
-        binding.btnFemale.setOnClickListener {
-            viewModel.gender.value = femaleGender
-        }
-
-//        binding.rgGender.setOnCheckedChangeListener { _, checkedId ->
-//            if (binding.rbMale.id == checkedId) {
-//                viewModel.gender.value = maleGender
-//            } else {
-//                viewModel.gender.value = femaleGender
-//            }
-//        }
-    }
-
     private fun getList() {
         lifecycleScope.launch {
             viewModel.advertisements.observe(viewLifecycleOwner) {
@@ -68,9 +44,25 @@ class AdvertisementFragment :
                 if (viewModel.gender.value == null) {
                     viewModel.gender.value = femaleGender
                 }
+                when {
+                    binding.srRefresh.isRefreshing -> binding.srRefresh.isRefreshing = false
+                }
             }
         }
     }
+
+    private fun initClicks() {
+        binding.btnMale.setOnClickListener {
+            viewModel.gender.value = maleGender
+        }
+        binding.btnFemale.setOnClickListener {
+            viewModel.gender.value = femaleGender
+        }
+        binding.srRefresh.setOnRefreshListener {
+            viewModel.getAdvertisements()
+        }
+    }
+
 
     private fun submitAdapterList() {
         lifecycleScope.launch {

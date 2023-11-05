@@ -2,8 +2,6 @@ package com.sovchilar.made.data.local.usecases
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
-import androidx.security.crypto.EncryptedSharedPreferences
-import androidx.security.crypto.MasterKeys
 
 
 class EncryptedSharedPrefsUseCase(val context: Context) {

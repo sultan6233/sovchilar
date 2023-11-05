@@ -1,8 +1,10 @@
 package com.sovchilar.made.presentation.fragments.view
 
 import android.os.Bundle
+import android.text.InputFilter
 import android.view.View
 import androidx.core.widget.addTextChangedListener
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
@@ -10,6 +12,7 @@ import com.sovchilar.made.R
 import com.sovchilar.made.data.local.usecases.EncryptedSharedPrefsUseCase
 import com.sovchilar.made.databinding.FragmentRegisterBinding
 import com.sovchilar.made.domain.models.remote.auth.AuthState
+import com.sovchilar.made.presentation.usecases.TelegramSymbolInputFilter
 import com.sovchilar.made.presentation.viewmodel.MainViewModel
 import com.sovchilar.made.uitls.utils.BaseFragment
 import kotlinx.coroutines.Dispatchers
@@ -20,6 +23,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
 
     private val viewModel: MainViewModel by activityViewModels()
     private val encryptedSharedPrefsUseCase by lazy { EncryptedSharedPrefsUseCase(requireContext()) }
+    private val telegramSymbolInputFilter by lazy { TelegramSymbolInputFilter("@") }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         authenticate()
@@ -31,6 +35,8 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
             binding.buttonBlack.setLoading(true)
             loginOrRegister()
         }
+
+        binding.tedName.filters = arrayOf(telegramSymbolInputFilter)
         binding.tedName.addTextChangedListener {
             binding.tipName.error = null
         }

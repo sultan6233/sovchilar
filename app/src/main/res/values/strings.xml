@@ -65,7 +65,7 @@
     <string name="required_field">To`ldirishga majburiy</string>
     <string name="adult">Eng past yosh chegarasi 18</string>
     <string name="errors">Barcha xatolaringizni to\`g\`irlang</string>
-    <string name="pay_and_amount">To\`lov qilish %1$s\nva E\`lon berish</string>
+    <string name="pay_and_amount">%1$s to\`lov qilish\nva E\`lon berish</string>
     <string name="pay">To\`lash</string>
     <string name="card_number">Karta raqami (Uzcard/Humo)</string>
     <string name="card_number_hint" translatable="false">8600 0000 0000 0000</string>
@@ -95,5 +95,6 @@
         <item>O\'zbek tili</item>
         <item>Русский язык</item>
     </string-array>
+    <string name="telegram_user_name_placeholder" translatable="false">\@ %1$s</string>
 
 </resources>

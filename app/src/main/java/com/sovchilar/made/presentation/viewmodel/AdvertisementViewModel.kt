@@ -1,6 +1,7 @@
 package com.sovchilar.made.presentation.viewmodel
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -20,9 +21,10 @@ import retrofit2.Response
 class AdvertisementViewModel : ViewModel() {
     val gender = MutableLiveData<String>()
 
-    val advertisements = MutableLiveData<List<AdvertisementsModel>>()
-
-    var advertisementsList:ArrayList<AdvertisementsModel>? = ArrayList()
+    val advertisements: LiveData<List<AdvertisementsModel>>
+        get() = _advertisements
+    private val _advertisements = MutableLiveData<List<AdvertisementsModel>>()
+    var advertisementsList: ArrayList<AdvertisementsModel>? = ArrayList()
 
     init {
         getAdvertisements()
@@ -41,7 +43,6 @@ class AdvertisementViewModel : ViewModel() {
 
             override fun onFailure(call: Call<UserModel>, t: Throwable) {
                 viewModelScope.launch {
-                    Log.d("suka",t.localizedMessage.toString())
                     send(null)
                     close()
                 }
@@ -50,12 +51,10 @@ class AdvertisementViewModel : ViewModel() {
         awaitClose()
     }.flowOn(Dispatchers.IO)
 
-    private fun getAdvertisements() {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                getAdvertisementsRequest().collect {
-                    advertisements.postValue(it)
-                }
+    fun getAdvertisements() = viewModelScope.launch {
+        withContext(Dispatchers.IO) {
+            getAdvertisementsRequest().collect {
+                _advertisements.postValue(it)
             }
         }
     }

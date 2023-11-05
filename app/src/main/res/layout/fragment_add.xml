@@ -308,7 +308,7 @@
                 android:id="@+id/tedTelegram"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:digits="1@234567890abcdefghijklmnopqrstuvwxyz"
+                android:digits="1@234567890abcdefghijklmnopqrstuvwxyz_"
                 android:includeFontPadding="false"
                 android:inputType="textPersonName"
                 android:maxLength="50"
