@@ -39,6 +39,9 @@ interface ApiService {
     @GET("api/personals/all?page=1&limit=100&order=desc")
     fun getAdvertisements(): Call<UserModel>
 
+    @GET("api/personals")
+    fun getOwnAdvertisements(@Header("Authorization") authToken: String): Call<UserModel>
+
     @POST("api/auth")
     fun loginOrRegister(@Body authModel: AuthModel): Call<AuthResponseModel>
 

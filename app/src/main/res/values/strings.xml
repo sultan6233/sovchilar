@@ -1,28 +1,28 @@
 <resources>
     <string name="app_name">Sovchilar</string>
     <string name="name">Ismingiz</string>
-    <string name="advertisementDescription">Pastdagilarni To\`ldiring</string>
+    <string name="advertisementDescription">Pastdagilarni To\'ldiring</string>
     <string name="age">Yoshingiz</string>
     <string name="nationality">Millatingiz</string>
     <string name="divorced">Ajrashgan</string>
     <string name="never_married">Turmush qurmagan</string>
     <string name="have_children">Farzindingiz bormi</string>
     <string name="add_have_children">Farzindim bor</string>
-    <string name="no_children">Farzandi yo\`q</string>
-    <string name="add_no_children">Farzandim yo\`q</string>
+    <string name="no_children">Farzandi yo\'q</string>
+    <string name="add_no_children">Farzandim yo\'q</string>
     <string name="ageRestriction">Yosh Chegarasi</string>
     <string name="fromAge">Dan</string>
     <string name="tillAge">Gacha</string>
     <string name="telegram">telegramingiz</string>
     <string name="telegramUserName">\@</string>
-    <string name="uzbekistan">O\`zbekiston</string>
+    <string name="uzbekistan">O\'zbekiston</string>
     <string name="tashkent">Toshkent</string>
     <string name="tashkent_region">Toshkent viloyati</string>
-    <string name="karakalpak_region">Qoraqalpog\`iston respublikasi</string>
+    <string name="karakalpak_region">Qoraqalpog\'iston respublikasi</string>
     <string name="andijan_region">Andijon viloyati</string>
     <string name="bukhara_region">Buxoro viloyati</string>
     <string name="djizzak_region">Jizzax viloyati</string>
-    <string name="fergana_region">Farg\`ona viloyati</string>
+    <string name="fergana_region">Farg\'ona viloyati</string>
     <string name="kashkadarya_region">Qahqadaryo viloyati</string>
     <string name="horezm_region">Xorazm viloyati</string>
     <string name="namangan_region">Namangan viloyati</string>
@@ -30,13 +30,13 @@
     <string name="samarkand_region">Samarqand viloyati</string>
     <string name="surxandarya_region">Surxondaryo viloyati</string>
     <string name="sirdarya_region">Sirdaryo viloyati</string>
-    <string name="more_info">Qo\`shimcha ma\`lumot</string>
-    <string name="more_info_provided">Qo\`shimcha ma\`lumot:</string>
-    <string name="submit">E\`lon berish</string>
+    <string name="more_info">Qo\'shimcha ma\'lumot</string>
+    <string name="more_info_provided">Qo\'shimcha ma\'lumot:</string>
+    <string name="submit">E\'lon berish</string>
     <string name="yourGender">Jinsingiz</string>
     <string name="woman">Ayol</string>
     <string name="man">Erkak</string>
-    <string name="my_advertisements">Mening e\`lonlarim</string>
+    <string name="my_advertisements">Mening e\'lonlarim</string>
     <string name="addAdvertisement">E\'lon berish</string>
     <string name="nameProvided">Ismi/Yoshi</string>
     <string name="ageProvided">Yosh:</string>
@@ -58,35 +58,35 @@
     <string name="provided_country_and_city">%1$s, %2$s</string>
     <string name="provided_marriage_status_and_children">%1$s, %2$s</string>
     <string name="provided_age_restriction">%1$s - %2$s</string>
-    <string name="open_telegram">Telegramga o\`tish</string>
+    <string name="open_telegram">Telegramga o\'tish</string>
     <string name="marriage_status">Turmushdagi holat</string>
     <string name="country">Davlat</string>
     <string name="city">Shahar</string>
-    <string name="required_field">To`ldirishga majburiy</string>
+    <string name="required_field">To\'ldirishga majburiy</string>
     <string name="adult">Eng past yosh chegarasi 18</string>
-    <string name="errors">Barcha xatolaringizni to\`g\`irlang</string>
-    <string name="pay_and_amount">%1$s to\`lov qilish\nva E\`lon berish</string>
-    <string name="pay">To\`lash</string>
+    <string name="errors">Barcha xatolaringizni to\'g\'irlang</string>
+    <string name="pay_and_amount">%1$s to\'lov qilish\nva e\'lon berish</string>
+    <string name="pay">To\'lash</string>
     <string name="card_number">Karta raqami (Uzcard/Humo)</string>
     <string name="card_number_hint" translatable="false">8600 0000 0000 0000</string>
     <string name="expiry_date">Amal qilish muddati</string>
     <string name="expiry_date_hint" translatable="false">01/30</string>
-    <string name="sum"> Sum</string>
+    <string name="sum"> so\'m</string>
     <string name="help">Qayta aloqa</string>
     <string name="language_ru">Russ tili</string>
     <string name="language_uz">O\'zbek tili</string>
-    <string name="loginOrRegister">Kirish yoki Ro\`yxatdan o\`tish</string>
+    <string name="loginOrRegister">Kirish yoki Ro\'yxatdan o\'tish</string>
     <string name="password">Parol</string>
     <string name="empty_card_number">Kartani kiriting</string>
     <string name="empty_expire_date">Amal qilish muddatini kiriting</string>
-    <string name="invalid_card_number">Karta raqami no\`to\`g\`ri</string>
-    <string name="invalid_expire_date">Amal qilish muddati no\`to\`g\`ri </string>
+    <string name="invalid_card_number">Karta raqami no\'to\'g\'ri</string>
+    <string name="invalid_expire_date">Amal qilish muddati no\'to\'g\'ri </string>
     <string name="cancel">Bekor qilish</string>
     <string name="codeFromSms">Smsdagi kodni kiriting</string>
     <string name="confirmAndPay">Tasdiqlash</string>
-    <string name="smsSentText">To\`lovni tasdiqlash uchun ushbu raqamga sms yuborildi %1$s</string>
-    <string name="submittedToReview">Sizning e\`loningiz tekshirishga yuborildi va yaqin orada yuklanadi</string>
-    <string name="submitError">E\`lonni jo\`natishda xatolik bo\`ldi iltimos %1$s murojat qiling</string>
+    <string name="smsSentText">To\'lovni tasdiqlash uchun ushbu raqamga sms yuborildi %1$s</string>
+    <string name="submittedToReview">Sizning e\'loningiz tekshirishga yuborildi va yaqin orada yuklanadi</string>
+    <string name="submitError">E\'lonni jo\'natishda xatolik bo\'ldi iltimos %1$s murojat qiling</string>
     <string name="support">Qayta aloqaga</string>
     <string name="ok" translatable="false">Ok</string>
     <string name="next">Oldinga</string>
@@ -96,5 +96,6 @@
         <item>Русский язык</item>
     </string-array>
     <string name="telegram_user_name_placeholder" translatable="false">\@ %1$s</string>
+    <string name="error">Ошибка</string>
 
 </resources>

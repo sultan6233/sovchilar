@@ -6,6 +6,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.sovchilar.made.data.remote.ApiService
 import com.sovchilar.made.databinding.FragmentAdvertisementBinding
 import com.sovchilar.made.domain.models.AdvertisementsModel
 import com.sovchilar.made.domain.usecases.AdvertisementsFixUseCase
@@ -15,7 +16,9 @@ import com.sovchilar.made.presentation.viewmodel.MainViewModel
 import com.sovchilar.made.uitls.femaleGender
 import com.sovchilar.made.uitls.maleGender
 import com.sovchilar.made.uitls.utils.BaseFragment
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class AdvertisementFragment :
     BaseFragment<FragmentAdvertisementBinding>(FragmentAdvertisementBinding::inflate) {

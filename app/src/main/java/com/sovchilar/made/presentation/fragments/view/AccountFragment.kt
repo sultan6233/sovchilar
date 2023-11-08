@@ -1,23 +1,31 @@
 package com.sovchilar.made.presentation.fragments.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.sovchilar.made.R
 import com.sovchilar.made.data.local.usecases.EncryptedSharedPrefsUseCase
+import com.sovchilar.made.data.remote.ApiService
 import com.sovchilar.made.databinding.FragmentAccountBinding
+import com.sovchilar.made.domain.models.UserModel
 import com.sovchilar.made.domain.usecases.OpenTelegramUseCase
 import com.sovchilar.made.presentation.usecases.navigateSafe
 import com.sovchilar.made.presentation.viewmodel.AccountViewModel
 import com.sovchilar.made.uitls.authenticated
+import com.sovchilar.made.uitls.token
 import com.sovchilar.made.uitls.utils.BaseFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class AccountFragment : BaseFragment<FragmentAccountBinding>(FragmentAccountBinding::inflate) {
 
@@ -43,8 +51,27 @@ class AccountFragment : BaseFragment<FragmentAccountBinding>(FragmentAccountBind
                     binding.clAccount.isVisible = true
                 }
             }
-
         }
+//        lifecycleScope.launch {
+//            val token = encryptedSharedPrefsUseCase.readFromFile(token)
+//            withContext(Dispatchers.IO) {
+//                ApiService.create().getOwnAdvertisements("Bearer $token")
+//                    .enqueue(object : Callback<UserModel> {
+//                        override fun onResponse(
+//                            call: Call<UserModel>,
+//                            response: Response<UserModel>
+//                        ) {
+//                            response.body()?.let {
+//                                Log.d("suka", it.toString())
+//                            }
+//                        }
+//
+//                        override fun onFailure(call: Call<UserModel>, t: Throwable) {
+//                            Log.d("suka", t.localizedMessage ?: "unknown error")
+//                        }
+//                    })
+//            }
+//        }
 
         binding.ibLanguage.setOnClickListener {
             findNavController().navigateSafe(R.id.action_accountFragment_to_changeLanguageFragment)

@@ -70,10 +70,7 @@ class AdvertisementsFixUseCase(val context: Context) {
             advertisementsFixedModel.name,
             advertisementsFixedModel.age,
             advertisementsFixedModel.nationality,
-            getFixMarriageStatusToServer(
-                advertisementsFixedModel.marriageStatus,
-                advertisementsFixedModel.gender
-            ),
+            getFixMarriageStatusToServer(advertisementsFixedModel.marriageStatus),
             fixChildrenToServer(advertisementsFixedModel.children),
             advertisementsFixedModel.fromAge,
             advertisementsFixedModel.tillAge,
@@ -118,19 +115,11 @@ class AdvertisementsFixUseCase(val context: Context) {
         }
     }
 
-    private fun getFixMarriageStatusToServer(marriageStatus: String, gender: String): String {
-        return if (marriageDivorced == marriageStatus) {
-            if (maleGender == gender) {
-                marriageDivorced
-            } else {
-                marriageDivorced
-            }
+    private fun getFixMarriageStatusToServer(marriageStatus: String): String {
+        return if (context.getString(R.string.divorced) == marriageStatus) {
+            marriageDivorced
         } else {
-            if (maleGender == gender) {
-                noMarriage
-            } else {
-                noMarriage
-            }
+            noMarriage
         }
     }
 

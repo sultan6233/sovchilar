@@ -87,4 +87,6 @@
     <string name="submittedToReview">Ваше объявление отправлено на проверку и в ближайщее время будет опубликован</string>
     <string name="submitError">Ошибка при отправке объявления, пожалуйста обратитесь в</string>
     <string name="support">поддержку</string>
+    <string name="next">Сохранить</string>
+    <string name="language_pick">Выберите язык приложения</string>
 </resources>

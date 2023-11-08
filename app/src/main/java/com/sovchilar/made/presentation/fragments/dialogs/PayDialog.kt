@@ -1,5 +1,6 @@
 package com.sovchilar.made.presentation.fragments.dialogs
 
+import android.content.Context
 import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.Rect
@@ -10,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
@@ -17,6 +19,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.snackbar.Snackbar
 import com.sovchilar.made.R
 import com.sovchilar.made.data.local.usecases.EncryptedSharedPrefsUseCase
 import com.sovchilar.made.databinding.FragmentDialogPayBinding
@@ -59,6 +62,7 @@ class PayDialog(val postI: PostI) : DialogFragment() {
         val percentWidth = rect.width() * percent
         dialog?.window?.setLayout(percentWidth.toInt(), ViewGroup.LayoutParams.WRAP_CONTENT)
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setWidthPercent(90)
@@ -102,9 +106,15 @@ class PayDialog(val postI: PostI) : DialogFragment() {
         viewModel.paymentConfirmResult.observe(viewLifecycleOwner) { paymentConfirmResult ->
             paymentConfirmResult?.let {
                 postI.successFullPayment()
+                hideKeyboard(requireView())
                 dismiss()
             }
         }
+    }
+
+    fun hideKeyboard(view: View) {
+        val imm = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     private fun initClicks() {
@@ -125,7 +135,8 @@ class PayDialog(val postI: PostI) : DialogFragment() {
                 binding.clPayment.isVisible = false
                 binding.clPaymentConfirmation.isVisible = true
                 binding.tvSendSms.text = getString(R.string.smsSentText, it.result.otpSentPhone)
-            }
+            } ?: Snackbar.make(requireView(), getString(R.string.error), Snackbar.LENGTH_LONG)
+                .show()
         }
     }
 
@@ -203,15 +214,17 @@ class PayDialog(val postI: PostI) : DialogFragment() {
         ) {
             binding.tipExpireDate.error = getString(R.string.invalid_expire_date)
             return false
-        } else if (!binding.tedCardNumber.text.toString().substring(0, 4).contains(uzcard)) {
-            return if (!binding.tedCardNumber.text.toString().substring(0, 4).contains(humo)) {
-                binding.tipCardNumber.error = getString(R.string.invalid_card_number)
-                false
-            } else {
-                true
-            }
-
-        } else {
+        }
+//        else if (!binding.tedCardNumber.text.toString().substring(0, 4).contains(uzcard)) {
+//            return if (!binding.tedCardNumber.text.toString().substring(0, 4).contains(humo)) {
+//                binding.tipCardNumber.error = getString(R.string.invalid_card_number)
+//                false
+//            } else {
+//                true
+//            }
+//
+//        }
+        else {
             return true
         }
 
