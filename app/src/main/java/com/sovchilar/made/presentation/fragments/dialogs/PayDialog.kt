@@ -20,21 +20,16 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
+import com.sovchilar.made.EncryptedSharedPrefsUseCase
 import com.sovchilar.made.R
-import com.sovchilar.made.data.local.usecases.EncryptedSharedPrefsUseCase
 import com.sovchilar.made.databinding.FragmentDialogPayBinding
-import com.sovchilar.made.domain.PostI
 import com.sovchilar.made.presentation.viewmodel.PayViewModel
-import com.sovchilar.made.uitls.humo
-import com.sovchilar.made.uitls.token
-import com.sovchilar.made.uitls.uzcard
-import dagger.hilt.android.AndroidEntryPoint
+import sovchilar.uz.comm.token
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-@AndroidEntryPoint
-class PayDialog(val postI: PostI) : DialogFragment() {
+class PayDialog : DialogFragment() {
     private var _binding: FragmentDialogPayBinding? = null
     private val binding get() = _binding!!
     private val viewModel: PayViewModel by viewModels()
@@ -78,7 +73,7 @@ class PayDialog(val postI: PostI) : DialogFragment() {
             viewModel.confirmPaymentRequest(
                 smsCode,
                 viewModel.paymentResult!!.result.session,
-                encryptedSharedPrefsUseCase.readFromFile(token)
+                encryptedSharedPrefsUseCase.readFromFile(sovchilar.uz.comm.token)
             )
         }
     }
@@ -105,7 +100,6 @@ class PayDialog(val postI: PostI) : DialogFragment() {
     private fun initConfirmObserver() {
         viewModel.paymentConfirmResult.observe(viewLifecycleOwner) { paymentConfirmResult ->
             paymentConfirmResult?.let {
-                postI.successFullPayment()
                 hideKeyboard(requireView())
                 dismiss()
             }
@@ -181,7 +175,7 @@ class PayDialog(val postI: PostI) : DialogFragment() {
             }
             withContext(Dispatchers.IO) {
                 viewModel.payRequest(
-                    cardNumber, expireDate, encryptedSharedPrefsUseCase.readFromFile(token)
+                    cardNumber, expireDate, encryptedSharedPrefsUseCase.readFromFile(sovchilar.uz.comm.token)
                 )
             }
         }

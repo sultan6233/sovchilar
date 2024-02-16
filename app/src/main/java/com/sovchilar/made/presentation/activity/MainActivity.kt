@@ -12,41 +12,80 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.animation.doOnEnd
 import androidx.core.view.ViewCompat
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupWithNavController
+import com.github.terrakok.cicerone.androidx.AppNavigator
 import com.sovchilar.made.R
-import com.sovchilar.made.data.local.usecases.EncryptedSharedPrefsUseCase
+import com.sovchilar.made.core.MainApplication
 import com.sovchilar.made.databinding.ActivityMainBinding
-import com.sovchilar.made.domain.models.remote.auth.AuthState
+import com.sovchilar.made.presentation.navigation_utils.Screens
 import com.sovchilar.made.presentation.viewmodel.MainViewModel
-import com.sovchilar.made.uitls.authenticated
-import com.sovchilar.made.uitls.login
-import com.sovchilar.made.uitls.password
-import com.sovchilar.made.uitls.token
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
+import sovchilar.uz.comm.first_launch
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import sovchilar.uz.domain.models.remote.auth.AuthState
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private val viewModel: MainViewModel by viewModels()
-    private val encryptedSharedPrefsUseCase by lazy { EncryptedSharedPrefsUseCase(this) }
+
+
+    private val navigator = AppNavigator(this, R.id.clMain)
+
+    override fun onResumeFragments() {
+        super.onResumeFragments()
+        MainApplication.INSTANCE.navigatorHolder.setNavigator(navigator)
+    }
+
+    override fun onPause() {
+        MainApplication.INSTANCE.navigatorHolder.removeNavigator()
+        super.onPause()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         lifecycleScope.launch {
-            initNavHostFragment()
-            authenticate()
+//            if (encryptedSharedPrefsUseCase.readBoolean(first_launch)) {
+//                viewModel.dataReady.value = true
+//            } else {
+//                //  authenticate()
+//            }
+            initBottomNavigationView()
             initSplashAnimation()
             setStatusBarLightText(window)
-            observeAuth()
             makeBlurBackground()
+            viewModel.dataReady.value = true
         }
+    }
+
+    private fun initBottomNavigationView() {
+        binding.bnvSovchilar.setOnItemSelectedListener {
+            when (it.itemId) {
+                R.id.advertisementFragment -> {
+                    MainApplication.INSTANCE.router.newRootScreen(Screens.advertisementsFragment())
+                    true
+                }
+
+                R.id.accountFragment -> {
+                    when (viewModel.loginLiveData.value?.state) {
+                        AuthState.AUTHENTICATED ->
+                            MainApplication.INSTANCE.router.newRootScreen(Screens.accountFragment())
+
+                        else -> MainApplication.INSTANCE.router.newRootScreen(
+                            Screens.registerFragment()
+                        )
+                    }
+                    true
+                }
+
+                else -> {
+                    false
+                }
+            }
+        }
+        binding.bnvSovchilar.selectedItemId = R.id.advertisementFragment
     }
 
     private fun makeBlurBackground() {
@@ -61,67 +100,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun authenticate() {
-        lifecycleScope.launch {
-            withContext(Dispatchers.IO) {
-                viewModel.loginOrRegisterRequest(
-                    encryptedSharedPrefsUseCase.readFromFile(login),
-                    encryptedSharedPrefsUseCase.readFromFile(password)
-                )
-            }
-        }
-    }
-
-    private fun observeAuth() {
-        viewModel.loginLiveData.observe(this) {
-            lifecycleScope.launch {
-                withContext(Dispatchers.IO) {
-                    viewModel.loginLiveData = MutableLiveData()
-                    when (it.state) {
-                        AuthState.AUTHENTICATED -> {
-                            withContext(Dispatchers.IO) {
-                                encryptedSharedPrefsUseCase.saveAuthState(authenticated)
-                                encryptedSharedPrefsUseCase.writeIntoFile(token, it.token.toString())
-                                viewModel.dataReady.postValue(true)
-                            }
-                        }
-
-                        AuthState.INVALID_AUTHENTICATION -> {
-                            withContext(Dispatchers.IO) {
-                                viewModel.dataReady.postValue(true)
-                            }
-                        }
-
-                        else -> {
-                            withContext(Dispatchers.IO) {
-                                viewModel.dataReady.postValue(true)
-                            }
-                        }
-                    }
-                }
-
-            }
-        }
-    }
-
     private fun setStatusBarLightText(window: Window) {
-        setStatusBarLightTextOldApi(window, false)
-        setStatusBarLightTextNewApi(window, false)
+        setStatusBarLightTextOldApi(window)
+        setStatusBarLightTextNewApi(window)
     }
 
 
-    private fun setStatusBarLightTextOldApi(window: Window, isLight: Boolean) {
+    private fun setStatusBarLightTextOldApi(window: Window) {
         val decorView = window.decorView
-        decorView.systemUiVisibility = if (isLight) {
-            decorView.systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
-        } else {
+        decorView.systemUiVisibility =
             decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-        }
     }
 
-    private fun setStatusBarLightTextNewApi(window: Window, isLightText: Boolean) {
+    private fun setStatusBarLightTextNewApi(window: Window) {
         ViewCompat.getWindowInsetsController(window.decorView)?.apply {
-            isAppearanceLightStatusBars = !isLightText
+            isAppearanceLightStatusBars = true
         }
     }
 
@@ -147,12 +140,4 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
-    private fun initNavHostFragment() {
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        val navController = navHostFragment.navController
-        binding.bnvSovchilar.setupWithNavController(navController)
-    }
-
 }

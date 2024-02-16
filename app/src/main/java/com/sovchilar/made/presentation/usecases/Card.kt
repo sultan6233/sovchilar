@@ -2,17 +2,9 @@ package com.sovchilar.made.presentation.usecases
 
 import android.graphics.PorterDuff
 import com.sovchilar.made.R
-import com.sovchilar.made.domain.models.CardModel
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.components.FragmentComponent
-import javax.inject.Inject
+import sovchilar.uz.domain.models.CardModel
 
-@Module
-@InstallIn(FragmentComponent::class)
-class Card @Inject constructor() {
-    @Provides
+class Card {
     fun validateCard(_input: String, size: Int): CardModel {
         return if (size >= 4) {
             val input = _input.substring(0, 4)
@@ -20,13 +12,22 @@ class Card @Inject constructor() {
                 CardModel(R.drawable.uzcard_logo, PorterDuff.Mode.SRC_IN)
             } else {
                 if (input == "9860") {
-                    CardModel(R.drawable.humo_logo, PorterDuff.Mode.SCREEN)
+                    CardModel(
+                        R.drawable.humo_logo,
+                        PorterDuff.Mode.SCREEN
+                    )
                 } else {
-                    CardModel(R.drawable.card_icon_placeholder, PorterDuff.Mode.SRC_IN)
+                    CardModel(
+                        R.drawable.card_icon_placeholder,
+                        PorterDuff.Mode.SRC_IN
+                    )
                 }
             }
         } else {
-            CardModel(R.drawable.card_icon_placeholder, PorterDuff.Mode.SRC_IN)
+            CardModel(
+                R.drawable.card_icon_placeholder,
+                PorterDuff.Mode.SRC_IN
+            )
         }
     }
 }

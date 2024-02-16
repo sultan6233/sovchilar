@@ -17,10 +17,13 @@ class TelegramSymbolInputFilter(private val symbol: String) : InputFilter {
                 ""
             }
 
+            source.toString().contains(symbol) && dest.toString().contains(symbol) -> {
+                source.toString().replace(symbol,"")
+            }
+
             source.toString() != symbol && dest.isNullOrEmpty() -> {
                 symbol + source
             }
-
             else -> null
         }
     }

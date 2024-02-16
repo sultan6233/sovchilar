@@ -5,12 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.sovchilar.made.R
-import com.sovchilar.made.databinding.FragmentChangeLanguageBinding
-import com.sovchilar.made.databinding.ItemAdvertisementBinding
 import com.sovchilar.made.databinding.ItemLanguageBinding
-import com.sovchilar.made.domain.models.AdvertisementsFixedModel
-import com.sovchilar.made.domain.usecases.OpenTelegramUseCase
 import com.sovchilar.made.presentation.fragments.language.Language
 
 class ChangeLanguageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

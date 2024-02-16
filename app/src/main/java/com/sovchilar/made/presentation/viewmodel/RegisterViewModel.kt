@@ -1,76 +1,59 @@
 package com.sovchilar.made.presentation.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.google.gson.Gson
-import com.sovchilar.made.data.local.usecases.EncryptedSharedPrefsUseCase
-import com.sovchilar.made.data.remote.ApiService
-import com.sovchilar.made.domain.models.remote.auth.AuthErrorModel
-import com.sovchilar.made.domain.models.remote.auth.AuthModel
-import com.sovchilar.made.domain.models.remote.auth.AuthResponseModel
-import com.sovchilar.made.domain.models.remote.auth.AuthState
-import com.sovchilar.made.domain.models.remote.auth.AuthStateModel
-import com.sovchilar.made.uitls.authenticated
-import com.sovchilar.made.uitls.login
-import com.sovchilar.made.uitls.password
-import com.sovchilar.made.uitls.token
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.channelFlow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.sovchilar.made.EncryptedSharedPrefsUseCase
 
 class RegisterViewModel : ViewModel() {
-    val loginLiveData = MutableLiveData<AuthStateModel>()
+    val loginLiveData = MutableLiveData<sovchilar.uz.domain.models.remote.auth.AuthStateModel>()
     suspend fun loginOrRegisterRequest(login: String, password: String) {
-        ApiService.create().loginOrRegister(AuthModel(login, password))
-            .enqueue(object : Callback<AuthResponseModel> {
-                override fun onResponse(
-                    call: Call<AuthResponseModel>, response: Response<AuthResponseModel>
-                ) {
-                    if (response.isSuccessful) {
-                        response.body()?.let {
-                            loginLiveData.postValue(
-                                AuthStateModel(
-                                    AuthState.AUTHENTICATED,
-                                    it.token
-                                )
-                            )
-                        } ?: loginLiveData.postValue(
-                            AuthStateModel(
-                                AuthState.INVALID_AUTHENTICATION,
-                                null
-                            )
-                        )
-                    } else {
-                        if (response.code() == 400) {
-                            val gson = Gson()
-                            val errorResponse = gson.fromJson(
-                                response.errorBody()?.charStream(),
-                                AuthErrorModel::class.java
-                            )
-                            loginLiveData.postValue(
-                                AuthStateModel(
-                                    AuthState.INVALID_AUTHENTICATION,
-                                    null,
-                                    errorResponse.message
-                                )
-                            )
-                        }
-
-                    }
-                }
-
-                override fun onFailure(call: Call<AuthResponseModel>, t: Throwable) {
-
-                }
-            })
+//        sovchilar.arch.featureremoteapi.ApiService.create().loginOrRegister(
+//            sovchilar.uz.domain.models.remote.auth.AuthModel(
+//                login,
+//                password
+//            )
+//        )
+//            .enqueue(object : Callback<sovchilar.uz.domain.models.remote.auth.AuthResponseModel> {
+//                override fun onResponse(
+//                    call: Call<sovchilar.uz.domain.models.remote.auth.AuthResponseModel>, response: Response<sovchilar.uz.domain.models.remote.auth.AuthResponseModel>
+//                ) {
+//                    if (response.isSuccessful) {
+//                        response.body()?.let {
+//                            loginLiveData.postValue(
+//                                sovchilar.uz.domain.models.remote.auth.AuthStateModel(
+//                                    sovchilar.uz.domain.models.remote.auth.AuthState.AUTHENTICATED,
+//                                    it.token
+//                                )
+//                            )
+//                        } ?: loginLiveData.postValue(
+//                            sovchilar.uz.domain.models.remote.auth.AuthStateModel(
+//                                sovchilar.uz.domain.models.remote.auth.AuthState.INVALID_AUTHENTICATION,
+//                                null
+//                            )
+//                        )
+//                    } else {
+//                        if (response.code() == 400) {
+//                            val gson = Gson()
+//                            val errorResponse = gson.fromJson(
+//                                response.errorBody()?.charStream(),
+//                                sovchilar.uz.domain.models.remote.auth.AuthErrorModel::class.java
+//                            )
+//                            loginLiveData.postValue(
+//                                sovchilar.uz.domain.models.remote.auth.AuthStateModel(
+//                                    sovchilar.uz.domain.models.remote.auth.AuthState.INVALID_AUTHENTICATION,
+//                                    null,
+//                                    errorResponse.message
+//                                )
+//                            )
+//                        }
+//
+//                    }
+//                }
+//
+//                override fun onFailure(call: Call<sovchilar.uz.domain.models.remote.auth.AuthResponseModel>, t: Throwable) {
+//
+//                }
+//            })
     }
 
     suspend fun saveCredentials(
@@ -80,12 +63,12 @@ class RegisterViewModel : ViewModel() {
         tokenText: String
     ) {
         encryptedSharedPrefsUseCase.writeIntoFile(
-            login, loginText
+            sovchilar.uz.comm.login, loginText
         )
         encryptedSharedPrefsUseCase.writeIntoFile(
-            password, passwordText
+            sovchilar.uz.comm.password, passwordText
         )
-        encryptedSharedPrefsUseCase.writeIntoFile(token, tokenText)
-        encryptedSharedPrefsUseCase.saveAuthState(authenticated)
+        encryptedSharedPrefsUseCase.writeIntoFile(sovchilar.uz.comm.token, tokenText)
+        encryptedSharedPrefsUseCase.saveAuthState(sovchilar.uz.comm.authenticated)
     }
 }

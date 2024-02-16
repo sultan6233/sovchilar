@@ -1,12 +1,11 @@
 package com.sovchilar.made.presentation.fragments.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import com.sovchilar.made.R
 import com.sovchilar.made.databinding.FragmentPostedInfoBinding
-import com.sovchilar.made.uitls.utils.BaseFragment
+import com.sovchilar.made.presentation.usecases.BaseFragment
 
 class PostedInfoFragment :
     BaseFragment<FragmentPostedInfoBinding>(FragmentPostedInfoBinding::inflate) {

@@ -6,6 +6,7 @@
     <string name="nationality">Millatingiz</string>
     <string name="divorced">Ajrashgan</string>
     <string name="never_married">Turmush qurmagan</string>
+    <string name="widower">Beva</string>
     <string name="have_children">Farzindingiz bormi</string>
     <string name="add_have_children">Farzindim bor</string>
     <string name="no_children">Farzandi yo\'q</string>
@@ -13,7 +14,7 @@
     <string name="ageRestriction">Yosh Chegarasi</string>
     <string name="fromAge">Dan</string>
     <string name="tillAge">Gacha</string>
-    <string name="telegram">telegramingiz</string>
+    <string name="telegram">Telegram nikingiz(@username)</string>
     <string name="telegramUserName">\@</string>
     <string name="uzbekistan">O\'zbekiston</string>
     <string name="tashkent">Toshkent</string>
@@ -97,5 +98,6 @@
     </string-array>
     <string name="telegram_user_name_placeholder" translatable="false">\@ %1$s</string>
     <string name="error">Ошибка</string>
+    <string name="ad">Reklama</string>
 
 </resources>

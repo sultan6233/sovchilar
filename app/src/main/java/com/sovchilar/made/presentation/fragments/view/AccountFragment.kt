@@ -1,36 +1,27 @@
 package com.sovchilar.made.presentation.fragments.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.sovchilar.made.EncryptedSharedPrefsUseCase
 import com.sovchilar.made.R
-import com.sovchilar.made.data.local.usecases.EncryptedSharedPrefsUseCase
-import com.sovchilar.made.data.remote.ApiService
 import com.sovchilar.made.databinding.FragmentAccountBinding
-import com.sovchilar.made.domain.models.UserModel
-import com.sovchilar.made.domain.usecases.OpenTelegramUseCase
 import com.sovchilar.made.presentation.usecases.navigateSafe
 import com.sovchilar.made.presentation.viewmodel.AccountViewModel
-import com.sovchilar.made.uitls.authenticated
-import com.sovchilar.made.uitls.token
-import com.sovchilar.made.uitls.utils.BaseFragment
+import sovchilar.uz.comm.authenticated
+import com.sovchilar.made.presentation.usecases.BaseFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class AccountFragment : BaseFragment<FragmentAccountBinding>(FragmentAccountBinding::inflate) {
 
     private val viewModel: AccountViewModel by viewModels()
-    private val openTelegramUseCase = OpenTelegramUseCase()
+    private val openTelegramUseCase = sovchilar.uz.domain.usecases.OpenTelegramUseCase()
     private val encryptedSharedPrefsUseCase by lazy {
         EncryptedSharedPrefsUseCase(requireContext())
     }

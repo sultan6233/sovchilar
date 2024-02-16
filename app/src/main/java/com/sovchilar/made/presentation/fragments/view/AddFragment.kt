@@ -14,30 +14,27 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
+import com.sovchilar.made.EncryptedSharedPrefsUseCase
 import com.sovchilar.made.R
-import com.sovchilar.made.data.local.usecases.EncryptedSharedPrefsUseCase
 import com.sovchilar.made.databinding.FragmentAddBinding
-import com.sovchilar.made.domain.PostI
-import com.sovchilar.made.domain.models.AdvertisementsFixedModel
-import com.sovchilar.made.domain.usecases.AdvertisementsFixUseCase
-import com.sovchilar.made.presentation.fragments.dialogs.PayDialog
 import com.sovchilar.made.presentation.fragments.view.extentions.markRequiredInRed
-import com.sovchilar.made.presentation.usecases.GradientTextViewUseCase
+import com.sovchilar.made.presentation.mappers.AdvertisementsModelMapper
+import com.sovchilar.made.presentation.usecases.BaseFragment
 import com.sovchilar.made.presentation.usecases.GradientTextViewUseCase.awaitLayoutChange
 import com.sovchilar.made.presentation.usecases.GradientTextViewUseCase.setGradientTextColor
 import com.sovchilar.made.presentation.usecases.TelegramSymbolInputFilter
 import com.sovchilar.made.presentation.viewmodel.AddViewModel
-import com.sovchilar.made.uitls.token
-import com.sovchilar.made.uitls.utils.BaseFragment
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import sovchilar.uz.comm.token
+import sovchilar.uz.domain.models.remote.AdvertisementModelPresentation
+import sovchilar.uz.domain.models.states.MarriageStatus
+import sovchilar.uz.domain.utils.DataState
 
-@AndroidEntryPoint
-class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate), PostI {
+class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate) {
     private val viewModel: AddViewModel by viewModels()
-    private val payDialog by lazy { PayDialog(this) }
 
     private val encryptedSharedPrefsUseCase by lazy {
         EncryptedSharedPrefsUseCase(requireContext())
@@ -74,39 +71,28 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
         )
     }
 
+    private val advertisementsModelMapper by lazy { AdvertisementsModelMapper(requireContext()) }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launch {
-            withContext(Dispatchers.IO) {
-                viewModel.getPriceRequest(
-                    encryptedSharedPrefsUseCase.readFromFile(
-                        token
-                    )
-                )
-            }
             initMarriageStatus()
             initChildren()
             initCountry()
             initCity()
             initEditTextsHint()
             initClicks()
-            initPayButton()
-        }
-        binding.tedTelegram.filters = arrayOf(telegramSymbolInputFilter)
-
-        lifecycleScope.launch {
             binding.tvDescription.awaitLayoutChange()
             binding.tvDescription.setGradientTextColor(
                 requireActivity(),
                 R.color.light_pink,
                 R.color.dark_pink
             )
-        }
-        lifecycleScope.launch {
             fixAutoCompleteTextViewsError()
         }
 
+        binding.tedTelegram.filters = arrayOf(telegramSymbolInputFilter)
     }
 
     private fun initEditTextsHint() {
@@ -135,9 +121,9 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
         binding.btnPay.setOnClickListener {
             when (checkAllFields()) {
                 true -> {
-                    if (isAdded) {
-                        payDialog.show(parentFragmentManager, "payDialog")
-                    }
+//                    if (isAdded) {
+//                        payDialog.show(parentFragmentManager, "payDialog")
+//                    }
                 }
 
                 false -> Snackbar.make(
@@ -151,7 +137,7 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
 
     }
 
-    private fun submit() {
+    private fun collectUserInput() {
         lifecycleScope.launch {
             val name = binding.tedName.text.toString()
             val age = binding.tedAge.text.toString().toInt()
@@ -159,22 +145,29 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
             val fromAge = binding.tedFromAge.text.toString().toInt()
             val tillAge = binding.tedTillAge.text.toString().toInt()
             val telegram = binding.tedTelegram.text.toString()
-            val marriageStatus = binding.spMarriageStatus.text.toString()
-            val children =
-                binding.spChildren.text.toString()
+            val marriageStatus = when (binding.spMarriageStatus.text.toString()) {
+                getString(R.string.divorced) -> MarriageStatus.DIVORCED
+                getString(R.string.never_married) -> MarriageStatus.NOMARRIAGE
+                getString(R.string.widower) -> MarriageStatus.WIDOWER
+                else -> MarriageStatus.NOMARRIAGE
+            }
+            val children = binding.spChildren.text.toString()
+            binding.spChildren.text.toString()
             val country = binding.spCountry.text.toString()
             val city = binding.spCity.text.toString()
             val moreInfo = binding.tedMoreInfo.text.toString()
             val checkedId = binding.rgGender.checkedRadioButtonId
             val gender = requireView().findViewById<RadioButton>(checkedId).text.toString()
+
+
             withContext(Dispatchers.IO) {
                 viewModel.postAdvertisement(
                     encryptedSharedPrefsUseCase.readFromFile(
                         token
                     ),
-                    AdvertisementsFixUseCase(requireContext()).getAdvertisementsToServer(
-                        AdvertisementsFixedModel(
-                            null,
+                    advertisementsModelMapper.mapToAdvertisementModel(
+                        AdvertisementModelPresentation(
+                            0,
                             name = name,
                             age = age,
                             nationality = nationality,
@@ -281,18 +274,6 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
         return countErrors <= 0
     }
 
-
-    private fun initPayButton() {
-        lifecycleScope.launch {
-            viewModel.priceLiveData.observe(viewLifecycleOwner) { price ->
-                binding.btnPay.text = getString(
-                    R.string.pay_and_amount, price + " " + getString(R.string.sum)
-                )
-            }
-        }
-
-    }
-
     private fun initMarriageStatus() {
         val adapter =
             ArrayAdapter(requireContext(), R.layout.spinner_item_layout, marriageStatusItems)
@@ -318,16 +299,18 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
         binding.spCity.setAdapter(adapter)
     }
 
-    private fun observerSubmit() {
-        viewModel.advertisementAddedLiveData.observe(viewLifecycleOwner) {
-            it?.let {
-                showPurchaseConfirmationDialog(getString(R.string.submittedToReview))
-            } ?: showPurchaseConfirmationDialog(
-                String.format(
-                    getString(R.string.submitError), getString(R.string.support)
+    private fun observerSubmit() = lifecycleScope.launch {
+        viewModel.postResponse.collectLatest {
+            when (it) {
+                is DataState.Success -> showPurchaseConfirmationDialog(getString(R.string.submittedToReview))
+                is DataState.Error -> showPurchaseConfirmationDialog(
+                    String.format(
+                        getString(R.string.submitError), getString(R.string.support)
+                    )
                 )
-            )
 
+                is DataState.Loading -> ""
+            }
         }
     }
 
@@ -336,11 +319,6 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
         if (isAdded) {
             confirmationDialogFragment.show(childFragmentManager, "")
         }
-    }
-
-    override fun successFullPayment() {
-        observerSubmit()
-        submit()
     }
 
 }

@@ -1,66 +1,26 @@
 package com.sovchilar.made.presentation.viewmodel
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.sovchilar.made.data.remote.ApiService
-import com.sovchilar.made.domain.models.AdvertisementsModel
-import com.sovchilar.made.domain.models.PostResponse
-import com.sovchilar.made.domain.models.remote.payment.PaymentPriceResponseModel
-import dagger.hilt.android.lifecycle.HiltViewModel
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import javax.inject.Inject
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import sovchilar.uz.domain.models.PostResponse
+import sovchilar.uz.domain.models.remote.AdvertisementsModel
+import sovchilar.uz.domain.usecases.PostAdvertisementUseCase
+import sovchilar.uz.domain.utils.DataState
 
-@HiltViewModel
-class AddViewModel @Inject constructor() : ViewModel() {
-    val priceLiveData = MutableLiveData<String>()
-    val advertisementAddedLiveData = MutableLiveData<PostResponse?>()
-    suspend fun postAdvertisement(authToken: String, advertisementModel: AdvertisementsModel) {
-        ApiService.create().postAdvertisement("Bearer $authToken", advertisementModel)
-            .enqueue(object : Callback<PostResponse> {
-                override fun onResponse(
-                    call: Call<PostResponse>,
-                    response: Response<PostResponse>
-                ) {
-                    if (response.isSuccessful){
-                        response.body()?.let {
-                            advertisementAddedLiveData.postValue(it)
-                        }?:advertisementAddedLiveData.postValue(null)
-                    }
-                    else{
-                        advertisementAddedLiveData.postValue(null)
-                    }
-                }
+class AddViewModel(private val postAdvertisementUseCase: PostAdvertisementUseCase) : ViewModel() {
+    private val _postResponse = MutableStateFlow<DataState<PostResponse>>(DataState.Loading)
+    val postResponse: StateFlow<DataState<PostResponse>> = _postResponse.asStateFlow()
 
-                override fun onFailure(call: Call<PostResponse>, t: Throwable) {
-                    advertisementAddedLiveData.postValue(null)
-                }
-
-            })
+    fun postAdvertisement(authToken: String, advertisement: AdvertisementsModel) {
+        viewModelScope.launch {
+//            advertisementRepository.postAdvertisement(authToken, advertisement)
+//                .collect { dataState ->
+//                    _postResponse.value = dataState
+//                }
+        }
     }
-
-    fun getPriceRequest(authToken: String) {
-        ApiService.create().getPrice("Bearer $authToken")
-            .enqueue(object : Callback<PaymentPriceResponseModel> {
-
-                override fun onResponse(
-                    call: Call<PaymentPriceResponseModel>,
-                    response: Response<PaymentPriceResponseModel>
-                ) {
-                    if (response.isSuccessful) {
-                        response.body()?.let {
-                            priceLiveData.postValue(it.price.toInt().toString())
-                        }
-                    } else {
-
-                    }
-                }
-
-                override fun onFailure(call: Call<PaymentPriceResponseModel>, t: Throwable) {
-
-                }
-            })
-    }
-
 }
