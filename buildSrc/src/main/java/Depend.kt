@@ -47,7 +47,8 @@ object Depend {
     val okHttpLibraries = arrayOf(
         "com.squareup.okhttp3:okhttp:${Versions.Libraries.okhttp}",
         "com.squareup.okhttp3:logging-interceptor:${Versions.Libraries.okhttp}",
-        "com.squareup.retrofit2:retrofit:${Versions.Libraries.retrofit}"
+        "com.squareup.retrofit2:retrofit:${Versions.Libraries.retrofit}",
+
     )
 
     val retrofitConvert = "com.squareup.retrofit2:converter-gson:${Versions.Libraries.retrofit}"
@@ -62,8 +63,9 @@ object Depend {
     val others = arrayOf(
         "com.airbnb.android:lottie:${Versions.Libraries.lottie}",
         "com.onesignal:OneSignal:${Versions.Libraries.onesignal}",
-        "com.github.terrakok:cicerone:${Versions.Libraries.cicerone}"
-    )
+        "com.github.terrakok:cicerone:${Versions.Libraries.cicerone}",)
+
+    const val paging = "androidx.paging:paging-runtime:${Versions.paging_version}"
 
     // Test unit testImplementation
     const val testUnit = "junit:junit:${Versions.TestLibraries.junit}"

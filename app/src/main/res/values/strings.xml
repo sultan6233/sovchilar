@@ -10,6 +10,7 @@
     <string name="have_children">Farzindingiz bormi</string>
     <string name="add_have_children">Farzindim bor</string>
     <string name="no_children">Farzandi yo\'q</string>
+    <string name="yes_children">Farzandi bor</string>
     <string name="add_no_children">Farzandim yo\'q</string>
     <string name="ageRestriction">Yosh Chegarasi</string>
     <string name="fromAge">Dan</string>
@@ -99,5 +100,7 @@
     <string name="telegram_user_name_placeholder" translatable="false">\@ %1$s</string>
     <string name="error">Ошибка</string>
     <string name="ad">Reklama</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

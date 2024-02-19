@@ -2,39 +2,38 @@ package com.sovchilar.made.presentation.fragments.view.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.sovchilar.made.R
 import com.sovchilar.made.databinding.ItemAdvertisementBinding
 import sovchilar.uz.domain.models.remote.AdvertisementModelPresentation
 
-class AdvertisementAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class AdvertisementAdapter :
+    PagingDataAdapter<AdvertisementModelPresentation, AdvertisementAdapter.MainViewHolder>(diffCallback = differCallback) {
     companion object {
         private const val VIEW_TYPE_DEFAULT = 1
+        val differCallback = object : DiffUtil.ItemCallback<AdvertisementModelPresentation>() {
+
+            override fun areItemsTheSame(
+                oldItem: AdvertisementModelPresentation,
+                newItem: AdvertisementModelPresentation,
+            ): Boolean {
+                return oldItem.telegram == newItem.telegram
+            }
+
+            override fun areContentsTheSame(
+                oldItem: AdvertisementModelPresentation,
+                newItem: AdvertisementModelPresentation,
+            ): Boolean {
+                return oldItem.equals(newItem)
+            }
+        }
     }
 
     private val openTelegramUseCase by lazy { sovchilar.uz.domain.usecases.OpenTelegramUseCase() }
 
-    private val differCallback = object : DiffUtil.ItemCallback<AdvertisementModelPresentation>() {
-
-        override fun areItemsTheSame(
-            oldItem: AdvertisementModelPresentation,
-            newItem: AdvertisementModelPresentation,
-        ): Boolean {
-            return oldItem.telegram == newItem.telegram
-        }
-
-        override fun areContentsTheSame(
-            oldItem: AdvertisementModelPresentation,
-            newItem: AdvertisementModelPresentation,
-        ): Boolean {
-            return oldItem.equals(newItem)
-        }
-    }
-
-    val differ = AsyncListDiffer(this, differCallback)
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
         val binding = ItemAdvertisementBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
@@ -58,7 +57,10 @@ class AdvertisementAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 advertisementsModel.children.lowercase()
             )
             binding.tvProvidedAgeRestriction.text = String.format(
-                binding.tvProvidedAgeRestriction.context.getString(R.string.provided_age_restriction), advertisementsModel.fromAge.toString(), advertisementsModel.tillAge.toString())
+                binding.tvProvidedAgeRestriction.context.getString(R.string.provided_age_restriction),
+                advertisementsModel.fromAge.toString(),
+                advertisementsModel.tillAge.toString()
+            )
             binding.tvProvidedTelegram.text = advertisementsModel.telegram?.lowercase()
             binding.tvProvidedCountryAndCity.text = String.format(
                 binding.tvProvidedCountryAndCity.context.getString(R.string.provided_country_and_city),
@@ -79,24 +81,13 @@ class AdvertisementAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (holder is MainViewHolder) {
-            val foodItem = differ.currentList[position]
-            holder.bind(foodItem)
-        }
-
-    }
-
-    override fun getItemId(position: Int): Long {
-        return position.toLong()
-    }
-
     override fun getItemViewType(position: Int): Int {
         return VIEW_TYPE_DEFAULT
-
     }
 
-    override fun getItemCount(): Int {
-        return differ.currentList.size
+    override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
+        getItem(position)?.let {
+            holder.bind(it)
+        }
     }
 }

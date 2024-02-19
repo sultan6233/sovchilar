@@ -12,6 +12,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.sovchilar.made.EncryptedSharedPrefsUseCase
@@ -20,25 +21,20 @@ import com.sovchilar.made.databinding.FragmentAddBinding
 import com.sovchilar.made.presentation.fragments.view.extentions.markRequiredInRed
 import com.sovchilar.made.presentation.mappers.AdvertisementsModelMapper
 import com.sovchilar.made.presentation.usecases.BaseFragment
-import com.sovchilar.made.presentation.usecases.GradientTextViewUseCase.awaitLayoutChange
-import com.sovchilar.made.presentation.usecases.GradientTextViewUseCase.setGradientTextColor
 import com.sovchilar.made.presentation.usecases.TelegramSymbolInputFilter
 import com.sovchilar.made.presentation.viewmodel.AddViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import sovchilar.uz.comm.token
 import sovchilar.uz.domain.models.remote.AdvertisementModelPresentation
-import sovchilar.uz.domain.models.states.MarriageStatus
 import sovchilar.uz.domain.utils.DataState
 
+@AndroidEntryPoint
 class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate) {
     private val viewModel: AddViewModel by viewModels()
-
-    private val encryptedSharedPrefsUseCase by lazy {
-        EncryptedSharedPrefsUseCase(requireContext())
-    }
 
     private val marriageStatusItems by lazy {
         arrayListOf(
@@ -73,6 +69,7 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
 
     private val advertisementsModelMapper by lazy { AdvertisementsModelMapper(requireContext()) }
 
+    private val encryptedSharedPrefsUseCase by lazy { EncryptedSharedPrefsUseCase(requireContext()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -83,12 +80,12 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
             initCity()
             initEditTextsHint()
             initClicks()
-            binding.tvDescription.awaitLayoutChange()
-            binding.tvDescription.setGradientTextColor(
-                requireActivity(),
-                R.color.light_pink,
-                R.color.dark_pink
-            )
+//            binding.tvDescription.awaitLayoutChange()
+//            binding.tvDescription.setGradientTextColor(
+//                requireActivity(),
+//                R.color.light_pink,
+//                R.color.dark_pink
+//            )
             fixAutoCompleteTextViewsError()
         }
 
@@ -137,54 +134,46 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
 
     }
 
-    private fun collectUserInput() {
-        lifecycleScope.launch {
-            val name = binding.tedName.text.toString()
-            val age = binding.tedAge.text.toString().toInt()
-            val nationality = binding.tedNationality.text.toString()
-            val fromAge = binding.tedFromAge.text.toString().toInt()
-            val tillAge = binding.tedTillAge.text.toString().toInt()
-            val telegram = binding.tedTelegram.text.toString()
-            val marriageStatus = when (binding.spMarriageStatus.text.toString()) {
-                getString(R.string.divorced) -> MarriageStatus.DIVORCED
-                getString(R.string.never_married) -> MarriageStatus.NOMARRIAGE
-                getString(R.string.widower) -> MarriageStatus.WIDOWER
-                else -> MarriageStatus.NOMARRIAGE
-            }
-            val children = binding.spChildren.text.toString()
-            binding.spChildren.text.toString()
-            val country = binding.spCountry.text.toString()
-            val city = binding.spCity.text.toString()
-            val moreInfo = binding.tedMoreInfo.text.toString()
-            val checkedId = binding.rgGender.checkedRadioButtonId
-            val gender = requireView().findViewById<RadioButton>(checkedId).text.toString()
+    private fun postAdvertisement() = lifecycleScope.launch {
+        val advertisementModel =
+            advertisementsModelMapper.mapToAdvertisementModel(getUserInput())
+        viewModel.postAdvertisement(
+            encryptedSharedPrefsUseCase.readFromFile(token),
+            advertisementModel
+        )
+    }
 
+    private fun getUserInput(): AdvertisementModelPresentation {
+        val name = binding.tedName.text.toString()
+        val age = binding.tedAge.text.toString().toInt()
+        val nationality = binding.tedNationality.text.toString()
+        val fromAge = binding.tedFromAge.text.toString().toInt()
+        val tillAge = binding.tedTillAge.text.toString().toInt()
+        val telegram = binding.tedTelegram.text.toString()
+        val marriageStatus = binding.spMarriageStatus.text.toString()
+        val children = binding.spChildren.text.toString()
+        val country = binding.spCountry.text.toString()
+        val city = binding.spCity.text.toString()
+        val moreInfo = binding.tedMoreInfo.text.toString()
+        val checkedId = binding.rgGender.checkedRadioButtonId
+        val gender = requireView().findViewById<RadioButton>(checkedId).text.toString()
 
-            withContext(Dispatchers.IO) {
-                viewModel.postAdvertisement(
-                    encryptedSharedPrefsUseCase.readFromFile(
-                        token
-                    ),
-                    advertisementsModelMapper.mapToAdvertisementModel(
-                        AdvertisementModelPresentation(
-                            0,
-                            name = name,
-                            age = age,
-                            nationality = nationality,
-                            fromAge = fromAge,
-                            tillAge = tillAge,
-                            telegram = telegram,
-                            marriageStatus = marriageStatus,
-                            children = children,
-                            country = country,
-                            city = city,
-                            gender = gender,
-                            moreInfo = moreInfo
-                        )
-                    )
-                )
-            }
-        }
+        return AdvertisementModelPresentation(
+            0,
+            name,
+            age,
+            nationality,
+            marriageStatus,
+            children,
+            fromAge,
+            tillAge,
+            telegram,
+            null,
+            city,
+            gender,
+            country,
+            moreInfo
+        )
     }
 
     private fun fixAutoCompleteTextViewsError() {
@@ -300,27 +289,19 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
     }
 
     private fun observerSubmit() = lifecycleScope.launch {
-        viewModel.postResponse.collectLatest {
-            when (it) {
-                is DataState.Success -> showPurchaseConfirmationDialog(getString(R.string.submittedToReview))
-                is DataState.Error -> showPurchaseConfirmationDialog(
-                    String.format(
-                        getString(R.string.submitError), getString(R.string.support)
-                    )
-                )
-
-                is DataState.Loading -> ""
-            }
-        }
+//        viewModel.postResponse.collectLatest {
+//            when (it) {
+//                is DataState.Success -> showPurchaseConfirmationDialog(getString(R.string.submittedToReview))
+//                is DataState.Error -> showPurchaseConfirmationDialog(
+//                    String.format(
+//                        getString(R.string.submitError), getString(R.string.support)
+//                    )
+//                )
+//
+//                is DataState.Loading -> ""
+//            }
+//        }
     }
-
-    private fun showPurchaseConfirmationDialog(text: String) {
-        val confirmationDialogFragment = PurchaseConfirmationDialogFragment(text)
-        if (isAdded) {
-            confirmationDialogFragment.show(childFragmentManager, "")
-        }
-    }
-
 }
 
 class PurchaseConfirmationDialogFragment(val text: String) : DialogFragment() {

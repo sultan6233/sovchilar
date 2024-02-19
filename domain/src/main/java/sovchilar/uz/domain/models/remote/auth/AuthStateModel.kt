@@ -1,11 +1,11 @@
 package sovchilar.uz.domain.models.remote.auth
 
-data class AuthStateModel(
-    val state: AuthState,
-    val token: String? = null,
-    val message: String? = null
-)
+import sovchilar.uz.domain.utils.DataState
 
-enum class AuthState {
-    AUTHENTICATED, UNAUTHENTICATED, INVALID_AUTHENTICATION, CONNECTION_ERROR
+sealed class AuthState {
+    object Loading : AuthState()
+    data class AUTHENTICATED(val authData: AuthResponseModel) : AuthState()
+    object UNAUTHENTICATED : AuthState()
+    data class INVALID_AUTHENTICATION(val error: String) : AuthState()
+    data class CONNECTION_ERROR(val error: String) : AuthState()
 }

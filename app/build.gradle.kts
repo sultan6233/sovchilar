@@ -53,6 +53,7 @@ dependencies {
     Depend.okHttpLibraries.forEach { implementation(it) }
     implementation(Depend.retrofitConvert)
     kapt(Depend.hiltKapt)
+    implementation(Depend.paging)
 
     //leakcanary
     debugImplementation("com.squareup.leakcanary:leakcanary-android:2.12")

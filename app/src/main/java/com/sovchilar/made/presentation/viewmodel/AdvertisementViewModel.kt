@@ -4,8 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import sovchilar.uz.domain.models.UserModel
@@ -15,15 +18,13 @@ import sovchilar.uz.domain.utils.DataState
 import javax.inject.Inject
 
 @HiltViewModel
-class AdvertisementViewModel @Inject constructor(private val getAdvertisementsUseCase: GetAdvertisementsUseCase) :
+class AdvertisementViewModel @Inject constructor(val getAdvertisementsUseCase: GetAdvertisementsUseCase) :
     ViewModel() {
     val gender = MutableLiveData<String>()
 
 
-    private val _advertisements = MutableLiveData<DataState<UserModel>>()
-    val advertisements: LiveData<DataState<UserModel>> get() = _advertisements
-
-      var advertisementsList: ArrayList<AdvertisementsModel>? = ArrayList()
+    private val _advertisements = MutableLiveData<PagingData<AdvertisementsModel>>()
+    val advertisements: LiveData<PagingData<AdvertisementsModel>> get() = _advertisements
 
     init {
         getAdvertisements()
@@ -31,7 +32,7 @@ class AdvertisementViewModel @Inject constructor(private val getAdvertisementsUs
 
     fun getAdvertisements() = viewModelScope.launch {
         withContext(Dispatchers.IO) {
-            getAdvertisementsUseCase.invoke().collect { dataState ->
+            getAdvertisementsUseCase.invoke().cachedIn(viewModelScope).collectLatest { dataState ->
                 _advertisements.postValue(dataState)
             }
         }

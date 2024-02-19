@@ -5,7 +5,7 @@
         android:icon="@drawable/home_icon"
         android:title="" />
     <item
-        android:id="@+id/accountFragment"
+        android:id="@+id/accountContainerFragment"
         android:icon="@drawable/account_icon"
         android:title="" />
 </menu>

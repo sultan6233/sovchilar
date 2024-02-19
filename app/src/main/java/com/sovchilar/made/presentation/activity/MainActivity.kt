@@ -12,80 +12,103 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.animation.doOnEnd
 import androidx.core.view.ViewCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.github.terrakok.cicerone.androidx.AppNavigator
+import androidx.navigation.NavOptions
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.onNavDestinationSelected
+import androidx.navigation.ui.setupWithNavController
+import com.sovchilar.made.EncryptedSharedPrefsUseCase
 import com.sovchilar.made.R
-import com.sovchilar.made.core.MainApplication
 import com.sovchilar.made.databinding.ActivityMainBinding
 import com.sovchilar.made.presentation.navigation_utils.Screens
 import com.sovchilar.made.presentation.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import sovchilar.uz.comm.first_launch
 import kotlinx.coroutines.launch
-import sovchilar.uz.domain.models.remote.auth.AuthState
+import sovchilar.uz.comm.first_launch
+import sovchilar.uz.comm.login
+import sovchilar.uz.comm.password
+import sovchilar.uz.domain.models.remote.auth.AuthModel
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+    val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private val viewModel: MainViewModel by viewModels()
+    private var oldFragment: Fragment = Screens.advertisementsFragment
 
+    private val encryptedSharedPrefsUseCase by lazy { EncryptedSharedPrefsUseCase(applicationContext) }
 
-    private val navigator = AppNavigator(this, R.id.clMain)
-
-    override fun onResumeFragments() {
-        super.onResumeFragments()
-        MainApplication.INSTANCE.navigatorHolder.setNavigator(navigator)
-    }
-
-    override fun onPause() {
-        MainApplication.INSTANCE.navigatorHolder.removeNavigator()
-        super.onPause()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         lifecycleScope.launch {
-//            if (encryptedSharedPrefsUseCase.readBoolean(first_launch)) {
-//                viewModel.dataReady.value = true
-//            } else {
-//                //  authenticate()
-//            }
+            if (encryptedSharedPrefsUseCase.readBoolean(first_launch)) {
+                viewModel.dataReady.value = true
+                encryptedSharedPrefsUseCase.putBoolean(first_launch)
+            } else {
+                viewModel.loginOrRegister(
+                    AuthModel(
+                        encryptedSharedPrefsUseCase.readFromFile(
+                            login
+                        ), encryptedSharedPrefsUseCase.readFromFile(password)
+                    )
+                )
+            }
             initBottomNavigationView()
             initSplashAnimation()
             setStatusBarLightText(window)
             makeBlurBackground()
-            viewModel.dataReady.value = true
+            //   updateBottomNavigationSelection()
+
         }
     }
 
     private fun initBottomNavigationView() {
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
+        binding.bnvSovchilar.setupWithNavController(navController)
+        NavigationUI.setupWithNavController(binding.bnvSovchilar, navController, true)
+//        binding.bnvSovchilar.setOnItemSelectedListener {
+//            when (it.itemId) {
+//                R.id.accountContainerFragment -> {
+//                    if (navController.currentDestination?.id != R.id.accountContainerFragment) {
+//                        navController.navigate(R.id.accountContainerFragment)
+//                    }
+//                    true
+//                }
+//
+//                else -> NavigationUI.onNavDestinationSelected(it, navController)
+//            }
+//        }
+
+
+        val navControllerAccount by lazy {
+            findNavController(R.id.nav_host_account_fragment)
+        }
         binding.bnvSovchilar.setOnItemSelectedListener {
             when (it.itemId) {
-                R.id.advertisementFragment -> {
-                    MainApplication.INSTANCE.router.newRootScreen(Screens.advertisementsFragment())
-                    true
-                }
+                R.id.accountContainerFragment ->
+                    navController.navigate(R.id.accountContainerFragment)
 
-                R.id.accountFragment -> {
-                    when (viewModel.loginLiveData.value?.state) {
-                        AuthState.AUTHENTICATED ->
-                            MainApplication.INSTANCE.router.newRootScreen(Screens.accountFragment())
+                R.id.advertisementFragment -> navController.popBackStack()
+            }
+            true
+        }
 
-                        else -> MainApplication.INSTANCE.router.newRootScreen(
-                            Screens.registerFragment()
-                        )
-                    }
-                    true
-                }
-
-                else -> {
+        binding.bnvSovchilar.setOnItemReselectedListener {
+            val reselectedDestinationId = it.itemId
+            if (reselectedDestinationId == R.id.accountContainerFragment) {
+                navControllerAccount.popBackStack(
+                    R.id.accountFragment,
                     false
-                }
+                )
             }
         }
-        binding.bnvSovchilar.selectedItemId = R.id.advertisementFragment
     }
 
     private fun makeBlurBackground() {

@@ -45,6 +45,10 @@ object Versions {
         const val cicerone = "7.1"
 
     }
+
+    const val paging_version = "3.2.1"
+
+
     object TestLibraries{
         const val junit = "4.13.2"
         const val runner = "1.4.0"

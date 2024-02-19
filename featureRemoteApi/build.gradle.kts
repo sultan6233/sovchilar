@@ -36,6 +36,7 @@ dependencies {
     Depend.okHttpLibraries.forEach { implementation(it) }
     implementation(Depend.retrofitConvert)
     implementation(Depend.hilt)
+    implementation(Depend.paging)
     Depend.kotlinDependency.forEach { implementation(it) }
     implementation(project(":domain"))
 }

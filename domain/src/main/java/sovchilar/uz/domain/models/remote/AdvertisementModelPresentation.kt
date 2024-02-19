@@ -7,7 +7,7 @@ data class AdvertisementModelPresentation(
     val name: String,
     val age: Int,
     val nationality: String,
-    val marriageStatus: MarriageStatus,
+    val marriageStatus: String,
     val children: String,
     val fromAge: Int,
     val tillAge: Int,

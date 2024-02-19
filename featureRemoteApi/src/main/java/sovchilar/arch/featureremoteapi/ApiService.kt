@@ -11,9 +11,12 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.Query
 import sovchilar.uz.domain.models.PostResponse
 import sovchilar.uz.domain.models.UserModel
 import sovchilar.uz.domain.models.remote.AdvertisementsModel
+import sovchilar.uz.domain.models.remote.auth.AuthModel
+import sovchilar.uz.domain.models.remote.auth.AuthResponseModel
 
 
 interface ApiService {
@@ -24,14 +27,14 @@ interface ApiService {
         @Body postAdvertisement: AdvertisementsModel
     ): Response<PostResponse>
 
-    @GET("api/personals/all?page=1&limit=100&order=desc")
-    suspend fun getAdvertisements(): Response<UserModel>
+    @GET("api/personals/all")
+    suspend fun getAdvertisements(@Query("page") page: Int, @Query("limit") limit: Int, @Query("order") order: String = "desc"): Response<UserModel>
 
     @GET("api/personals")
-    fun getOwnAdvertisements(@Header("Authorization") authToken: String): Call<sovchilar.uz.domain.models.UserModel>
+    fun getOwnAdvertisements(@Header("Authorization") authToken: String): Call<UserModel>
 
     @POST("api/auth")
-    fun loginOrRegister(@Body authModel: sovchilar.uz.domain.models.remote.auth.AuthModel): Call<sovchilar.uz.domain.models.remote.auth.AuthResponseModel>
+    suspend fun loginOrRegister(@Body authModel: AuthModel): Response<AuthResponseModel>
 
     @POST("api/payment/make")
     fun pay(

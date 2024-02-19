@@ -2,15 +2,11 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph"
+    android:id="@+id/advertisement_graph"
     app:startDestination="@id/advertisementFragment">
     <fragment
         android:id="@+id/advertisementFragment"
         android:name="com.sovchilar.made.presentation.fragments.view.AdvertisementFragment"
         tools:layout="@layout/fragment_advertisement" />
 
-    <fragment
-        android:id="@+id/accountContainerFragment"
-        android:name="com.sovchilar.made.presentation.fragments.view.AccountFragmentContainer"
-        tools:layout="@layout/fragment_account_container" />
 </navigation>

@@ -21,6 +21,11 @@ class EncryptedSharedPrefsUseCase(val context: Context) {
         return sharedPreferences.getBoolean(data, true)
     }
 
+    fun putBoolean(data: String): Boolean {
+        val sharedPreferences = context.getSharedPreferences(data, MODE_PRIVATE)
+        return sharedPreferences.edit().putBoolean(data, false).commit()
+    }
+
     fun authenticated(data: String): Boolean {
         val sharedPreferences = context.getSharedPreferences(data, MODE_PRIVATE)
         return sharedPreferences.getBoolean(data, false)

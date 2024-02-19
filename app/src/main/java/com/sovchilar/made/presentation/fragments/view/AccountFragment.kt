@@ -5,11 +5,14 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.sovchilar.made.EncryptedSharedPrefsUseCase
 import com.sovchilar.made.R
 import com.sovchilar.made.databinding.FragmentAccountBinding
+import com.sovchilar.made.presentation.activity.MainActivity
+import com.sovchilar.made.presentation.navigation_utils.Screens
 import com.sovchilar.made.presentation.usecases.navigateSafe
 import com.sovchilar.made.presentation.viewmodel.AccountViewModel
 import sovchilar.uz.comm.authenticated
@@ -28,21 +31,6 @@ class AccountFragment : BaseFragment<FragmentAccountBinding>(FragmentAccountBind
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        lifecycleScope.launch {
-            val authenticatedValue: Boolean
-            withContext(Dispatchers.IO) {
-                authenticatedValue = encryptedSharedPrefsUseCase.authenticated(authenticated)
-            }
-            withContext(Dispatchers.Main) {
-                if (!authenticatedValue) {
-                    view.findNavController()
-                        .navigateSafe(R.id.action_accountFragment_to_registerFragment)
-                } else {
-                    binding.pbAccount.isVisible = false
-                    binding.clAccount.isVisible = true
-                }
-            }
-        }
 //        lifecycleScope.launch {
 //            val token = encryptedSharedPrefsUseCase.readFromFile(token)
 //            withContext(Dispatchers.IO) {
@@ -64,16 +52,20 @@ class AccountFragment : BaseFragment<FragmentAccountBinding>(FragmentAccountBind
 //            }
 //        }
 
-        binding.ibLanguage.setOnClickListener {
-            findNavController().navigateSafe(R.id.action_accountFragment_to_changeLanguageFragment)
-        }
 
-        binding.btnAddAdvertisement.setOnClickListener {
-            findNavController().navigateSafe(R.id.action_accountFragment_to_addFragment)
-        }
-        binding.btnHelp.setOnClickListener {
-            openTelegramUseCase.openTelegramHelp(requireContext(), binding.root)
+        lifecycleScope.launch {
+            binding.ibLanguage.setOnClickListener {
+                //    findNavController().navigateSafe(R.id.action_accountFragment_to_changeLanguageFragment)
+            }
+
+            binding.btnAddAdvertisement.setOnClickListener {
+                findNavController().navigateSafe(
+                    R.id.action_accountFragment_to_addFragment
+                )
+            }
+            binding.btnHelp.setOnClickListener {
+                openTelegramUseCase.openTelegramHelp(requireContext(), binding.root)
+            }
         }
     }
-
 }

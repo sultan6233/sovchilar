@@ -5,10 +5,12 @@ import com.sovchilar.made.R
 import sovchilar.uz.comm.andijan_region
 import sovchilar.uz.comm.bukhara_region
 import sovchilar.uz.comm.djizzak_region
+import sovchilar.uz.comm.femaleGender
 import sovchilar.uz.comm.fergana_region
 import sovchilar.uz.comm.horezm_region
 import sovchilar.uz.comm.karakalpak_region
 import sovchilar.uz.comm.kashkadarya_region
+import sovchilar.uz.comm.maleGender
 import sovchilar.uz.comm.marriageDivorced
 import sovchilar.uz.comm.namangan_region
 import sovchilar.uz.comm.noMarriage
@@ -25,32 +27,43 @@ import sovchilar.uz.domain.models.remote.AdvertisementsModel
 import sovchilar.uz.domain.models.states.MarriageStatus
 
 class AdvertisementsModelMapper(val context: Context) {
-    fun mapToAdvertisementModelPresentation(advertisement: List<AdvertisementsModel>): List<AdvertisementModelPresentation> {
-        return advertisement.map { ad ->
-            AdvertisementModelPresentation(
-                id = ad.id,
-                name = ad.name,
-                age = ad.age,
-                nationality = ad.nationality,
-                marriageStatus = when (ad.marriageStatus) {
-                    marriageDivorced -> MarriageStatus.DIVORCED
-                    noMarriage -> MarriageStatus.NOMARRIAGE
-                    else -> MarriageStatus.WIDOWER
-                },
-                children = when (ad.children) {
-                    true -> context.getString(R.string.add_have_children)
-                    false -> context.getString(R.string.no_children)
-                },
-                fromAge = ad.fromAge,
-                tillAge = ad.tillAge,
-                telegram = ad.telegram,
-                phoneNumber = ad.phoneNumber,
-                city = getFixCity(ad.city),
-                gender = ad.gender,
-                country = getFixCountry(ad.country),
-                moreInfo = ad.moreInfo
-            )
-        }
+    fun mapToAdvertisementModelPresentation(ad: AdvertisementsModel): AdvertisementModelPresentation {
+        return AdvertisementModelPresentation(
+            id = ad.id,
+            name = ad.name,
+            age = ad.age,
+            nationality = ad.nationality,
+            marriageStatus = when (ad.marriageStatus) {
+                marriageDivorced -> {
+                    if (ad.gender == maleGender) {
+                        context.getString(R.string.marriage_status_male_divorced)
+                    } else {
+                        context.getString(R.string.marriage_status_female_divorced)
+                    }
+                }
+
+                noMarriage -> if (ad.gender == maleGender) {
+                    context.getString(R.string.marriage_status_male_no_marriage)
+                } else {
+                    context.getString(R.string.marriage_status_female_no_marriage)
+                }
+
+                else -> context.getString(R.string.widower)
+            },
+            children = when (ad.children) {
+                true -> context.getString(R.string.yes_children)
+                false -> context.getString(R.string.no_children)
+            },
+            fromAge = ad.fromAge,
+            tillAge = ad.tillAge,
+            telegram = ad.telegram,
+            phoneNumber = ad.phoneNumber,
+            city = getFixCity(ad.city),
+            gender = ad.gender,
+            country = getFixCountry(ad.country),
+            moreInfo = ad.moreInfo
+        )
+
     }
 
     private fun getFixCity(city: String): String {
@@ -79,10 +92,28 @@ class AdvertisementsModelMapper(val context: Context) {
             name = advertisement.name,
             age = advertisement.age,
             nationality = advertisement.nationality,
-            marriageStatus = when (advertisement.marriageStatus) {
-                MarriageStatus.NOMARRIAGE -> noMarriage
-                MarriageStatus.DIVORCED -> marriageDivorced
-                MarriageStatus.WIDOWER -> widower
+            marriageStatus = when (advertisement.gender) {
+                maleGender -> {
+                    when (advertisement.marriageStatus) {
+                        context.getString(R.string.marriage_status_male_divorced) -> marriageDivorced
+                        context.getString(R.string.marriage_status_male_no_marriage) -> noMarriage
+                        context.getString(R.string.widower) -> widower
+                        else -> widower
+                    }
+                }
+
+                femaleGender -> {
+                    when (advertisement.marriageStatus) {
+                        context.getString(R.string.marriage_status_female_divorced) -> marriageDivorced
+                        context.getString(R.string.marriage_status_female_no_marriage) -> noMarriage
+                        context.getString(R.string.widower) -> widower
+                        else -> widower
+                    }
+                }
+
+                else -> {
+                    widower
+                }
             },
             children = when (advertisement.children) {
                 context.getString(R.string.add_have_children) -> true
