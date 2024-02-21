@@ -4,6 +4,8 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-parcelize")
     id("com.google.dagger.hilt.android")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -17,7 +19,7 @@ android {
         versionCode = 2
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.sovchilar.made.CustomAppTestRunner"
     }
     buildTypes {
         release {
@@ -45,16 +47,34 @@ dependencies {
     implementation(project(":comm"))
     implementation(project(":featureRemoteApi"))
 
+    implementation(platform(Depend.firebaseBom))
+    Depend.firebase.forEach {
+        implementation(it)
+    }
+    Depend.google.forEach {
+        implementation(it)
+    }
+
     Depend.kotlinDependency.forEach { implementation(it) }
     Depend.supportAndroidLibs.forEach { implementation(it) }
+
 
     Depend.others.forEach { implementation(it) }
     implementation(Depend.hilt)
     Depend.okHttpLibraries.forEach { implementation(it) }
     implementation(Depend.retrofitConvert)
-    kapt(Depend.hiltKapt)
     implementation(Depend.paging)
+    implementation("com.appodeal.ads:sdk:3.2.1.+") {
+        exclude(group = "com.appodeal.ads.sdk.services", module = "adjust")
+        exclude(group = "com.appodeal.ads.sdk.services", module = "appsflyer")
+        exclude(group = "com.appodeal.ads.sdk.services", module = "firebase")
+        exclude(group = "com.appodeal.ads.sdk.services", module = "facebook_analytics")
+        exclude(group = "com.appodeal.ads.sdk.services", module = "sentry_analytics")
+    }
 
+    kapt(Depend.hiltKapt)
+    androidTestImplementation(Depend.hiltInstrumentedTest)
+    kaptAndroidTest(Depend.hiltKaptTest)
     //leakcanary
     debugImplementation("com.squareup.leakcanary:leakcanary-android:2.12")
     //tests

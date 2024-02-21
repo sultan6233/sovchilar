@@ -8,6 +8,7 @@ object Versions {
     const val minSdk = 26
     const val targetSdk = 34
     const val sharedName = "shared_app"
+
     object SupportAndroidLibs {
         const val navigationComponent = "2.7.4"
         const val splashScreen = "1.0.1"
@@ -25,17 +26,24 @@ object Versions {
         const val junit = "4.13.2"
         const val junitPlatform = "1.1.3"
     }
-    object KotlinDependency     {
+
+    object KotlinDependency {
         const val std = "1.12.0"
     }
+
     object Google {
         const val playServices = "21.0.1"
-        const val firebase = "12.0.1"
+
         // const val dagger = "2.44.2"
         const val dagger = "2.50"
         const val hilt = "2.49"
         const val installReferrer = "2.2"
+        const val adsAdmob = "22.6.0"
+        const val firebase = "32.5.0"
     }
+
+
+
     object Libraries {
         const val lottie = "6.1.0"
         const val okhttp = "5.0.0-alpha.12"
@@ -43,13 +51,14 @@ object Versions {
         const val retrofit = "2.9.0"
         const val leakCanary = "2.12"
         const val cicerone = "7.1"
+        const val localization = "1.2.11"
 
     }
 
     const val paging_version = "3.2.1"
 
 
-    object TestLibraries{
+    object TestLibraries {
         const val junit = "4.13.2"
         const val runner = "1.4.0"
         const val ext = "1.1.5"

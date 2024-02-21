@@ -7,7 +7,7 @@
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.sovchilar.made.presentation.fragments.view.RegisterFragment"
-        tools:layout="@layout/fragment_register" >
+        tools:layout="@layout/fragment_register">
         <action
             android:id="@+id/action_registerFragment_to_accountFragment"
             app:destination="@id/accountFragment" />
@@ -18,8 +18,11 @@
         tools:layout="@layout/fragment_account">
         <action
             android:id="@+id/action_accountFragment_to_addFragment"
-            app:destination="@id/addFragment"
-            />
+            app:destination="@id/addFragment" />
+        <action
+            android:id="@+id/action_accountFragment_to_changeLanguageFragment"
+            app:destination="@id/changeLanguageFragment"
+            app:popUpTo="@id/accountFragment"/>
     </fragment>
     <fragment
         android:id="@+id/addFragment"
@@ -29,4 +32,8 @@
             android:id="@+id/action_addFragment_to_accountFragment"
             app:destination="@id/accountFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/changeLanguageFragment"
+        android:name="com.sovchilar.made.presentation.fragments.view.ChangeLanguageFragment"
+        tools:layout="@layout/fragment_change_language" />
 </navigation>

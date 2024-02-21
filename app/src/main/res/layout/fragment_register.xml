@@ -67,7 +67,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.sovchilar.made.presentation.usecases.customviews.ProgressButton
-        android:id="@+id/button_black"
+        android:id="@+id/btnLoginOrRegister"
         style="@style/Widget.ProgressButton.Black"
         android:layout_width="0dp"
         android:layout_height="0dp"

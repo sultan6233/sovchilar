@@ -11,7 +11,11 @@ import sovchilar.uz.domain.models.remote.auth.AuthState
 import sovchilar.uz.domain.utils.DataState
 
 interface IAdvertisement {
-    suspend fun postAdvertisement(authToken: String, advertisement: AdvertisementsModel): Flow<DataState<PostResponse>>
-    suspend fun getAdvertisements(): Flow<PagingData<AdvertisementsModel>>
+    suspend fun postAdvertisement(
+        authToken: String,
+        advertisement: AdvertisementsModel
+    ): Flow<DataState<PostResponse>>
+
+    suspend fun getAdvertisements(gender: String): Flow<PagingData<AdvertisementsModel>>
     suspend fun registerUser(authModel: AuthModel): Flow<AuthState>
 }

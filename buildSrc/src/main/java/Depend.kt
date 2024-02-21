@@ -19,11 +19,19 @@ object Depend {
 //    const val kotlinKTX = "androidx.core:core-ktx:${Versions.KotlinDependency.std}"
 
     // The same here in Google Libraries
+//    "com.google.android.gms:play-services-ads:${Versions.Google.adsAdmob}",
     val google = arrayOf(
-        "com.google.android.gms:play-services-analytics:${Versions.Google.playServices}",
-        "com.google.firebase:firebase-core:${Versions.Google.firebase}",
+
         "com.android.installreferrer:installreferrer:${Versions.Google.installReferrer}"
     )
+
+    val firebase = arrayOf(
+        "com.google.firebase:firebase-crashlytics",
+        "com.google.firebase:firebase-analytics",
+        "com.android.installreferrer:installreferrer:${Versions.Google.installReferrer}"
+    )
+
+    const val firebaseBom = "com.google.firebase:firebase-bom:${Versions.Google.firebase}"
 
     //Dagger
     val dagger = arrayOf(
@@ -36,6 +44,9 @@ object Depend {
 
     const val hilt = "com.google.dagger:hilt-android:${Versions.Google.hilt}"
     const val hiltKapt = "com.google.dagger:hilt-android-compiler:${Versions.Google.hilt}"
+    const val hiltKaptTest = "com.google.dagger:hilt-android-compiler:${Versions.Google.hilt}"
+    const val hiltInstrumentedTest =
+        "com.google.dagger:hilt-android-testing:${Versions.Google.hilt}"
 
     //Dagger AnnotationProcessor
     val daggerAnnotationProcessor = arrayOf(
@@ -49,7 +60,7 @@ object Depend {
         "com.squareup.okhttp3:logging-interceptor:${Versions.Libraries.okhttp}",
         "com.squareup.retrofit2:retrofit:${Versions.Libraries.retrofit}",
 
-    )
+        )
 
     val retrofitConvert = "com.squareup.retrofit2:converter-gson:${Versions.Libraries.retrofit}"
 
@@ -63,7 +74,9 @@ object Depend {
     val others = arrayOf(
         "com.airbnb.android:lottie:${Versions.Libraries.lottie}",
         "com.onesignal:OneSignal:${Versions.Libraries.onesignal}",
-        "com.github.terrakok:cicerone:${Versions.Libraries.cicerone}",)
+        "com.github.terrakok:cicerone:${Versions.Libraries.cicerone}",
+        "com.akexorcist:localization:${Versions.Libraries.localization}"
+    )
 
     const val paging = "androidx.paging:paging-runtime:${Versions.paging_version}"
 

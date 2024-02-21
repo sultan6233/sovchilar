@@ -55,7 +55,7 @@ class AccountFragment : BaseFragment<FragmentAccountBinding>(FragmentAccountBind
 
         lifecycleScope.launch {
             binding.ibLanguage.setOnClickListener {
-                //    findNavController().navigateSafe(R.id.action_accountFragment_to_changeLanguageFragment)
+                findNavController().navigateSafe(R.id.action_accountFragment_to_changeLanguageFragment)
             }
 
             binding.btnAddAdvertisement.setOnClickListener {

@@ -42,8 +42,8 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
     }
 
     private fun initClicks() = lifecycleScope.launch {
-        binding.buttonBlack.setOnClickListener {
-            binding.buttonBlack.setLoading(true)
+        binding.btnLoginOrRegister.setOnClickListener {
+            binding.btnLoginOrRegister.setLoading(true)
             loginOrRegister()
         }
 
@@ -60,13 +60,13 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
         if (binding.tedName.text.isNullOrEmpty() && binding.tedPassword.text.isNullOrEmpty()) {
             binding.tipName.error = getString(R.string.required_field)
             binding.tipPassword.error = getString(R.string.required_field)
-            binding.buttonBlack.setLoading(false)
+            binding.btnLoginOrRegister.setLoading(false)
         } else if (binding.tedName.text.isNullOrEmpty()) {
             binding.tipName.error = getString(R.string.required_field)
-            binding.buttonBlack.setLoading(false)
+            binding.btnLoginOrRegister.setLoading(false)
         } else if (binding.tedPassword.text.isNullOrEmpty()) {
             binding.tipPassword.error = getString(R.string.required_field)
-            binding.buttonBlack.setLoading(false)
+            binding.btnLoginOrRegister.setLoading(false)
         } else {
             viewModel.loginOrRegister(
                 AuthModel(
@@ -91,12 +91,12 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
                 }
 
                 is AuthState.INVALID_AUTHENTICATION -> {
-                    binding.buttonBlack.setLoading(false)
+                    binding.btnLoginOrRegister.setLoading(false)
                     binding.tipPassword.error = authState.error
                 }
 
                 is AuthState.CONNECTION_ERROR -> {
-                    binding.buttonBlack.setLoading(false)
+                    binding.btnLoginOrRegister.setLoading(false)
                     Snackbar.make(
                         requireView(),
                         authState.error,
@@ -104,7 +104,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
                     ).show()
                 }
 
-                is AuthState.Loading -> binding.buttonBlack.setLoading(true)
+                is AuthState.Loading -> binding.btnLoginOrRegister.setLoading(true)
 
                 is AuthState.UNAUTHENTICATED -> ""
             }
@@ -115,7 +115,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
     }
 
     private fun authenticated(token: String) = lifecycleScope.launch {
-        binding.buttonBlack.setLoading(false)
+        binding.btnLoginOrRegister.setLoading(false)
         val loginText = binding.tedName.text.toString()
         val passwordText = binding.tedPassword.text.toString()
         viewModel.saveCredentials(

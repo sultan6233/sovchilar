@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+import androidx.navigation.NavGraph
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -36,6 +38,7 @@ class AccountFragmentContainer :
 //        }
     }
 
+
     private fun showActiveFragment() {
         activityViewModel.loginLiveData.value?.let {
             setStartDestination(it)
@@ -57,6 +60,6 @@ class AccountFragmentContainer :
                 }
             }
             navController.graph = navGraph
-            }
         }
+}
 

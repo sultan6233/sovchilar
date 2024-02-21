@@ -8,7 +8,7 @@ import sovchilar.uz.domain.models.remote.AdvertisementsModel
 import java.io.IOException
 
 class AdvertisementPagingSource(
-    private val apiService: ApiService
+    private val apiService: ApiService, private val gender: String
 ) : PagingSource<Int, AdvertisementsModel>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, AdvertisementsModel> {
@@ -18,8 +18,14 @@ class AdvertisementPagingSource(
             if (response.isSuccessful && response.body() != null) {
                 val userModel = response.body()!!
                 val advertisements = userModel.personals
+                val genderedAdvertisement: ArrayList<AdvertisementsModel> = ArrayList()
+                advertisements.forEach {
+                    if (it.gender == gender) {
+                        genderedAdvertisement.add(it)
+                    }
+                }
                 LoadResult.Page(
-                    data = advertisements,
+                    data = genderedAdvertisement,
                     prevKey = if (pageNumber == 1) null else pageNumber - 1,
                     nextKey = if (advertisements.isEmpty()) null else pageNumber + 1
                 )

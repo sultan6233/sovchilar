@@ -12,8 +12,9 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.appodeal.ads.Appodeal
+import com.appodeal.ads.RewardedVideoCallbacks
 import com.google.android.material.snackbar.Snackbar
 import com.sovchilar.made.EncryptedSharedPrefsUseCase
 import com.sovchilar.made.R
@@ -24,10 +25,7 @@ import com.sovchilar.made.presentation.usecases.BaseFragment
 import com.sovchilar.made.presentation.usecases.TelegramSymbolInputFilter
 import com.sovchilar.made.presentation.viewmodel.AddViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import sovchilar.uz.comm.token
 import sovchilar.uz.domain.models.remote.AdvertisementModelPresentation
 import sovchilar.uz.domain.utils.DataState
@@ -88,8 +86,9 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
 //            )
             fixAutoCompleteTextViewsError()
         }
-
+        observerSubmit()
         binding.tedTelegram.filters = arrayOf(telegramSymbolInputFilter)
+
     }
 
     private fun initEditTextsHint() {
@@ -118,6 +117,7 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
         binding.btnPay.setOnClickListener {
             when (checkAllFields()) {
                 true -> {
+                    showRewardedAd()
 //                    if (isAdded) {
 //                        payDialog.show(parentFragmentManager, "payDialog")
 //                    }
@@ -132,6 +132,42 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
             }
         }
 
+    }
+
+    private fun showRewardedAd() = lifecycleScope.launch {
+        if (Appodeal.isLoaded(Appodeal.REWARDED_VIDEO)) {
+            Appodeal.show(requireActivity(), Appodeal.REWARDED_VIDEO)
+        }
+
+    }
+
+    private fun initRewarderdCallbacks() {
+        Appodeal.setRewardedVideoCallbacks(object : RewardedVideoCallbacks {
+            override fun onRewardedVideoLoaded(isPrecache: Boolean) {
+                // Called when rewarded video is loaded
+            }
+            override fun onRewardedVideoFailedToLoad() {
+                // Called when rewarded video failed to load
+            }
+            override fun onRewardedVideoShown() {
+                postAdvertisement()
+            }
+            override fun onRewardedVideoShowFailed() {
+                Snackbar.make(binding.clAdd, getString(R.string.try_again), Snackbar.LENGTH_LONG).show()
+            }
+            override fun onRewardedVideoClicked() {
+                // Called when rewarded video is clicked
+            }
+            override fun onRewardedVideoFinished(amount: Double, currency: String) {
+                // Called when rewarded video is viewed until the end
+            }
+            override fun onRewardedVideoClosed(finished: Boolean) {
+                // Called when rewarded video is closed
+            }
+            override fun onRewardedVideoExpired() {
+                // Called when rewarded video is expired
+            }
+        })
     }
 
     private fun postAdvertisement() = lifecycleScope.launch {
@@ -289,6 +325,17 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
     }
 
     private fun observerSubmit() = lifecycleScope.launch {
+        viewModel.postResponse.observe(viewLifecycleOwner) {
+            when (it) {
+                is DataState.Success -> PurchaseConfirmationDialogFragment.newInstance(getString(R.string.submittedToReview))
+                    .show(childFragmentManager, "")
+
+                is DataState.Error -> PurchaseConfirmationDialogFragment.newInstance(getString(R.string.try_again))
+                    .show(childFragmentManager, "")
+
+                is DataState.Loading -> ""
+            }
+        }
 //        viewModel.postResponse.collectLatest {
 //            when (it) {
 //                is DataState.Success -> showPurchaseConfirmationDialog(getString(R.string.submittedToReview))
@@ -304,11 +351,23 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
     }
 }
 
-class PurchaseConfirmationDialogFragment(val text: String) : DialogFragment() {
+class PurchaseConfirmationDialogFragment : DialogFragment() {
+    private val text: String by lazy { arguments?.getString(ARG_TEXT) ?: "" }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
         AlertDialog.Builder(requireContext())
             .setMessage(text)
             .setCancelable(false)
             .setPositiveButton(getString(R.string.ok)) { _, _ -> findNavController().popBackStack() }
             .create()
+
+    companion object {
+        private const val ARG_TEXT = "text"
+        fun newInstance(text: String): PurchaseConfirmationDialogFragment =
+            PurchaseConfirmationDialogFragment().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_TEXT, text)
+                }
+            }
+    }
 }

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Sovchilar</string>
     <string name="name">Ismingiz</string>
@@ -100,8 +101,6 @@
     <string name="telegram_user_name_placeholder" translatable="false">\@ %1$s</string>
     <string name="error">Ошибка</string>
     <string name="ad">Reklama</string>
-    <string name="admob_banner_block_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="admob_rewarded_block_id" translatable="false">ca-app-pub-3940256099942544/5224354917</string>
     <string name="try_again">Takrorlab koring</string>
     <string name="uzbek_language_latin">O\'zbek(lotin)</string>
     <string name="russian_language">Русский</string>

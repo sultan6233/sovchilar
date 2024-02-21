@@ -26,7 +26,7 @@ class RemoteAdvertisement @Inject constructor(private val apiService: ApiService
     ): Flow<DataState<PostResponse>> = flow {
         emit(DataState.Loading)
         try {
-            val response = apiService.postAdvertisement(authToken, advertisement)
+            val response = apiService.postAdvertisement("Bearer $authToken", advertisement)
             if (response.isSuccessful && response.body() != null) {
                 emit(DataState.Success(response.body()!!))
             } else {
@@ -37,13 +37,13 @@ class RemoteAdvertisement @Inject constructor(private val apiService: ApiService
         }
     }
 
-    override suspend fun getAdvertisements(): Flow<PagingData<AdvertisementsModel>> {
+    override suspend fun getAdvertisements(gender: String): Flow<PagingData<AdvertisementsModel>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 20,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { AdvertisementPagingSource(apiService) }
+            pagingSourceFactory = { AdvertisementPagingSource(apiService, gender) }
         ).flow
     }
 

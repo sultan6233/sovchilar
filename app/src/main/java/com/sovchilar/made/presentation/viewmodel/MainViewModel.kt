@@ -24,6 +24,14 @@ class MainViewModel @Inject constructor(private val registerUserUsecase: Registe
     private val _loginLiveData = MutableLiveData<AuthState>()
     val loginLiveData: LiveData<AuthState> get() = _loginLiveData
 
+    private val _bannerLoaded = MutableLiveData<Boolean>()
+
+    val bannerLoaded: LiveData<Boolean> get() = _bannerLoaded
+
+    fun loadBanner() {
+        _bannerLoaded.postValue(true)
+    }
+
     var loginFromStart = true
 
     fun loginOrRegister(authModel: AuthModel) = runBlocking(Dispatchers.IO) {

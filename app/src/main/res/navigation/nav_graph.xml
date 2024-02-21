@@ -12,5 +12,18 @@
     <fragment
         android:id="@+id/accountContainerFragment"
         android:name="com.sovchilar.made.presentation.fragments.view.AccountFragmentContainer"
-        tools:layout="@layout/fragment_account_container" />
+        tools:layout="@layout/fragment_account_container" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/changeLanguageFragment"
+        android:name="com.sovchilar.made.presentation.fragments.view.ChangeLanguageFragment"
+        tools:layout="@layout/fragment_change_language" >
+        <action
+            android:id="@+id/action_changeLanguageFragment_to_advertisementFragment"
+            app:destination="@id/advertisementFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true"
+            />
+    </fragment>
 </navigation>

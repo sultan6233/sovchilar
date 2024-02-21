@@ -1,15 +1,19 @@
 package com.sovchilar.made.core
 
 import android.app.Application
+import android.content.Context
+import com.akexorcist.localizationactivity.ui.LocalizationApplication
 import com.github.terrakok.cicerone.Cicerone
 import com.onesignal.OneSignal
 import dagger.hilt.android.HiltAndroidApp
+import java.util.Locale
 
 @HiltAndroidApp
-class MainApplication : Application() {
+class MainApplication : LocalizationApplication() {
     private val cicerone = Cicerone.create()
     val router get() = cicerone.router
     val navigatorHolder get() = cicerone.getNavigatorHolder()
+    override fun getDefaultLanguage(context: Context) = Locale.ENGLISH
 
     override fun onCreate() {
         super.onCreate()

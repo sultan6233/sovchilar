@@ -11,6 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import sovchilar.uz.comm.femaleGender
 import sovchilar.uz.domain.models.UserModel
 import sovchilar.uz.domain.models.remote.AdvertisementsModel
 import sovchilar.uz.domain.usecases.GetAdvertisementsUseCase
@@ -27,12 +28,12 @@ class AdvertisementViewModel @Inject constructor(val getAdvertisementsUseCase: G
     val advertisements: LiveData<PagingData<AdvertisementsModel>> get() = _advertisements
 
     init {
-        getAdvertisements()
+        getAdvertisements(femaleGender)
     }
 
-    fun getAdvertisements() = viewModelScope.launch {
+    fun getAdvertisements(gender: String) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
-            getAdvertisementsUseCase.invoke().cachedIn(viewModelScope).collectLatest { dataState ->
+            getAdvertisementsUseCase.invoke(gender).cachedIn(viewModelScope).collectLatest { dataState ->
                 _advertisements.postValue(dataState)
             }
         }

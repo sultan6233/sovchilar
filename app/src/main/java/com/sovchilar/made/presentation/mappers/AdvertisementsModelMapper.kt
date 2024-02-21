@@ -1,6 +1,7 @@
 package com.sovchilar.made.presentation.mappers
 
 import android.content.Context
+import androidx.core.content.ContextCompat
 import com.sovchilar.made.R
 import sovchilar.uz.comm.andijan_region
 import sovchilar.uz.comm.bukhara_region
@@ -93,20 +94,41 @@ class AdvertisementsModelMapper(val context: Context) {
             age = advertisement.age,
             nationality = advertisement.nationality,
             marriageStatus = when (advertisement.gender) {
-                maleGender -> {
+                ContextCompat.getString(
+                    context,R.string.male) -> {
                     when (advertisement.marriageStatus) {
-                        context.getString(R.string.marriage_status_male_divorced) -> marriageDivorced
-                        context.getString(R.string.marriage_status_male_no_marriage) -> noMarriage
-                        context.getString(R.string.widower) -> widower
+                        ContextCompat.getString(
+                            context,
+                            R.string.marriage_status_male_divorced
+                        ) -> marriageDivorced
+
+                        ContextCompat.getString(
+                            context, R.string.marriage_status_male_no_marriage
+                        ) -> noMarriage
+
+                        ContextCompat.getString(
+                            context, R.string.widower
+                        ) -> widower
+
                         else -> widower
                     }
                 }
 
-                femaleGender -> {
+                ContextCompat.getString(
+                    context,R.string.female) -> {
                     when (advertisement.marriageStatus) {
-                        context.getString(R.string.marriage_status_female_divorced) -> marriageDivorced
-                        context.getString(R.string.marriage_status_female_no_marriage) -> noMarriage
-                        context.getString(R.string.widower) -> widower
+                        ContextCompat.getString(
+                            context, R.string.marriage_status_female_divorced
+                        ) -> marriageDivorced
+
+                        ContextCompat.getString(
+                            context, R.string.marriage_status_female_no_marriage
+                        ) -> noMarriage
+
+                        ContextCompat.getString(
+                            context, R.string.widower
+                        ) -> widower
+
                         else -> widower
                     }
                 }
@@ -116,8 +138,10 @@ class AdvertisementsModelMapper(val context: Context) {
                 }
             },
             children = when (advertisement.children) {
-                context.getString(R.string.add_have_children) -> true
-                context.getString(R.string.no_children) -> false
+                ContextCompat.getString(
+                    context,R.string.add_have_children) -> true
+                ContextCompat.getString(
+                    context,R.string.no_children) -> false
                 else -> false
             },
             fromAge = advertisement.fromAge,
@@ -125,7 +149,11 @@ class AdvertisementsModelMapper(val context: Context) {
             telegram = advertisement.telegram,
             phoneNumber = advertisement.phoneNumber,
             city = getFixCityToServer(advertisement.city),
-            gender = advertisement.gender,
+            gender = when (advertisement.gender) {
+                context.getString(R.string.female) -> femaleGender
+                context.getString(R.string.male) -> maleGender
+                else -> maleGender
+            },
             country = getFixCountryToServer(advertisement.country),
             moreInfo = advertisement.moreInfo
         )

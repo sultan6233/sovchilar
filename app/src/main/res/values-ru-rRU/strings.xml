@@ -9,6 +9,7 @@
     <string name="never_married">Не был(а) женат(замужем)</string>
     <string name="have_children">У меня есть ребенок</string>
     <string name="add_have_children">У меня есть ребенок</string>
+    <string name="yes_children">У меня есть ребенок</string>
     <string name="no_children">У меня нет детей</string>
     <string name="add_no_children">У меня нет детей</string>
     <string name="ageRestriction">Возрастное ограничение</string>
@@ -66,7 +67,7 @@
     <string name="required_field">Обязательное поле</string>
     <string name="adult">Минимальный возраст 18 лет</string>
     <string name="errors">Исправьте все ошибки</string>
-    <string name="pay_and_amount">Оплатить %1$s</string>
+    <string name="pay_and_amount">Посмотреть рекламу\nи опубликовать</string>
     <string name="pay">Оплатить</string>
     <string name="card_number">Номер карты (Uzcard/Humo)</string>
     <string name="expiry_date">Срок действия</string>
@@ -89,4 +90,6 @@
     <string name="support">поддержку</string>
     <string name="next">Сохранить</string>
     <string name="language_pick">Выберите язык приложения</string>
+    <string name="try_again">Попробуйте снова</string>
+    <string name="ad">Реклама</string>
 </resources>

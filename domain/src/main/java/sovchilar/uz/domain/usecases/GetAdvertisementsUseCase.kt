@@ -10,7 +10,7 @@ import sovchilar.uz.domain.utils.DataState
 import javax.inject.Inject
 
 class GetAdvertisementsUseCase @Inject constructor(private val advertisementRepository: IAdvertisement) {
-    suspend operator fun invoke(): Flow<PagingData<AdvertisementsModel>> {
-        return advertisementRepository.getAdvertisements()
+    suspend operator fun invoke(gender: String): Flow<PagingData<AdvertisementsModel>> {
+        return advertisementRepository.getAdvertisements(gender)
     }
 }
