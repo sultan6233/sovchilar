@@ -27,8 +27,18 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import com.akexorcist.localizationactivity.core.LocalizationActivityDelegate
 import com.akexorcist.localizationactivity.core.OnLocaleChangedListener
-import com.appodeal.ads.Appodeal
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.rewarded.RewardedAd
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
+import com.sovchilar.made.CustomLogger
 import com.sovchilar.made.EncryptedSharedPrefsUseCase
 import com.sovchilar.made.R
 import com.sovchilar.made.databinding.ActivityMainBinding
@@ -38,7 +48,9 @@ import kotlinx.coroutines.launch
 import sovchilar.uz.comm.first_launch
 import sovchilar.uz.comm.login
 import sovchilar.uz.comm.password
+import sovchilar.uz.comm.token
 import sovchilar.uz.domain.models.remote.auth.AuthModel
+import sovchilar.uz.domain.models.remote.auth.AuthState
 import java.lang.ref.WeakReference
 import java.util.Locale
 
@@ -55,34 +67,72 @@ class MainActivity : AppCompatActivity(), OnLocaleChangedListener {
     private val navGraph by lazy { navController.navInflater.inflate(R.navigation.nav_graph) }
     private val localizationDelegate = LocalizationActivityDelegate(this)
 
+    var rewardedAd: RewardedAd? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         localizationDelegate.addOnLocaleChangedListener(this)
         localizationDelegate.onCreate()
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
-        lifecycleScope.launch {
             initBottomNavigationView()
             initSplashAnimation()
             setStatusBarLightText(window)
             makeBlurBackground()
             showActiveFragment()
-            initAppodeal()
+            initAds()
+            loadRewarded()
+            initRewardedCallbacks()
             //   updateBottomNavigationSelection()
+    }
 
+    private fun initAds() {
+        MobileAds.initialize(this) { initializationStatus ->
+            val statusMap =
+                initializationStatus.adapterStatusMap
+            for (adapterClass in statusMap.keys) {
+                val status = statusMap[adapterClass]
+            }
         }
     }
 
-    private fun initAppodeal() {
-        Appodeal.setTesting(true)
-
-        Appodeal.setBannerViewId(R.id.adView)
-        Appodeal.initialize(
+    fun loadRewarded() {
+        val adRequest = AdRequest.Builder().build()
+        RewardedAd.load(
             this,
-            "15ab0c351c180baa49f962b8b37b072d55e9cbfb2d6468a2",
-            Appodeal.BANNER_VIEW or Appodeal.REWARDED_VIDEO
-        ) {
-            viewModel.loadBanner()
+            getString(R.string.admob_rewarded_block_id),
+            adRequest,
+            object : RewardedAdLoadCallback() {
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    rewardedAd = null
+                    CustomLogger.log("rewardedFailedToLoad", adError.message)
+                }
+
+                override fun onAdLoaded(ad: RewardedAd) {
+                    rewardedAd = ad
+                    CustomLogger.log("rewardedLoaded", ad.adUnitId)
+                }
+            })
+    }
+
+    private fun initRewardedCallbacks() {
+        rewardedAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
+            override fun onAdClicked() {
+            }
+
+            override fun onAdDismissedFullScreenContent() {
+                rewardedAd = null
+            }
+
+            override fun onAdFailedToShowFullScreenContent(adError: AdError) {
+                rewardedAd = null
+                CustomLogger.log("failedToShowRewarded", adError.message)
+            }
+
+            override fun onAdImpression() {
+            }
+
+            override fun onAdShowedFullScreenContent() {
+            }
         }
     }
 
@@ -101,6 +151,16 @@ class MainActivity : AppCompatActivity(), OnLocaleChangedListener {
                 )
             )
             binding.bnvSovchilar.isVisible = true
+        }
+        viewModel.loginLiveData.observe(this) {
+            when (it) {
+                is AuthState.AUTHENTICATED -> encryptedSharedPrefsUseCase.writeIntoFile(
+                    token,
+                    it.authData.token
+                )
+
+                else -> ""
+            }
         }
     }
 

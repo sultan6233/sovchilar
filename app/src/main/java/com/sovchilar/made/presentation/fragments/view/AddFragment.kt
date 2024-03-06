@@ -13,12 +13,14 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.appodeal.ads.Appodeal
-import com.appodeal.ads.RewardedVideoCallbacks
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.OnUserEarnedRewardListener
 import com.google.android.material.snackbar.Snackbar
+import com.sovchilar.made.CustomLogger
 import com.sovchilar.made.EncryptedSharedPrefsUseCase
 import com.sovchilar.made.R
 import com.sovchilar.made.databinding.FragmentAddBinding
+import com.sovchilar.made.presentation.activity.MainActivity
 import com.sovchilar.made.presentation.fragments.view.extentions.markRequiredInRed
 import com.sovchilar.made.presentation.mappers.AdvertisementsModelMapper
 import com.sovchilar.made.presentation.usecases.BaseFragment
@@ -115,6 +117,7 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
             hideKeyboard(it)
         }
         binding.btnPay.setOnClickListener {
+            CustomLogger.log("buttonAddAdvertisementClick", "true")
             when (checkAllFields()) {
                 true -> {
                     showRewardedAd()
@@ -135,39 +138,19 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
     }
 
     private fun showRewardedAd() = lifecycleScope.launch {
-        if (Appodeal.isLoaded(Appodeal.REWARDED_VIDEO)) {
-            Appodeal.show(requireActivity(), Appodeal.REWARDED_VIDEO)
+        (requireActivity() as MainActivity).rewardedAd?.let { ad ->
+            ad.show(requireActivity()) { rewardItem ->
+                postAdvertisement()
+                (requireActivity() as MainActivity).loadRewarded()
+            }
+        } ?: run {
+            PurchaseConfirmationDialogFragment.newInstance(getString(R.string.try_again))
         }
 
     }
 
     private fun initRewarderdCallbacks() {
-        Appodeal.setRewardedVideoCallbacks(object : RewardedVideoCallbacks {
-            override fun onRewardedVideoLoaded(isPrecache: Boolean) {
-                // Called when rewarded video is loaded
-            }
-            override fun onRewardedVideoFailedToLoad() {
-                // Called when rewarded video failed to load
-            }
-            override fun onRewardedVideoShown() {
-                postAdvertisement()
-            }
-            override fun onRewardedVideoShowFailed() {
-                Snackbar.make(binding.clAdd, getString(R.string.try_again), Snackbar.LENGTH_LONG).show()
-            }
-            override fun onRewardedVideoClicked() {
-                // Called when rewarded video is clicked
-            }
-            override fun onRewardedVideoFinished(amount: Double, currency: String) {
-                // Called when rewarded video is viewed until the end
-            }
-            override fun onRewardedVideoClosed(finished: Boolean) {
-                // Called when rewarded video is closed
-            }
-            override fun onRewardedVideoExpired() {
-                // Called when rewarded video is expired
-            }
-        })
+
     }
 
     private fun postAdvertisement() = lifecycleScope.launch {
@@ -352,7 +335,12 @@ class AddFragment : BaseFragment<FragmentAddBinding>(FragmentAddBinding::inflate
 }
 
 class PurchaseConfirmationDialogFragment : DialogFragment() {
-    private val text: String by lazy { arguments?.getString(ARG_TEXT) ?: "" }
+    private val text: String by lazy { arguments?.getString(ARG_TEXT) ?: "no_text" }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        CustomLogger.log("confirmDialog", text)
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
         AlertDialog.Builder(requireContext())

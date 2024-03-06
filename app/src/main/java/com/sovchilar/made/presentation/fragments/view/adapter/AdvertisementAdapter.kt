@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.sovchilar.made.CustomLogger
 import com.sovchilar.made.R
 import com.sovchilar.made.databinding.ItemAdvertisementBinding
 import sovchilar.uz.domain.models.remote.AdvertisementModelPresentation
@@ -69,11 +70,13 @@ class AdvertisementAdapter :
             )
             binding.tvProvidedMoreInfo.text = advertisementsModel.moreInfo
             binding.tvProvidedTelegram.setOnClickListener {
+                CustomLogger.log("telegramTextClick", "true")
                 openTelegramUseCase.openUserPage(
                     it.context, binding.tvProvidedTelegram.text.toString(), binding.root
                 )
             }
             binding.ivTelegram.setOnClickListener {
+                CustomLogger.log("telegramImageClick", "true")
                 openTelegramUseCase.openUserPage(
                     it.context, binding.tvProvidedTelegram.text.toString(), binding.root
                 )

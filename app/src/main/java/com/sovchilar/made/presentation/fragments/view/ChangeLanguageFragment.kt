@@ -18,9 +18,10 @@ import com.sovchilar.made.presentation.usecases.GradientTextViewUseCase.setGradi
 import com.sovchilar.made.presentation.viewmodel.ChangeLanguageViewModel
 import com.sovchilar.made.presentation.usecases.BaseFragment
 import com.sovchilar.made.presentation.usecases.navigateSafe
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import sovchilar.uz.comm.first_launch
-
+@AndroidEntryPoint
 class ChangeLanguageFragment :
     BaseFragment<FragmentChangeLanguageBinding>(FragmentChangeLanguageBinding::inflate) {
     private val viewModel: ChangeLanguageViewModel by viewModels()

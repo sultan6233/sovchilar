@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.google.android.gms.ads.AdRequest
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
@@ -19,7 +20,7 @@ import sovchilar.uz.domain.utils.DataState
 import javax.inject.Inject
 
 @HiltViewModel
-class AdvertisementViewModel @Inject constructor(val getAdvertisementsUseCase: GetAdvertisementsUseCase) :
+class AdvertisementViewModel @Inject constructor(private val getAdvertisementsUseCase: GetAdvertisementsUseCase) :
     ViewModel() {
     val gender = MutableLiveData<String>()
 

@@ -38,10 +38,16 @@ object Versions {
         const val dagger = "2.50"
         const val hilt = "2.49"
         const val installReferrer = "2.2"
-        const val adsAdmob = "22.6.0"
         const val firebase = "32.5.0"
     }
 
+    object ads {
+        const val adsAdmob = "22.6.0"
+        const val adsUnity = "4.9.2"
+        const val adsAdmobMediation = "4.9.2.0"
+        const val adsYandex = "6.4.0.0"
+
+    }
 
 
     object Libraries {
@@ -52,6 +58,7 @@ object Versions {
         const val leakCanary = "2.12"
         const val cicerone = "7.1"
         const val localization = "1.2.11"
+        const val appmetrica = "6.2.1"
 
     }
 

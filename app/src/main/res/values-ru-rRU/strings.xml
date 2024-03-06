@@ -92,4 +92,7 @@
     <string name="language_pick">Выберите язык приложения</string>
     <string name="try_again">Попробуйте снова</string>
     <string name="ad">Реклама</string>
+    <string name="uzbek_language_latin">O\'zbek(lotin)</string>
+    <string name="russian_language">Русский</string>
+
 </resources>

@@ -1,7 +1,12 @@
 package com.sovchilar.made
 
 import android.widget.ImageView
+import androidx.fragment.app.testing.launchFragmentInContainer
+import androidx.navigation.Navigation
+import androidx.navigation.testing.TestNavHostController
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions
@@ -10,6 +15,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.sovchilar.made.presentation.activity.MainActivity
+import com.sovchilar.made.presentation.fragments.view.ChangeLanguageFragment
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.CoroutineScope
@@ -36,7 +42,26 @@ class MainActivityTest {
     @get:Rule
     val activityRule: ActivityScenarioRule<MainActivity> =
         ActivityScenarioRule(MainActivity::class.java)
+    @Test
+    fun testNavigationToInGameScreen() {
+        // Create a TestNavHostController
+        val navController = TestNavHostController(
+            ApplicationProvider.getApplicationContext())
 
+        // Create a graphical FragmentScenario for the TitleScreen
+        val titleScenario = launchFragmentInContainer<ChangeLanguageFragment>()
+
+        titleScenario.onFragment { fragment ->
+            // Set the graph on the TestNavHostController
+            navController.setGraph(R.navigation.nav_graph)
+
+            // Make the NavController available via the findNavController() APIs
+            Navigation.setViewNavController(fragment.requireView(), navController)
+        }
+
+        // Verify that performing a click changes the NavController’s state
+        onView(withId(R.id.btnNext)).perform(click())
+    }
     @Test
     fun testImageView() {
         onView(withId(R.id.blurBg))
@@ -46,6 +71,7 @@ class MainActivityTest {
 
     @Test
     fun testBottomNav() {
+        onView(withId(R.id.btnNext)).perform(click())
         onView(withId(R.id.accountContainerFragment)).perform(click())
         onView(withId(R.id.tedName)).perform(typeText("somenicj"))
         onView(withId(R.id.tedPassword)).perform(typeText("www123"))

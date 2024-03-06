@@ -21,8 +21,14 @@ object Depend {
     // The same here in Google Libraries
 //    "com.google.android.gms:play-services-ads:${Versions.Google.adsAdmob}",
     val google = arrayOf(
-
         "com.android.installreferrer:installreferrer:${Versions.Google.installReferrer}"
+    )
+
+    val ads = arrayOf(
+        "com.google.android.gms:play-services-ads:${Versions.ads.adsAdmob}",
+        "com.unity3d.ads:unity-ads:${Versions.ads.adsUnity}",
+        "com.google.ads.mediation:unity:${Versions.ads.adsAdmobMediation}",
+        "com.yandex.ads.adapter:admob-mobileads:${Versions.ads.adsYandex}"
     )
 
     val firebase = arrayOf(
@@ -75,7 +81,8 @@ object Depend {
         "com.airbnb.android:lottie:${Versions.Libraries.lottie}",
         "com.onesignal:OneSignal:${Versions.Libraries.onesignal}",
         "com.github.terrakok:cicerone:${Versions.Libraries.cicerone}",
-        "com.akexorcist:localization:${Versions.Libraries.localization}"
+        "com.akexorcist:localization:${Versions.Libraries.localization}",
+        "io.appmetrica.analytics:analytics:${Versions.Libraries.appmetrica}"
     )
 
     const val paging = "androidx.paging:paging-runtime:${Versions.paging_version}"

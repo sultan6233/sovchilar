@@ -48,12 +48,9 @@ dependencies {
     implementation(project(":featureRemoteApi"))
 
     implementation(platform(Depend.firebaseBom))
-    Depend.firebase.forEach {
-        implementation(it)
-    }
-    Depend.google.forEach {
-        implementation(it)
-    }
+    Depend.firebase.forEach { implementation(it) }
+    Depend.google.forEach { implementation(it) }
+    Depend.ads.forEach { implementation(it) }
 
     Depend.kotlinDependency.forEach { implementation(it) }
     Depend.supportAndroidLibs.forEach { implementation(it) }
@@ -64,13 +61,6 @@ dependencies {
     Depend.okHttpLibraries.forEach { implementation(it) }
     implementation(Depend.retrofitConvert)
     implementation(Depend.paging)
-    implementation("com.appodeal.ads:sdk:3.2.1.+") {
-        exclude(group = "com.appodeal.ads.sdk.services", module = "adjust")
-        exclude(group = "com.appodeal.ads.sdk.services", module = "appsflyer")
-        exclude(group = "com.appodeal.ads.sdk.services", module = "firebase")
-        exclude(group = "com.appodeal.ads.sdk.services", module = "facebook_analytics")
-        exclude(group = "com.appodeal.ads.sdk.services", module = "sentry_analytics")
-    }
 
     kapt(Depend.hiltKapt)
     androidTestImplementation(Depend.hiltInstrumentedTest)
@@ -84,6 +74,7 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     debugImplementation("androidx.fragment:fragment-testing:1.6.2")
+    androidTestImplementation("androidx.navigation:navigation-testing:${Versions.SupportAndroidLibs.navigationComponent}")
 }
 kapt {
     correctErrorTypes = true

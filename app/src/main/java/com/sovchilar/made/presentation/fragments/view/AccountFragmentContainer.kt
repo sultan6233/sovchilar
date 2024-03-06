@@ -13,10 +13,12 @@ import com.sovchilar.made.R
 import com.sovchilar.made.databinding.FragmentAccountContainerBinding
 import com.sovchilar.made.presentation.usecases.BaseFragment
 import com.sovchilar.made.presentation.viewmodel.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import sovchilar.uz.domain.models.remote.auth.AuthState
 
+@AndroidEntryPoint
 class AccountFragmentContainer :
     BaseFragment<FragmentAccountContainerBinding>(FragmentAccountContainerBinding::inflate) {
     private val activityViewModel: MainViewModel by activityViewModels()

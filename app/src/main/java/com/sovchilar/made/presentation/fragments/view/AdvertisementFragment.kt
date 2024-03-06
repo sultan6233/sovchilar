@@ -1,11 +1,14 @@
 package com.sovchilar.made.presentation.fragments.view
 
+import android.os.Build
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.map
@@ -13,9 +16,14 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
-import com.appodeal.ads.Appodeal
-import com.appodeal.ads.BannerCallbacks
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.MobileAds
 import com.google.android.material.snackbar.Snackbar
+import com.sovchilar.made.CustomLogger
 import com.sovchilar.made.R
 import com.sovchilar.made.databinding.FragmentAdvertisementBinding
 import com.sovchilar.made.presentation.fragments.view.adapter.AdvertisementAdapter
@@ -24,6 +32,7 @@ import com.sovchilar.made.presentation.usecases.BaseFragment
 import com.sovchilar.made.presentation.viewmodel.AdvertisementViewModel
 import com.sovchilar.made.presentation.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import sovchilar.uz.comm.femaleGender
 import sovchilar.uz.comm.maleGender
@@ -38,6 +47,64 @@ class AdvertisementFragment :
     private val advertisementAdapter = AdvertisementAdapter()
     private val advertisementsModelMapper by lazy { AdvertisementsModelMapper(requireContext()) }
 
+    private val adView by lazy { AdView(requireContext()) }
+    private var initialLayoutComplete = false
+    private val adSize: AdSize by lazy {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            if (activity != null) {
+                val windowMetrics = requireActivity().windowManager.currentWindowMetrics
+                val bounds = windowMetrics.bounds
+
+                var adWidthPixels = binding.adView.width.toFloat()
+                if (adWidthPixels == 0f) {
+                    adWidthPixels = bounds.width().toFloat()
+                }
+
+                val density = resources.displayMetrics.density
+                val adWidth = (adWidthPixels / density).toInt()
+
+                AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
+                    requireContext(),
+                    adWidth
+                )
+            } else {
+                AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
+                    requireContext(),
+                    0
+                )
+            }
+        } else {
+            val display = activity?.windowManager?.defaultDisplay
+            val outMetrics = DisplayMetrics()
+            display?.getMetrics(outMetrics)
+
+            val density = outMetrics.density
+
+            var adWidthPixels = binding.adView.width.toFloat()
+            if (adWidthPixels == 0f) {
+                adWidthPixels = outMetrics.widthPixels.toFloat()
+            }
+
+            val adWidth = (adWidthPixels / density).toInt()
+            AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
+                requireContext(),
+                adWidth
+            )
+        }
+    }
+
+    private val loadingStateListener: (CombinedLoadStates) -> Unit by lazy {
+        { loadState ->
+            binding.srRefresh.isRefreshing = loadState.source.refresh is LoadState.Loading
+            val errorState = loadState.source.append as? LoadState.Error
+                ?: loadState.source.prepend as? LoadState.Error
+                ?: loadState.append as? LoadState.Error ?: loadState.prepend as? LoadState.Error
+            errorState?.let {
+                Snackbar.make(binding.root, it.error.message.toString(), Snackbar.LENGTH_LONG)
+                    .show()
+            }
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -47,67 +114,43 @@ class AdvertisementFragment :
         submitAdapterList()
         observerAdapterInsertion()
         initAdapter()
-        loadBanner()
+        initBanner()
+    }
+
+    private fun initBanner() {
+        binding.adView.addView(adView)
+        binding.adView.viewTreeObserver.addOnGlobalLayoutListener {
+            if (!initialLayoutComplete) {
+                initialLayoutComplete = true
+                loadBanner()
+            }
+        }
     }
 
     private fun loadBanner() = lifecycleScope.launch {
-        if (Appodeal.isLoaded(Appodeal.BANNER_VIEW)) {
-            Appodeal.show(requireActivity(), Appodeal.BANNER_VIEW)
+        adView.adUnitId = getString(R.string.admob_banner_block_id)
+        adView.setAdSize(adSize)
+        val adRequest = AdRequest.Builder().build()
+        adView.loadAd(adRequest)
+        adView.adListener = object : AdListener() {
+            override fun onAdClicked() {}
+            override fun onAdClosed() {}
+            override fun onAdFailedToLoad(adError: LoadAdError) {
+                CustomLogger.log("bannerFailedToLoad", adError.message)
+            }
+
+            override fun onAdImpression() {}
+            override fun onAdLoaded() {
+                CustomLogger.log("bannerLoaded", "true")
+            }
+
+            override fun onAdOpened() {}
         }
-        Appodeal.setBannerCallbacks(object : BannerCallbacks {
-            override fun onBannerLoaded(height: Int, isPrecache: Boolean) {
-                if (Appodeal.isLoaded(Appodeal.BANNER_VIEW)) {
-                    Appodeal.show(requireActivity(), Appodeal.BANNER_VIEW)
-                }
-            }
-
-            override fun onBannerFailedToLoad() {
-            }
-
-            override fun onBannerShown() {
-            }
-
-            override fun onBannerShowFailed() {
-            }
-
-            override fun onBannerClicked() {
-            }
-
-            override fun onBannerExpired() {
-            }
-
-        })
     }
 
-    override fun onPause() {
-        Appodeal.hide(requireActivity(), Appodeal.BANNER_VIEW)
-        super.onPause()
-    }
+    private fun initAdapter() = lifecycleScope.launch {
 
-    //    override fun onHiddenChanged(hidden: Boolean) {
-//        if (!hidden) {
-//            (requireActivity() as MainActivity).binding.bnvSovchilar.apply {
-//                if (selectedItemId != R.id.advertisementFragment) {
-//                    selectedItemId = R.id.advertisementFragment
-//                }
-//            }
-//        }
-//        super.onHiddenChanged(hidden)
-//    }
-
-    private fun initAdapter() {
-        advertisementAdapter.addLoadStateListener { loadState ->
-            binding.srRefresh.isRefreshing = loadState.source.refresh is LoadState.Loading
-            // Handle errors
-            val errorState = loadState.source.append as? LoadState.Error
-                ?: loadState.source.prepend as? LoadState.Error
-                ?: loadState.append as? LoadState.Error
-                ?: loadState.prepend as? LoadState.Error
-            errorState?.let {
-                Snackbar.make(binding.root, it.error.message.toString(), Snackbar.LENGTH_LONG)
-                    .show()
-            }
-        }
+        advertisementAdapter.addLoadStateListener(loadingStateListener)
     }
 
     private fun getList() {
@@ -130,6 +173,7 @@ class AdvertisementFragment :
             viewModel.gender.value = maleGender
             binding.rvAdvertisement.smoothScrollToPosition(0)
         }
+
         binding.btnFemale.setOnClickListener {
             viewModel.gender.value = femaleGender
             binding.rvAdvertisement.smoothScrollToPosition(0)
@@ -152,18 +196,11 @@ class AdvertisementFragment :
                 } else {
                     viewModel.getAdvertisements(maleGender)
                 }
-                //  viewModel.advertisementsList?.let {
-//                    advertisementAdapter.differ.submitList(
-//                        advertisementsModelMapper.mapToAdvertisementModelPresentation(
-//                            it
-//                        )
-//                    )
-                //       }
             }
         }
     }
 
-    private fun scrollToFirst() {
+    private fun scrollToFirst() = lifecycleScope.launch(Dispatchers.Main) {
         val position =
             (binding.rvAdvertisement.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
         if (position < 1 && position != RecyclerView.NO_POSITION) {
@@ -174,8 +211,7 @@ class AdvertisementFragment :
     private fun observerAdapterInsertion() {
         binding.rvAdvertisement.itemAnimator = object : DefaultItemAnimator() {
             override fun canReuseUpdatedViewHolder(
-                viewHolder: RecyclerView.ViewHolder,
-                payloads: List<Any>
+                viewHolder: RecyclerView.ViewHolder, payloads: List<Any>
             ): Boolean {
                 return true
             }
@@ -198,4 +234,9 @@ class AdvertisementFragment :
         }
     }
 
+    override fun onDestroyView() {
+        binding.adView.removeAllViews()
+        advertisementAdapter.removeLoadStateListener(loadingStateListener)
+        super.onDestroyView()
+    }
 }
