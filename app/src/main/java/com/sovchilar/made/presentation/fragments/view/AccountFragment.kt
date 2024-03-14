@@ -8,6 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.sovchilar.made.CustomLogger
 import com.sovchilar.made.EncryptedSharedPrefsUseCase
 import com.sovchilar.made.R
 import com.sovchilar.made.databinding.FragmentAccountBinding
@@ -17,10 +18,11 @@ import com.sovchilar.made.presentation.usecases.navigateSafe
 import com.sovchilar.made.presentation.viewmodel.AccountViewModel
 import sovchilar.uz.comm.authenticated
 import com.sovchilar.made.presentation.usecases.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-
+@AndroidEntryPoint
 class AccountFragment : BaseFragment<FragmentAccountBinding>(FragmentAccountBinding::inflate) {
 
     private val viewModel: AccountViewModel by viewModels()
@@ -31,6 +33,7 @@ class AccountFragment : BaseFragment<FragmentAccountBinding>(FragmentAccountBind
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        CustomLogger.log("accountFragment", "true")
 //        lifecycleScope.launch {
 //            val token = encryptedSharedPrefsUseCase.readFromFile(token)
 //            withContext(Dispatchers.IO) {
@@ -59,11 +62,13 @@ class AccountFragment : BaseFragment<FragmentAccountBinding>(FragmentAccountBind
             }
 
             binding.btnAddAdvertisement.setOnClickListener {
+                CustomLogger.log("addAdvertisementClick", "true")
                 findNavController().navigateSafe(
                     R.id.action_accountFragment_to_addFragment
                 )
             }
             binding.btnHelp.setOnClickListener {
+                CustomLogger.log("helpButtonClick", "true")
                 openTelegramUseCase.openTelegramHelp(requireContext(), binding.root)
             }
         }

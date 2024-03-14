@@ -6,7 +6,6 @@ import android.graphics.RenderEffect
 import android.graphics.Shader
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -18,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.animation.doOnEnd
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.NavGraph
@@ -32,19 +30,17 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.OnPaidEventListener
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.ktx.analytics
-import com.google.firebase.ktx.Firebase
 import com.sovchilar.made.CustomLogger
 import com.sovchilar.made.EncryptedSharedPrefsUseCase
 import com.sovchilar.made.R
 import com.sovchilar.made.databinding.ActivityMainBinding
 import com.sovchilar.made.presentation.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
+import io.appmetrica.analytics.AdType
 import sovchilar.uz.comm.first_launch
 import sovchilar.uz.comm.login
 import sovchilar.uz.comm.password
@@ -74,21 +70,20 @@ class MainActivity : AppCompatActivity(), OnLocaleChangedListener {
         localizationDelegate.onCreate()
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-            initBottomNavigationView()
-            initSplashAnimation()
-            setStatusBarLightText(window)
-            makeBlurBackground()
-            showActiveFragment()
-            initAds()
-            loadRewarded()
-            initRewardedCallbacks()
-            //   updateBottomNavigationSelection()
+        initBottomNavigationView()
+        initSplashAnimation()
+        setStatusBarLightText(window)
+        makeBlurBackground()
+        showActiveFragment()
+        initAds()
+        loadRewarded()
+        initRewardedCallbacks()
+        //   updateBottomNavigationSelection()
     }
 
     private fun initAds() {
         MobileAds.initialize(this) { initializationStatus ->
-            val statusMap =
-                initializationStatus.adapterStatusMap
+            val statusMap = initializationStatus.adapterStatusMap
             for (adapterClass in statusMap.keys) {
                 val status = statusMap[adapterClass]
             }
@@ -97,8 +92,7 @@ class MainActivity : AppCompatActivity(), OnLocaleChangedListener {
 
     fun loadRewarded() {
         val adRequest = AdRequest.Builder().build()
-        RewardedAd.load(
-            this,
+        RewardedAd.load(this,
             getString(R.string.admob_rewarded_block_id),
             adRequest,
             object : RewardedAdLoadCallback() {
@@ -109,6 +103,31 @@ class MainActivity : AppCompatActivity(), OnLocaleChangedListener {
 
                 override fun onAdLoaded(ad: RewardedAd) {
                     rewardedAd = ad
+                    rewardedAd?.let { rewardedAd ->
+                        rewardedAd.onPaidEventListener = OnPaidEventListener { adValue ->
+                            val revenue = adValue.valueMicros.toDouble() / 1_000_000
+                            val precision = adValue.precisionType
+                            val adUnitId = rewardedAd.adUnitId
+                            val loadedAdapterResponseInfo =
+                                rewardedAd.responseInfo.loadedAdapterResponseInfo
+                            val adSourceName = loadedAdapterResponseInfo?.adSourceName ?: ""
+                            val adSourceInstanceName =
+                                loadedAdapterResponseInfo?.adSourceInstanceName ?: ""
+                            val adSourceInstanceId =
+                                loadedAdapterResponseInfo?.adSourceInstanceId ?: ""
+                            CustomLogger.logAdRevenue(
+                                revenue,
+                                adSourceName,
+                                adSourceInstanceId,
+                                adSourceInstanceName,
+                                AdType.REWARDED,
+                                adUnitId,
+                                "rewarded",
+                                precision.toString()
+                            )
+
+                        }
+                    }
                     CustomLogger.log("rewardedLoaded", ad.adUnitId)
                 }
             })
@@ -155,8 +174,7 @@ class MainActivity : AppCompatActivity(), OnLocaleChangedListener {
         viewModel.loginLiveData.observe(this) {
             when (it) {
                 is AuthState.AUTHENTICATED -> encryptedSharedPrefsUseCase.writeIntoFile(
-                    token,
-                    it.authData.token
+                    token, it.authData.token
                 )
 
                 else -> ""
@@ -214,30 +232,28 @@ class MainActivity : AppCompatActivity(), OnLocaleChangedListener {
             onNavDestinationSelected(item, navController)
         }
         val weakReference = WeakReference(bottomNavigationView)
-        navController.addOnDestinationChangedListener(
-            object : NavController.OnDestinationChangedListener {
-                override fun onDestinationChanged(
-                    controller: NavController,
-                    destination: NavDestination,
-                    arguments: Bundle?
-                ) {
-                    val view = weakReference.get()
-                    if (view == null) {
-                        navController.removeOnDestinationChangedListener(this)
-                        return
-                    }
-                    val menu = view.menu
-                    var i = 0
-                    val size = menu.size()
-                    while (i < size) {
-                        val item = menu.getItem(i)
-                        if (matchDestination(destination, item.itemId)) {
-                            item.isChecked = true
-                        }
-                        i++
-                    }
+        navController.addOnDestinationChangedListener(object :
+            NavController.OnDestinationChangedListener {
+            override fun onDestinationChanged(
+                controller: NavController, destination: NavDestination, arguments: Bundle?
+            ) {
+                val view = weakReference.get()
+                if (view == null) {
+                    navController.removeOnDestinationChangedListener(this)
+                    return
                 }
-            })
+                val menu = view.menu
+                var i = 0
+                val size = menu.size()
+                while (i < size) {
+                    val item = menu.getItem(i)
+                    if (matchDestination(destination, item.itemId)) {
+                        item.isChecked = true
+                    }
+                    i++
+                }
+            }
+        })
 
         // Add your own reselected listener
         bottomNavigationView.setOnItemReselectedListener { item ->
@@ -248,11 +264,9 @@ class MainActivity : AppCompatActivity(), OnLocaleChangedListener {
     }
 
     private fun onNavDestinationSelected(
-        item: MenuItem,
-        navController: NavController
+        item: MenuItem, navController: NavController
     ): Boolean {
-        val builder = NavOptions.Builder()
-            .setLaunchSingleTop(true)
+        val builder = NavOptions.Builder().setLaunchSingleTop(true)
 
         if (item.order and Menu.CATEGORY_SECONDARY == 0) {
             val findStartDestination = findStartDestination(navController.graph)
@@ -285,8 +299,7 @@ class MainActivity : AppCompatActivity(), OnLocaleChangedListener {
     }
 
     fun matchDestination(
-        destination: NavDestination,
-        @IdRes destId: Int
+        destination: NavDestination, @IdRes destId: Int
     ): Boolean {
         var currentDestination: NavDestination? = destination
         while (currentDestination?.id != destId && currentDestination?.parent != null) {
@@ -299,9 +312,7 @@ class MainActivity : AppCompatActivity(), OnLocaleChangedListener {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             binding.blurBg.setRenderEffect(
                 RenderEffect.createBlurEffect(
-                    10f,
-                    10f,
-                    Shader.TileMode.CLAMP
+                    10f, 10f, Shader.TileMode.CLAMP
                 )
             )
         }

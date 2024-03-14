@@ -34,6 +34,7 @@ object Depend {
     val firebase = arrayOf(
         "com.google.firebase:firebase-crashlytics",
         "com.google.firebase:firebase-analytics",
+        "com.google.firebase:firebase-perf",
         "com.android.installreferrer:installreferrer:${Versions.Google.installReferrer}"
     )
 

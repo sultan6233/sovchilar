@@ -32,6 +32,7 @@ import com.sovchilar.made.presentation.usecases.BaseFragment
 import com.sovchilar.made.presentation.viewmodel.AdvertisementViewModel
 import com.sovchilar.made.presentation.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import io.appmetrica.analytics.AdType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import sovchilar.uz.comm.femaleGender
@@ -46,6 +47,16 @@ class AdvertisementFragment :
     private val activityViewModel by activityViewModels<MainViewModel>()
     private val advertisementAdapter = AdvertisementAdapter()
     private val advertisementsModelMapper by lazy { AdvertisementsModelMapper(requireContext()) }
+
+    private val adapterDataObserver by lazy {
+        object : AdapterDataObserver() {
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                if (positionStart == 0) {
+                    scrollToFirst()
+                }
+            }
+        }
+    }
 
     private val adView by lazy { AdView(requireContext()) }
     private var initialLayoutComplete = false
@@ -141,6 +152,7 @@ class AdvertisementFragment :
 
             override fun onAdImpression() {}
             override fun onAdLoaded() {
+                initLevelAdRevenue()
                 CustomLogger.log("bannerLoaded", "true")
             }
 
@@ -148,8 +160,32 @@ class AdvertisementFragment :
         }
     }
 
-    private fun initAdapter() = lifecycleScope.launch {
+    private fun initLevelAdRevenue() {
+        adView.setOnPaidEventListener {adValue->
+            val revenue = adValue.valueMicros.toDouble() / 1_000_000
+            val precision = adValue.precisionType
+            val adUnitId = adView.adUnitId
+            val loadedAdapterResponseInfo =
+                adView.responseInfo?.loadedAdapterResponseInfo
+            val adSourceName = loadedAdapterResponseInfo?.adSourceName ?: ""
+            val adSourceInstanceName =
+                loadedAdapterResponseInfo?.adSourceInstanceName ?: ""
+            val adSourceInstanceId =
+                loadedAdapterResponseInfo?.adSourceInstanceId ?: ""
+            CustomLogger.logAdRevenue(
+                revenue,
+                adSourceName,
+                adSourceInstanceId,
+                adSourceInstanceName,
+                AdType.REWARDED,
+                adUnitId,
+                "banner",
+                precision.toString()
+            )
+        }
+    }
 
+    private fun initAdapter() = lifecycleScope.launch {
         advertisementAdapter.addLoadStateListener(loadingStateListener)
     }
 
@@ -216,14 +252,7 @@ class AdvertisementFragment :
                 return true
             }
         }
-        advertisementAdapter.registerAdapterDataObserver(object : AdapterDataObserver() {
-            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                if (positionStart == 0) {
-                    scrollToFirst()
-                    // advertisementAdapter.unregisterAdapterDataObserver(this)
-                }
-            }
-        })
+        advertisementAdapter.registerAdapterDataObserver(adapterDataObserver)
     }
 
     private fun initRecyclerView() {
@@ -237,6 +266,7 @@ class AdvertisementFragment :
     override fun onDestroyView() {
         binding.adView.removeAllViews()
         advertisementAdapter.removeLoadStateListener(loadingStateListener)
+        advertisementAdapter.unregisterAdapterDataObserver(adapterDataObserver)
         super.onDestroyView()
     }
 }
