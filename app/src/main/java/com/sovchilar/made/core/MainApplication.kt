@@ -3,6 +3,7 @@ package com.sovchilar.made.core
 import android.content.Context
 import com.akexorcist.localizationactivity.ui.LocalizationApplication
 import com.github.terrakok.cicerone.Cicerone
+import com.google.firebase.FirebaseApp
 import com.onesignal.OneSignal
 import dagger.hilt.android.HiltAndroidApp
 import io.appmetrica.analytics.AppMetrica
@@ -19,6 +20,7 @@ class MainApplication : LocalizationApplication() {
     override fun onCreate() {
         super.onCreate()
         INSTANCE = this
+        FirebaseApp.initializeApp(this)
         oneSignal()
         initAppmetrica()
     }

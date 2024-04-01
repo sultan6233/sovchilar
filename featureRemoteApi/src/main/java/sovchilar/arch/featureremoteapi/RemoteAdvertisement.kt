@@ -43,7 +43,7 @@ class RemoteAdvertisement @Inject constructor(private val apiService: ApiService
                 pageSize = 20,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { AdvertisementPagingSource(apiService, gender) }
+            pagingSourceFactory = { AdvertisementPagingSource(apiService, gender, true) }
         ).flow
     }
 

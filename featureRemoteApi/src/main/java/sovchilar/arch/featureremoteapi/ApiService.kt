@@ -27,8 +27,22 @@ interface ApiService {
         @Body postAdvertisement: AdvertisementsModel
     ): Response<PostResponse>
 
-    @GET("api/personals/all")
-    suspend fun getAdvertisements(@Query("page") page: Int, @Query("limit") limit: Int, @Query("order") order: String = "desc"): Response<UserModel>
+    @GET("api/v2/personals/all")
+    suspend fun getAdvertisements(
+        @Query("page") page: Int,
+        @Query("limit") limit: Int,
+        @Query("order") order: String = "desc",
+        @Query("gender") gender: String
+    ): Response<UserModel>
+
+    @GET("api/v2/personals/difference")
+    suspend fun getFilteredAdvertisements(
+        @Query("page") page: Int,
+        @Query("limit") limit: Int,
+        @Query("order") order: String = "desc",
+        @Query("gender") gender: String,
+        @Query("fromAge") fromAge:Int
+    ): Response<UserModel>
 
     @GET("api/personals")
     fun getOwnAdvertisements(@Header("Authorization") authToken: String): Call<UserModel>
